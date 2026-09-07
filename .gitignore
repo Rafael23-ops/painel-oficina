@@ -3,3 +3,4 @@ node_modules/
 .wwebjs_cache/
 oficina.db
 oficina_backup_*.db
+oficina_migracao_*.db
