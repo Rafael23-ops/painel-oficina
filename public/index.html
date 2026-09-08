@@ -791,6 +791,126 @@ TT70"
     </div>
 
 </div>
+<!-- ===================================== -->
+<!-- HISTÓRICO DE OMs -->
+<!-- ===================================== -->
+
+<div
+    class="card"
+    style="
+        margin-bottom: 30px;
+    "
+>
+
+    <h2 style="margin-bottom: 10px;">
+        📚 Histórico de OMs
+    </h2>
+
+    <p
+        style="
+            margin-bottom: 20px;
+            color: #64748b;
+        "
+    >
+        Consulte as OMs já registradas no sistema.
+    </p>
+
+    <!-- PESQUISA -->
+    <input
+        type="text"
+        id="pesquisaHistoricoOM"
+        placeholder="🔎 Pesquisar por OM, equipamento ou descrição..."
+        oninput="filtrarHistoricoOMs()"
+        style="
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+            font-size: 14px;
+        "
+    >
+
+    <!-- FILTROS -->
+    <div
+        style="
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        "
+    >
+
+        <button
+            type="button"
+            onclick="filtrarHistoricoStatus('todos')"
+            style="
+                padding: 9px 14px;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: bold;
+            "
+        >
+            📋 Todos
+        </button>
+
+        <button
+            type="button"
+            onclick="filtrarHistoricoStatus('pendente')"
+            style="
+                padding: 9px 14px;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: bold;
+            "
+        >
+            🟡 Pendentes
+        </button>
+
+        <button
+            type="button"
+            onclick="filtrarHistoricoStatus('em execução')"
+            style="
+                padding: 9px 14px;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: bold;
+            "
+        >
+            🔵 Em execução
+        </button>
+
+        <button
+            type="button"
+            onclick="filtrarHistoricoStatus('concluída')"
+            style="
+                padding: 9px 14px;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: bold;
+            "
+        >
+            🟢 Concluídas
+        </button>
+
+    </div>
+
+    <!-- LISTA DO HISTÓRICO -->
+    <div
+        id="listaHistoricoOMs"
+        style="
+            overflow-x: auto;
+        "
+    >
+        Carregando histórico...
+    </div>
+
+</div>
 
 
 <!-- ===================================== -->
@@ -2478,6 +2598,7 @@ function carregarOMsRelatorio() {
         });
 
 }
+
 // =====================================
 // GERAR RELATÓRIO DE TURNO
 // =====================================
