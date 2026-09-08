@@ -791,331 +791,6 @@ TT70"
     </div>
 
 </div>
-// =====================================
-// HISTÓRICO DE OMs
-// =====================================
-
-let historicoOMs = [];
-let filtroHistoricoStatus = "todos";
-
-function carregarHistoricoOMs() {
-
-    const lista =
-        document.getElementById("listaHistoricoOMs");
-
-    if (!lista) {
-        console.error(
-            "❌ Elemento listaHistoricoOMs não encontrado."
-        );
-        return;
-    }
-
-    lista.innerHTML = `
-        <div style="
-            padding: 15px;
-            color: #64748b;
-        ">
-            ⏳ Carregando histórico...
-        </div>
-    `;
-
-    fetch("/atribuicoes")
-        .then(function(response) {
-
-            if (!response.ok) {
-                throw new Error(
-                    "Erro HTTP " + response.status
-                );
-            }
-
-            return response.json();
-
-        })
-        .then(function(oms) {
-
-            console.log(
-                "📚 Histórico carregado:",
-                oms.length,
-                "OMs"
-            );
-
-            historicoOMs = oms;
-
-            renderizarHistoricoOMs();
-
-        })
-        .catch(function(error) {
-
-            console.error(
-                "❌ Erro ao carregar histórico:",
-                error
-            );
-
-            lista.innerHTML = `
-                <div style="
-                    padding: 15px;
-                    color: #b91c1c;
-                    background: #fee2e2;
-                    border-radius: 8px;
-                ">
-                    ❌ Erro ao carregar histórico.
-                </div>
-            `;
-
-        });
-}
-
-
-// =====================================
-// RENDERIZAR HISTÓRICO
-// =====================================
-
-function renderizarHistoricoOMs() {
-
-    const lista =
-        document.getElementById("listaHistoricoOMs");
-
-    if (!lista) {
-        return;
-    }
-
-    const campoPesquisa =
-        document.getElementById(
-            "pesquisaHistoricoOM"
-        );
-
-    const pesquisa =
-        campoPesquisa
-            ? campoPesquisa.value
-                .trim()
-                .toLowerCase()
-            : "";
-
-    const resultado =
-        historicoOMs.filter(function(om) {
-
-            const status =
-                String(om.status || "")
-                    .trim()
-                    .toLowerCase();
-
-            // FILTRO DE STATUS
-            if (
-                filtroHistoricoStatus !== "todos" &&
-                status !== filtroHistoricoStatus
-            ) {
-                return false;
-            }
-
-            // PESQUISA
-            if (!pesquisa) {
-                return true;
-            }
-
-            const texto =
-                [
-                    om.om,
-                    om.equipamento,
-                    om.descricao,
-                    om.modelo_relatorio,
-                    om.motivo_pendencia,
-                    om.data
-                ]
-                .filter(Boolean)
-                .join(" ")
-                .toLowerCase();
-
-            return texto.includes(pesquisa);
-
-        });
-
-
-    if (!resultado.length) {
-
-        lista.innerHTML = `
-            <div style="
-                padding: 20px;
-                text-align: center;
-                background: #f8fafc;
-                border-radius: 8px;
-                color: #64748b;
-            ">
-                📭 Nenhuma OM encontrada.
-            </div>
-        `;
-
-        return;
-    }
-
-
-    lista.innerHTML = resultado.map(
-        function(om) {
-
-            const status =
-                String(om.status || "")
-                    .trim()
-                    .toLowerCase();
-
-            let statusHTML;
-
-            if (status === "concluída") {
-
-                statusHTML = `
-                    <span style="
-                        display: inline-block;
-                        padding: 5px 10px;
-                        border-radius: 20px;
-                        background: #dcfce7;
-                        color: #166534;
-                        font-weight: bold;
-                    ">
-                        🟢 Concluída
-                    </span>
-                `;
-
-            } else if (
-                status === "em execução"
-            ) {
-
-                statusHTML = `
-                    <span style="
-                        display: inline-block;
-                        padding: 5px 10px;
-                        border-radius: 20px;
-                        background: #dbeafe;
-                        color: #1d4ed8;
-                        font-weight: bold;
-                    ">
-                        🔵 Em execução
-                    </span>
-                `;
-
-            } else {
-
-                statusHTML = `
-                    <span style="
-                        display: inline-block;
-                        padding: 5px 10px;
-                        border-radius: 20px;
-                        background: #fef3c7;
-                        color: #92400e;
-                        font-weight: bold;
-                    ">
-                        🟡 Pendente
-                    </span>
-                `;
-
-            }
-
-
-            const descricao =
-                om.modelo_relatorio ||
-                om.descricao ||
-                "-";
-
-
-            const data =
-                om.data ||
-                "-";
-
-
-            return `
-                <div style="
-                    border: 1px solid #e2e8f0;
-                    border-radius: 10px;
-                    padding: 15px;
-                    margin-bottom: 10px;
-                    background: white;
-                ">
-
-                    <div style="
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        gap: 10px;
-                        flex-wrap: wrap;
-                    ">
-
-                        <strong>
-                            📁 OM ${om.om || "-"}
-                        </strong>
-
-                        ${statusHTML}
-
-                    </div>
-
-                    <div style="
-                        margin-top: 10px;
-                        color: #334155;
-                    ">
-
-                        🚜
-                        <strong>
-                            ${om.equipamento || "-"}
-                        </strong>
-
-                        <br>
-
-                        📄
-                        ${descricao}
-
-                        <br>
-
-                        📅
-                        ${data}
-
-                    </div>
-
-                    ${
-                        om.motivo_pendencia
-                            ? `
-                                <div style="
-                                    margin-top: 8px;
-                                    padding: 8px;
-                                    background: #fff7ed;
-                                    border-radius: 6px;
-                                ">
-                                    ⚠️
-                                    <strong>
-                                        Motivo:
-                                    </strong>
-                                    ${om.motivo_pendencia}
-                                </div>
-                              `
-                            : ""
-                    }
-
-                </div>
-            `;
-
-        }
-    ).join("");
-
-}
-
-
-// =====================================
-// PESQUISA
-// =====================================
-
-function filtrarHistoricoOMs() {
-
-    renderizarHistoricoOMs();
-
-}
-
-
-// =====================================
-// FILTRO POR STATUS
-// =====================================
-
-function filtrarHistoricoStatus(status) {
-
-    filtroHistoricoStatus = status;
-
-    renderizarHistoricoOMs();
-
-}
 <!-- ===================================== -->
 <!-- DESEMPENHO -->
 <!-- ===================================== -->
@@ -6515,8 +6190,7 @@ conteudo.innerHTML = `
 
         });
 
-}
-// =====================================
+}// =====================================
 // MOSTRAR / OCULTAR DESVIO HEALTH
 // =====================================
 
@@ -11233,9 +10907,87 @@ for (
     );
 mostrarBotaoCadastroPendencias();
 };
-// =====================================
-// HISTÓRICO DE OMs
-// =====================================
+</script>
+<!-- ===================================== -->
+<!-- HISTÓRICO DE OMs -->
+<!-- ===================================== -->
+
+<div class="card" style="margin-bottom: 30px;">
+
+    <h2 style="margin-bottom: 10px;">
+        📚 Histórico de OMs
+    </h2>
+
+    <p style="
+        margin-bottom: 20px;
+        color: #64748b;
+    ">
+        Consulte as OMs já registradas no sistema.
+    </p>
+
+    <input
+        type="text"
+        id="pesquisaHistoricoOM"
+        placeholder="🔎 Pesquisar por OM, equipamento ou descrição..."
+        oninput="filtrarHistoricoOMs()"
+        style="
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+            font-size: 14px;
+        "
+    >
+
+    <div style="
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    ">
+
+        <button
+            type="button"
+            onclick="filtrarHistoricoStatus('todos')"
+        >
+            📋 Todos
+        </button>
+
+        <button
+            type="button"
+            onclick="filtrarHistoricoStatus('pendente')"
+        >
+            🟡 Pendentes
+        </button>
+
+        <button
+            type="button"
+            onclick="filtrarHistoricoStatus('em execução')"
+        >
+            🔵 Em execução
+        </button>
+
+        <button
+            type="button"
+            onclick="filtrarHistoricoStatus('concluída')"
+        >
+            🟢 Concluídas
+        </button>
+
+    </div>
+
+    <div id="listaHistoricoOMs">
+        ⏳ Carregando histórico...
+    </div>
+
+</div>
+<!-- ===================================== -->
+<!-- JAVASCRIPT DO HISTÓRICO -->
+<!-- ===================================== -->
+
+<script>
 
 let historicoOMs = [];
 let filtroHistoricoStatus = "todos";
@@ -11265,11 +11017,6 @@ function carregarHistoricoOMs() {
     fetch("/atribuicoes")
         .then(function(response) {
 
-            console.log(
-                "📚 HISTÓRICO STATUS:",
-                response.status
-            );
-
             if (!response.ok) {
                 throw new Error(
                     "Erro HTTP " + response.status
@@ -11282,9 +11029,9 @@ function carregarHistoricoOMs() {
         .then(function(oms) {
 
             console.log(
-                "📚 HISTÓRICO:",
+                "📚 Histórico carregado:",
                 oms.length,
-                "OMs encontradas"
+                "OMs"
             );
 
             historicoOMs = oms;
@@ -11295,7 +11042,7 @@ function carregarHistoricoOMs() {
         .catch(function(error) {
 
             console.error(
-                "❌ Erro no histórico:",
+                "❌ Erro ao carregar histórico:",
                 error
             );
 
@@ -11313,10 +11060,6 @@ function carregarHistoricoOMs() {
         });
 }
 
-
-// =====================================
-// RENDERIZAR
-// =====================================
 
 function renderizarHistoricoOMs() {
 
@@ -11449,12 +11192,10 @@ function renderizarHistoricoOMs() {
 
             }
 
-
             const descricao =
                 om.modelo_relatorio ||
                 om.descricao ||
                 "-";
-
 
             return `
                 <div style="
@@ -11525,24 +11266,13 @@ function renderizarHistoricoOMs() {
 
         }
     ).join("");
-
 }
 
-
-// =====================================
-// PESQUISA
-// =====================================
 
 function filtrarHistoricoOMs() {
-
     renderizarHistoricoOMs();
-
 }
 
-
-// =====================================
-// FILTRO STATUS
-// =====================================
 
 function filtrarHistoricoStatus(status) {
 
@@ -11553,10 +11283,6 @@ function filtrarHistoricoStatus(status) {
 }
 
 
-// =====================================
-// CARREGAR AO ABRIR A PÁGINA
-// =====================================
-
 document.addEventListener(
     "DOMContentLoaded",
     function() {
@@ -11565,8 +11291,10 @@ document.addEventListener(
 
     }
 );
-console.log("🔥 TESTE HISTÓRICO CARREGADO");
-console.log("FUNÇÃO:", typeof carregarHistoricoOMs);
+
 </script>
+
+</body>
+</html>
 </body>
 </html>
