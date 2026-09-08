@@ -6451,18 +6451,16 @@ carregarOMsRelatorio();
 // ATUALIZA AUTOMATICAMENTE
 // =====================================
 
-setInterval(
+setInterval(function() {
 
-    function() {
+    // Atualiza as OMs normalmente
+    carregarOMs();
 
-        carregarOMs();
+    // Atualiza o histórico silenciosamente
+    carregarHistoricoOMs();
 
+}, 5000);
 
-    },
-
-    5000
-
-);
 // =====================================
 // COPIAR RELATÓRIO HEALTH
 // =====================================
