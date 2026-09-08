@@ -2438,14 +2438,8 @@ function gerarRelatorioTurno() {
         );
 
     if (!selecionadas.length) {
-
-        alert(
-            "⚠️ Selecione pelo menos uma OM para gerar o relatório."
-        );
-
-        return;
-
-    }
+    console.log("Nenhuma OM concluída selecionada. Gerando relatório apenas com as pendências.");
+}
 
     fetch("/atribuicoes")
 
@@ -2473,16 +2467,6 @@ function gerarRelatorioTurno() {
                     );
 
                 });
-
-            if (!omsSelecionadas.length) {
-
-                alert(
-                    "❌ Não foi possível localizar as OMs selecionadas."
-                );
-
-                return;
-
-            }
 
             const dataHoje =
                 new Date().toLocaleDateString(
@@ -2554,9 +2538,9 @@ function gerarRelatorioTurno() {
 
             relatorio +=
                 "🚨IAMO🚨\n" +
-                "Capacidade: \n" +
-                "HH utilizado: \n" +
-                "Desvio: \n\n";
+                "Capacidade:" +
+                "HH utilizado:" +
+                "Desvio: N/A";
 
             relatorio +=
                 "🛺▪Atividades extra SAP: \n\n";
@@ -2564,11 +2548,68 @@ function gerarRelatorioTurno() {
             relatorio +=
                 "🚜Apontamentos GPV:\n\n";
 
-            relatorio +=
-                "⚠️Pendências:⚠️\n\n";
+         relatorio +=
+    "⚠️Pendências:⚠️\n\n";
 
-            relatorio +=
-                "PARADA EM CAMPO\n\n";
+const pendentesRelatorio = oms.filter(function(om) {
+
+    return String(om.status || "")
+        .trim()
+        .toLowerCase() === "pendente";
+
+});
+
+pendentesRelatorio.forEach(function(om) {
+
+    const equipamento =
+        String(om.equipamento || "-").trim();
+
+    const numeroOM =
+        String(om.om || "-").trim();
+
+    const descricao =
+        String(
+            om.descricao ||
+            om.modelo_relatorio ||
+            ""
+        ).trim();
+
+    const motivo =
+        String(
+            om.motivo_pendencia || ""
+        ).trim();
+
+    let linha =
+        "* " +
+        equipamento +
+        " – OM " +
+        numeroOM;
+
+    if (descricao) {
+        linha +=
+            " – " +
+            descricao;
+    }
+
+    if (motivo) {
+        linha +=
+            " – Motivo: " +
+            motivo;
+    }
+
+    relatorio +=
+        linha + "\n";
+
+});
+
+if (pendentesRelatorio.length === 0) {
+
+    relatorio +=
+        "Nenhuma OM pendente.\n";
+
+}
+
+relatorio += "\n";
 
             relatorio +=
     "🧑🏾‍🔧 Executantes:\n\n";
@@ -7465,8 +7506,6 @@ setInterval(
         carregarOMs();
 
         carregarDuplas();
-
-        carregarOMsRelatorio();
 
     },
 
