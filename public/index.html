@@ -1454,7 +1454,7 @@ function carregarModelosRelatorio() {
 
             if (!response.ok) {
                 throw new Error(
-                    "Erro ao carregar equipamentos."
+                    "Erro HTTP: " + response.status
                 );
             }
 
@@ -1470,6 +1470,15 @@ function carregarModelosRelatorio() {
                 document.getElementById(
                     "listaEquipamentos"
                 );
+
+            // Esse elemento não existe no HTML atual.
+            // Portanto, não tenta acessar innerHTML.
+            if (!lista) {
+                console.log(
+                    "ℹ️ listaEquipamentos não existe nesta versão do painel."
+                );
+                return;
+            }
 
             lista.innerHTML = "";
 
@@ -1521,9 +1530,8 @@ function carregarModelosRelatorio() {
             );
 
         });
+
 }
-
-
 // =====================================
 // PESSOAS / DUPLAS
 // =====================================
@@ -2243,173 +2251,232 @@ ${
 
 function carregarOMsRelatorio() {
 
-    const lista = document.getElementById("listaOMsRelatorio");
+    const lista =
+        document.getElementById(
+            "listaOMsRelatorio"
+        );
 
     if (!lista) {
-        console.error("ERRO: listaOMsRelatorio não encontrada.");
+
+        console.error(
+            "❌ listaOMsRelatorio não encontrada."
+        );
+
         return;
     }
 
-    lista.innerHTML = "Carregando OMs concluídas...";
+    lista.innerHTML =
+        "🔄 Carregando OMs concluídas...";
 
     fetch("/atribuicoes")
+
         .then(function(response) {
 
             if (!response.ok) {
+
                 throw new Error(
-                    "Erro HTTP: " + response.status
+                    "Erro HTTP: " +
+                    response.status
                 );
+
             }
 
             return response.json();
 
         })
+
         .then(function(oms) {
 
-            console.log("TOTAL OMs RECEBIDAS:", oms.length);
+            console.log(
+                "📥 OMs recebidas:",
+                oms.length
+            );
 
-            const hoje = new Date()
-                .toLocaleDateString("pt-BR");
+            const hoje =
+                new Date()
+                    .toLocaleDateString(
+                        "pt-BR"
+                    );
 
             console.log(
-                "DATA DE HOJE:",
+                "📅 Data de hoje:",
                 hoje
             );
 
-            const concluidas = oms.filter(function(om) {
+            const concluidas =
+                oms.filter(function(om) {
 
-                const status =
-                    String(om.status || "")
+                    const status =
+                        String(
+                            om.status || ""
+                        )
                         .trim()
                         .toLowerCase();
 
-                if (status !== "concluída") {
-                    return false;
-                }
+                    if (
+                        status !==
+                        "concluída"
+                    ) {
 
-                if (!om.data) {
-                    return false;
-                }
+                        return false;
 
-                const dataOM =
-                    String(om.data)
+                    }
+
+                    if (!om.data) {
+
+                        return false;
+
+                    }
+
+                    const dataOM =
+                        String(
+                            om.data
+                        )
                         .split(",")[0]
                         .trim();
 
-                return dataOM === hoje;
+                    return dataOM === hoje;
 
-            });
+                });
 
             console.log(
-                "OMs concluídas encontradas:",
+                "✅ OMs concluídas encontradas:",
                 concluidas.length
             );
 
             console.table(
-                concluidas.map(function(om) {
-                    return {
-                        id: om.id,
-                        om: om.om,
-                        equipamento: om.equipamento,
-                        status: om.status,
-                        data: om.data
-                    };
-                })
+                concluidas.map(
+                    function(om) {
+
+                        return {
+
+                            id: om.id,
+
+                            om: om.om,
+
+                            equipamento:
+                                om.equipamento,
+
+                            status:
+                                om.status,
+
+                            data:
+                                om.data
+
+                        };
+
+                    }
+                )
             );
 
-            if (concluidas.length === 0) {
+            if (
+                concluidas.length === 0
+            ) {
 
                 lista.innerHTML = `
-                    <div style="
-                        padding: 15px;
-                        background: #f8fafc;
-                        border-radius: 8px;
-                        color: #64748b;
-                    ">
+                    <div
+                        style="
+                            padding: 15px;
+                            background: #f8fafc;
+                            border-radius: 8px;
+                            color: #64748b;
+                        "
+                    >
                         📭 Nenhuma OM concluída hoje.
                     </div>
                 `;
 
                 return;
+
             }
 
-            lista.innerHTML = concluidas
-                .map(function(om) {
+            lista.innerHTML =
+                concluidas
+                    .map(function(om) {
 
-                    return `
-                        <label style="
-                            display: flex;
-                            align-items: center;
-                            gap: 12px;
-                            padding: 12px;
-                            border: 1px solid #e2e8f0;
-                            border-radius: 8px;
-                            cursor: pointer;
-                            background: white;
-                        ">
-
-                            <input
-                                type="checkbox"
-                                class="omRelatorio"
-                                value="${om.id}"
+                        return `
+                            <label
+                                style="
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 12px;
+                                    padding: 12px;
+                                    border: 1px solid #e2e8f0;
+                                    border-radius: 8px;
+                                    cursor: pointer;
+                                    background: white;
+                                "
                             >
 
-                            <div>
+                                <input
+                                    type="checkbox"
+                                    class="omRelatorio"
+                                    value="${om.id}"
+                                >
 
-                                <strong>
-                                    OM ${om.om}
-                                </strong>
+                                <div>
 
-                                <br>
+                                    <strong>
+                                        OM ${om.om}
+                                    </strong>
 
-                                🚜 ${om.equipamento || "-"}
+                                    <br>
 
-                                <br>
+                                    🚜
+                                    ${om.equipamento || "-"}
 
-                                ⏰
-                                ${om.horario_inicial || "--:--"}
-                                →
-                                ${om.horario_final || "--:--"}
+                                    <br>
 
-                                <br>
+                                    ⏰
+                                    ${om.horario_inicial || "--:--"}
+                                    →
+                                    ${om.horario_final || "--:--"}
 
-                                📄
-                                ${
-                                    om.modelo_relatorio ||
-                                    om.descricao ||
-                                    "-"
-                                }
+                                    <br>
 
-                            </div>
+                                    📄
+                                    ${
+                                        om.modelo_relatorio ||
+                                        om.descricao ||
+                                        "-"
+                                    }
 
-                        </label>
-                    `;
+                                </div>
 
-                })
-                .join("");
+                            </label>
+                        `;
+
+                    })
+                    .join("");
 
         })
+
         .catch(function(error) {
 
             console.error(
-                "ERRO AO CARREGAR OMs DO RELATÓRIO:",
+                "❌ Erro ao carregar OMs concluídas:",
                 error
             );
 
             lista.innerHTML = `
-                <div style="
-                    padding: 15px;
-                    color: #b91c1c;
-                    background: #fef2f2;
-                    border-radius: 8px;
-                ">
+                <div
+                    style="
+                        padding: 15px;
+                        color: #b91c1c;
+                        background: #fef2f2;
+                        border-radius: 8px;
+                    "
+                >
                     ❌ Erro ao carregar OMs concluídas.
                     <br>
-                    <small>${error.message}</small>
+                    <small>
+                        ${error.message}
+                    </small>
                 </div>
             `;
 
         });
+
 }
 // =====================================
 // GERAR RELATÓRIO DE TURNO
@@ -7474,6 +7541,8 @@ carregarModelosRelatorio();
 carregarPainel();
 
 carregarOMs();
+
+carregarOMsRelatorio();
 
 carregarPessoasDupla();
 
