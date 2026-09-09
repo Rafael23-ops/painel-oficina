@@ -771,10 +771,54 @@ function gerarRelatorioTurno() {
             relatorio += "Desvio: N/A\n\n";
             relatorio += "🛺▪️Atividades extra SAP: \n\n";
             relatorio += "🚜Apontamentos GPV:\n\n";
-            relatorio += "⚠️Pendências:⚠️ \n\n";
-            relatorio += "🧑🏾‍🔧 Executantes:\n\n";
+           // =====================================
+// OMs PENDENTES DO DIA
+// =====================================
+
+relatorio += "⚠️Pendências:⚠️\n\n";
+
+const pendentesHoje = lista.filter(function(om) {
+
+    return String(om.status || "")
+        .trim()
+        .toLowerCase() === "pendente"
+        && normalizarDataTexto(om.data) === hoje;
+
+});
+
+if (pendentesHoje.length) {
+
+    pendentesHoje.forEach(function(om) {
+
+        relatorio +=
+            "📁 N° OM: " + (om.om || "") + "\n";
+
+        relatorio +=
+            "🚜 Equipamento: " + (om.equipamento || "") + "\n";
+
+        relatorio +=
+            "Descrição resumida: " +
+            (om.descricao || om.modelo_relatorio || "") +
+            "\n";
+
+        relatorio +=
+            "🚨 Motivo: " +
+            (om.motivo_pendencia || "Pendente") +
+            "\n\n";
+
+    });
+
+} else {
+
+    relatorio +=
+        "Nenhuma OM pendente hoje.\n\n";
+
+}
+
+relatorio += "🧑🏾‍🔧 Executantes:\n\n";
             relatorio += "👨🏻‍🔧 JOÃO LENO\n";
             relatorio += "👨🏻‍🔧 RAFAEL MOTA\n";
+            relatorio += "👨🏻‍🔧 JOÃO ARAÚJO\n";
             relatorio += "👨🏻‍🔧 LUCAS BRAGA";
 
             const resultado = document.getElementById("resultadoRelatorioTurno");
