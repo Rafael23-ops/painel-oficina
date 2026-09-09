@@ -43,10 +43,10 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
   <div class="side-bottom"><div class="side-note">♧<br><strong>Juntos por uma operação mais eficiente!</strong></div></div>
 </aside>
 <main class="main">
-<header class="topbar"><div class="server">● <b>Servidor Online</b><br><span>Atualização automática</span></div><div>🔔</div><div class="user"><span class="avatar">👤</span><span><strong>Rafael Mota</strong><br><small class="muted">Técnico</small></span></div></header>
+<header class="topbar"><div class="server">● <b>Servidor Online</b><br><span>Atualização automática</span></div><div>🔔</div><div class="user"><span class="avatar">👤</span><span><strong>TURNO C</strong><br><small class="muted">Técnicos</small></span></div></header>
 <div class="content" id="dashboard">
 <div id="erro"></div>
-<section class="hero"><div><h1>Olá, Rafael!</h1><p>Aqui está o resumo das ordens de manutenção de hoje.</p></div><div class="hero-mark">SOTREQ<small>SOLUÇÕES PARA<br>UM MUNDO MELHOR</small></div></section>
+<section class="hero"><div><h1>Olá, TURNO "C"!</h1><p>Aqui está o painel de OMs.</p></div><div class="hero-mark">SOTREQ<small>SOLUÇÕES PARA<br>UM MUNDO MELHOR</small></div></section>
 <section class="cards">
   <div class="metric blue"><div class="metric-top"><div class="metric-icon">▣</div><div><div class="metric-label">Total de OMs</div><div class="metric-number" id="total">0</div></div></div><div class="metric-foot">↟ Atualizado automaticamente</div></div>
   <div class="metric yellow"><div class="metric-top"><div class="metric-icon">▶</div><div><div class="metric-label">Em Execução</div><div class="metric-number" id="execucao">0</div></div></div><div class="metric-foot">↘ Em andamento</div></div>
@@ -66,7 +66,38 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
 </div>
 
 <section class="section" id="ferramentas"><div class="panel"><div class="panel-head"><div class="panel-title">⚙ Ferramentas Operacionais</div></div><div class="section-body"><div class="form-grid">
- <div class="field full"><label>IMPORTAR ATIVIDADES DO DIA</label><textarea id="textoAtividades" placeholder="Cole aqui a lista de atividades do dia..."></textarea><div class="button-row"><button class="btn btn-blue" type="button" onclick="interpretarAtividades()">🔎 Interpretar atividades</button></div><div id="resultadoImportacao"></div></div>
+ <div class="field full"><label>IMPORTAR ATIVIDADES DO DIA</label><textarea id="textoAtividades" placeholder="Cole aqui a lista de atividades do dia..."></textarea><div class="button-row"><button class="btn btn-blue" type="button" onclick="interpretarAtividades()">🔎 Interpretar atividades</button></div><div id="resultadoImportacao"></div><style>
+#resultadoImportacao {
+    margin-top: 12px;
+    color: #ffffff;
+    background: #0b1118;
+    border: 1px solid #2f3d4a;
+    border-radius: 8px;
+    padding: 14px;
+    line-height: 1.5;
+}
+
+#resultadoImportacao * {
+    color: #ffffff;
+}
+
+#resultadoImportacao input,
+#resultadoImportacao textarea,
+#resultadoImportacao select {
+    background: #111922 !important;
+    color: #ffffff !important;
+    border: 1px solid #3b4a58 !important;
+}
+
+#resultadoImportacao strong,
+#resultadoImportacao b {
+    color: #ffffff !important;
+}
+
+#resultadoImportacao button {
+    color: #ffffff !important;
+}
+</style></div>
  <div class="field"><label>PENDÊNCIAS DO TURNO ANTERIOR</label><textarea id="textoPendencias" placeholder="Cole aqui as pendências..."></textarea></div>
  <div class="field"><label>EQUIPAMENTOS NA OFICINA</label><textarea id="textoEquipamentosOficina" placeholder="EC67\nPZ58\nTT70"></textarea></div>
  <div class="field full"><div class="button-row"><button class="btn btn-yellow" type="button" onclick="cruzarPendencias()">⚠ Cruzar pendências com equipamentos</button></div><div id="resultadoPendencias"></div></div>
@@ -797,7 +828,7 @@ if (pendentesHoje.length) {
             "🚜 Equipamento: " + (om.equipamento || "") + "\n";
 
         relatorio +=
-            "Descrição resumida: " +
+            "Descrição: " +
             (om.descricao || om.modelo_relatorio || "") +
             "\n";
 
