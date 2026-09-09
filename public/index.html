@@ -7081,18 +7081,18 @@ window.interpretarAtividades = function () {
                 "Não identificado";
             tabela += `
                 <div style="
-                    border: 1px solid ${
-                        alertaEquipamento
-                        ? "#f59e0b"
-                        : "#ddd"
-                    };
+                   border: 1px solid ${
+    alertaEquipamento
+        ? "#f59e0b"
+        : "#344454"
+};
                     border-radius: 8px;
                     padding: 12px;
                     margin-top: 10px;
                     background: ${
                         alertaEquipamento
-                        ? "#fffbeb"
-                        : "white"
+                        ? "#302710"
+                        : "#111922"
                     };
                 ">
                     <div style="
@@ -7160,101 +7160,112 @@ window.interpretarAtividades = function () {
             `;
         }
     );
-    resultado.innerHTML = `
-        <div style="
-            padding: 15px;
-            border-radius: 8px;
-            background: #eff6ff;
-            border: 1px solid #bfdbfe;
+   resultado.innerHTML = `
+    <div style="
+        padding: 15px;
+        border-radius: 10px;
+        background: #0b1118;
+        border: 1px solid #344454;
+        color: #ffffff;
+        box-sizing: border-box;
+    ">
+
+        <h3 style="
+            margin: 0 0 15px 0;
+            color: #ffffff;
+            font-size: 18px;
         ">
-            <h3 style="
-                margin-top: 0;
-            ">
-                🔍 Resultado da interpretação
-            </h3>
-            <div style="
-                display: grid;
-                gap: 6px;
-                margin-bottom: 15px;
-            ">
-                <div>
-                    🗓️
-                    <strong>
-                        Data:
-                    </strong>
-                    ${
-                        dataAtividade ||
-                        "Não identificada"
-                    }
-                </div>
-                <div>
-                    📋
-                    <strong>
-                        OMs para atuação:
-                    </strong>
-                    ${atividadesFinais.length}
-                </div>
-                <div>
-                    🔵
-                    <strong>
-                        Em execução:
-                    </strong>
-                    ${execucao}
-                </div>
-                <div>
-                    🟡
-                    <strong>
-                        Pendentes:
-                    </strong>
-                    ${pendentes}
-                </div>
-                <div>
-                    🔴
-                    <strong>
-                        Prioridades:
-                    </strong>
-                    ${prioridades}
-                </div>
-                <div>
-                    ⚠️
-                    <strong>
-                        Precisam revisão:
-                    </strong>
-                    ${revisar}
-                </div>
+            🔍 Resultado da interpretação
+        </h3>
+
+        <div style="
+            display: grid;
+            gap: 8px;
+            margin-bottom: 18px;
+            color: #ffffff;
+        ">
+
+            <div>
+                🗓️
+                <strong>Data:</strong>
+                ${dataAtividade || "Não identificada"}
             </div>
-            <h3>
-                📋 OMs que precisam de atuação
-            </h3>
-            ${tabela}
-            ${
-                revisar === 0
-                ? `
-                    <button
-                        type="button"
-                        id="botaoCadastrarAtividades"
-                        style="
-                            margin-top: 20px;
-                            width: 100%;
-                            padding: 14px;
-                            border: none;
-                            border-radius: 8px;
-                            background: #16a34a;
-                            color: white;
-                            font-size: 16px;
-                            font-weight: bold;
-                            cursor: pointer;
-                        "
-                    >
-                        ✅ Cadastrar ${
-                            atividadesFinais.length
-                        } OMs
-                    </button>
-                `
-                : ""
-            }
+
+            <div>
+                📋
+                <strong>OMs para atuação:</strong>
+                ${atividadesFinais.length}
+            </div>
+
+            <div>
+                🔵
+                <strong>Em execução:</strong>
+                ${execucao}
+            </div>
+
+            <div>
+                🟡
+                <strong>Pendentes:</strong>
+                ${pendentes}
+            </div>
+
+            <div>
+                🔴
+                <strong>Prioridades:</strong>
+                ${prioridades}
+            </div>
+
+            <div>
+                ⚠️
+                <strong>Precisam revisão:</strong>
+                ${revisar}
+            </div>
+
         </div>
-    `;
+
+        <hr style="
+            border: none;
+            border-top: 1px solid #344454;
+            margin: 15px 0;
+        ">
+
+        <h3 style="
+            margin: 0 0 12px 0;
+            color: #ffffff;
+            font-size: 17px;
+        ">
+            📋 OMs que precisam de atuação
+        </h3>
+
+        ${tabela}
+
+        ${
+            revisar === 0
+            ? `
+                <button
+                    type="button"
+                    id="botaoCadastrarAtividades"
+                    style="
+                        margin-top: 20px;
+                        width: 100%;
+                        padding: 14px;
+                        border: none;
+                        border-radius: 8px;
+                        background: #16a34a;
+                        color: #ffffff;
+                        font-size: 16px;
+                        font-weight: bold;
+                        cursor: pointer;
+                    "
+                >
+                    ✅ Cadastrar ${atividadesFinais.length} OMs
+                </button>
+            `
+            : ""
+        }
+
+    </div>
+`;
     // =====================================
     // BOTÃO CADASTRAR OMs
     // =====================================
