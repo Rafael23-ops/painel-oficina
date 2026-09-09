@@ -115,7 +115,7 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
 
 <!-- MODAIS COMPATÍVEIS COM AS FUNÇÕES EXISTENTES -->
 <div class="modal" id="modalEditarOM"><div class="modal-card"><h2>✏️ Editar OM</h2><input type="hidden" id="editarOMId"><label>Número da OM</label><input id="editarOMNumero"><label>Equipamento</label><input id="editarOMEquipamento"><label>Descrição</label><textarea id="editarOMDescricao"></textarea><div class="modal-actions"><button class="btn-primary" onclick="salvarEdicaoOM()">💾 Salvar</button><button class="btn-gray" onclick="fecharEditarOM()">Cancelar</button></div></div></div>
-<div class="modal" id="modalHorarios"><div class="modal-card"><h2>🕐 Definir horários da OM</h2><input type="hidden" id="horariosOMId"><div id="horariosOMInfo" class="muted" style="margin-bottom:10px"></div><label>⏰ Horário inicial</label><input type="time" id="horariosOMInicial"><label>⏰ Horário final</label><input type="time" id="horariosOMFinal"><div class="modal-actions"><button class="btn-primary" type="button" onclick="salvarHorariosOM()">💾 Salvar horários</button><button class="btn-gray" type="button" onclick="fecharHorariosOM()">Cancelar</button></div></div></div>
+<div class="modal" id="modalHorarios"><div class="modal-card"><h2>⏰ Definir horários da OM</h2><input type="hidden" id="horariosOMId"><div id="horariosOMInfo" class="muted" style="margin-bottom:10px"></div><label>⏰ Horário inicial</label><input type="time" id="horariosOMInicial"><label>⏰ Horário final</label><input type="time" id="horariosOMFinal"><div class="modal-actions"><button class="btn-primary" type="button" onclick="salvarHorariosOM()">💾 Salvar horários</button><button class="btn-gray" type="button" onclick="fecharHorariosOM()">Cancelar</button></div></div></div>
 <div class="modal" id="modalDetalhesOM"><div class="modal-card"><h2>📋 Detalhes da OM</h2><div id="conteudoDetalhesOM">🔄 Carregando...</div><button class="btn btn-gray" style="width:100%;margin-top:12px" onclick="fecharDetalhesOM()">Fechar</button></div></div>
 <div class="modal" id="modalGerarRelatorio"><div class="modal-card"><h2>📄 Gerar Relatório</h2><div id="conteudoGerarRelatorio">🔄 Carregando...</div><button class="btn btn-gray" style="width:100%;margin-top:12px" onclick="fecharGerarRelatorio()">Fechar</button></div></div>
 <div class="modal" id="modalResponsavel"><div class="modal-card"><h2>🔄 Alterar responsável</h2><p id="omSelecionada" class="muted"></p><select id="novoTipoResponsavel"><option value="">Sem responsável</option><option value="pessoa">Pessoa</option></select><select id="novoResponsavel"><option value="">Selecione o responsável</option></select><div class="modal-actions"><button class="btn-primary" onclick="salvarNovoResponsavel()">💾 Salvar</button><button class="btn-gray" onclick="fecharAlterarResponsavel()">Cancelar</button></div></div></div>
@@ -7799,14 +7799,14 @@ resultado.innerHTML = `
     <div style="
         padding:15px;
         border-radius:8px;
-        background:#eff6ff;
-        border:1px solid #bfdbfe;
-        color:#111827;
+        background:#0b1117;
+        border:1px solid #334155;
+        color:#ffffff;
     ">
 
         <h3 style="
             margin-top:0;
-            color:#111827;
+            color:#ffffff;
         ">
             🔎 Resultado do cruzamento
         </h3>
@@ -7815,36 +7815,36 @@ resultado.innerHTML = `
             display:grid;
             gap:7px;
             margin-bottom:15px;
-            color:#111827;
+            color:#ffffff;
         ">
 
-            <div style="color:#111827;">
+            <div style="color:#ffffff;">
                 📋
-                <strong style="color:#111827;">
+                <strong style="color:#ffffff;">
                     Pendências encontradas:
                 </strong>
                 ${total}
             </div>
 
-            <div style="color:#111827;">
+            <div style="color:#ffffff;">
                 🟢
-                <strong style="color:#111827;">
+                <strong style="color:#ffffff;">
                     Equipamentos na oficina:
                 </strong>
                 ${cadastrar}
             </div>
 
-            <div style="color:#111827;">
+            <div style="color:#ffffff;">
                 ⚪
-                <strong style="color:#111827;">
+                <strong style="color:#ffffff;">
                     Fora da oficina:
                 </strong>
                 ${foraOficina}
             </div>
 
-            <div style="color:#111827;">
+            <div style="color:#ffffff;">
                 🟡
-                <strong style="color:#111827;">
+                <strong style="color:#ffffff;">
                     Precisam revisão:
                 </strong>
                 ${revisar}
@@ -7855,19 +7855,19 @@ resultado.innerHTML = `
         <hr>
 
         <h3 style="
-            color:#111827;
+            color:#ffffff;
             margin-bottom:10px;
         ">
             📋 Pendências encontradas
         </h3>
 
         <div style="
-            color:#111827;
+            color:#ffffff;
         ">
             ${tabela || `
                 <div style="
                     padding:12px 0;
-                    color:#111827;
+                   color:#ffffff;
                 ">
                     📭 Nenhuma OM encontrada nas pendências.
                 </div>
