@@ -14,51 +14,52 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
 .brand{
     height:86px;
     border-bottom:1px solid #222a33;
+    padding:8px 12px;
+    box-sizing:border-box;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    justify-content:center;
+}
+
+.brand-top{
     display:flex;
     align-items:center;
-    gap:6px;
-    padding:9px 12px;
-    box-sizing:border-box;
+    gap:5px;
+    height:26px;
 }
 
 .brand-sotreq{
     background:#f8c51c;
     color:#111;
-    padding:7px 9px;
-    font-size:18px;
+    padding:5px 8px;
+    font-size:16px;
     font-weight:900;
     line-height:1;
-    display:inline-block;
 }
 
 .brand-cat{
     color:#fff;
     font-weight:900;
-    font-size:16px;
+    font-size:15px;
     line-height:1;
 }
 
-.brand > div{
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    margin-left:2px;
-}
-
 .brand-name{
+    color:#fff;
     font-size:15px;
     font-weight:700;
-    line-height:1.05;
+    line-height:18px;
+    margin-top:2px;
     text-align:left;
-    white-space:nowrap;
 }
 
 .brand-sub{
-    font-size:9px;
     color:#8793a0;
-    margin-top:2px;
+    font-size:9px;
+    line-height:11px;
+    margin:0;
     text-align:left;
-    white-space:nowrap;
 }.nav{padding:18px 10px;display:flex;flex-direction:column;gap:5px}.nav button{width:100%;border:0;background:transparent;color:#cbd3dc;text-align:left;padding:12px 13px;border-radius:8px;display:flex;align-items:center;gap:12px;font-size:13px}.nav button:hover,.nav button.active{background:linear-gradient(90deg,#f02027,#c70d16);color:#fff}.nav .ico{width:20px;text-align:center;font-size:17px}.side-bottom{margin-top:auto;padding:14px}.side-note{border:1px solid #28333f;border-left:3px solid var(--red);border-radius:8px;padding:14px;color:#dbe2ea;font-size:12px;line-height:1.5;background:#0c1218}
 .main{margin-left:215px;min-width:0;width:calc(100% - 215px)}.topbar{height:72px;background:#090e14;border-bottom:1px solid #202731;display:flex;align-items:center;justify-content:flex-end;padding:0 28px;gap:24px}.server{font-size:11px;color:#9ba6b3}.server b{color:#23c77e}.user{display:flex;align-items:center;gap:10px;font-size:12px}.avatar{width:32px;height:32px;border-radius:50%;background:#293441;display:grid;place-items:center}.content{padding:20px 18px 28px;max-width:1450px;margin:auto}.hero{position:relative;overflow:hidden;border:1px solid #26313d;background:linear-gradient(100deg,#101720,#0d131a);border-radius:8px;padding:22px 24px;margin-bottom:16px;box-shadow:var(--shadow)}.hero:before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--red)}.hero h1{font-size:22px;margin-bottom:7px}.hero p{color:#9ca8b5;font-size:13px}.hero-mark{position:absolute;right:25px;top:18px;text-align:right;color:#f7c51c;font-weight:900;font-size:18px}.hero-mark small{display:block;color:#aeb7c1;font-size:9px;letter-spacing:.5px}
 .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}.metric{background:linear-gradient(145deg,#101820,#0c1218);border:1px solid #26313c;border-radius:8px;padding:16px;min-height:108px;box-shadow:var(--shadow)}.metric-top{display:flex;align-items:center;gap:12px}.metric-icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:20px}.metric.blue .metric-icon{background:#0d55a8}.metric.yellow .metric-icon{background:#6f5711}.metric.green .metric-icon{background:#0a7047}.metric.red .metric-icon{background:#7c1218}.metric-label{font-size:12px;color:#aeb7c1}.metric-number{font-size:28px;font-weight:700;margin-top:3px}.metric-foot{font-size:10px;margin-top:8px}.metric.blue .metric-foot{color:#3e9cff}.metric.yellow .metric-foot{color:#e7bb2f}.metric.green .metric-foot{color:#24c77d}.metric.red .metric-foot{color:#ff4b52}
@@ -92,7 +93,15 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
 <body>
 <div class="app">
 <aside class="sidebar">
-  <div class="brand"><span class="brand-sotreq">Sotreq</span><span class="brand-cat">CAT</span><div><div class="brand-name">🔧 OFICINA</div><div class="brand-sub">Sistema de Ordens de Manutenção</div></div></div>
+ <div class="brand">
+    <div class="brand-top">
+        <span class="brand-sotreq">Sotreq</span>
+        <span class="brand-cat">CAT</span>
+    </div>
+
+    <div class="brand-name">🔧 OFICINA</div>
+    <div class="brand-sub">Sistema de Ordens de Manutenção</div>
+</div></div>
   <nav class="nav">
     <button class="active" onclick="irPara('dashboard',this)"><span class="ico">⌂</span><span>Dashboard</span></button>
     <button onclick="irPara('ordens',this)"><span class="ico">▣</span><span>Ordens de Manutenção</span></button>
