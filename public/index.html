@@ -11,14 +11,14 @@
 html{scroll-behavior:smooth} body{background:var(--bg);color:var(--text);min-height:100vh}
 button,input,select,textarea{font:inherit} button{cursor:pointer}
 .app{display:flex;min-height:100vh}.sidebar{width:215px;flex:0 0 215px;background:#080d12;border-right:1px solid #202731;position:fixed;inset:0 auto 0 0;z-index:100;display:flex;flex-direction:column}
-.brand{height:86px;border-bottom:1px solid #222a33;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:6px;padding:10px 16px}.brand-sotreq{background:#f8c51c;color:#111;padding:7px 11px;font-size:18px;font-weight:900}.brand-cat{color:#fff;font-weight:900;font-size:16px;position:absolute;left:86px;top:17px}.brand-name{font-size:15px;font-weight:700;line-height:1.05;text-align:left}.brand-sub{font-size:9px;color:#8793a0;margin-top:3px;text-align:left}
+.brand{height:86px;border-bottom:1px solid #222a33;display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;align-items:center;column-gap:8px;row-gap:5px;padding:9px 16px}.brand-sotreq{grid-column:1;grid-row:1;background:#f8c51c;color:#111;padding:7px 11px;font-size:18px;font-weight:900;line-height:1}.brand-cat{grid-column:2;grid-row:1;position:static;color:#fff;font-weight:900;font-size:16px;line-height:1}.brand-name{grid-column:1 / -1;grid-row:2;font-size:15px;font-weight:700;line-height:1.05;text-align:left}.brand-sub{grid-column:1 / -1;grid-row:2;font-size:9px;color:#8793a0;margin-top:17px;text-align:left}
 .nav{padding:18px 10px;display:flex;flex-direction:column;gap:5px}.nav button{width:100%;border:0;background:transparent;color:#cbd3dc;text-align:left;padding:12px 13px;border-radius:8px;display:flex;align-items:center;gap:12px;font-size:13px}.nav button:hover,.nav button.active{background:linear-gradient(90deg,#f02027,#c70d16);color:#fff}.nav .ico{width:20px;text-align:center;font-size:17px}.side-bottom{margin-top:auto;padding:14px}.side-note{border:1px solid #28333f;border-left:3px solid var(--red);border-radius:8px;padding:14px;color:#dbe2ea;font-size:12px;line-height:1.5;background:#0c1218}
 .main{margin-left:215px;min-width:0;width:calc(100% - 215px)}.topbar{height:72px;background:#090e14;border-bottom:1px solid #202731;display:flex;align-items:center;justify-content:flex-end;padding:0 28px;gap:24px}.server{font-size:11px;color:#9ba6b3}.server b{color:#23c77e}.user{display:flex;align-items:center;gap:10px;font-size:12px}.avatar{width:32px;height:32px;border-radius:50%;background:#293441;display:grid;place-items:center}.content{padding:20px 18px 28px;max-width:1450px;margin:auto}.hero{position:relative;overflow:hidden;border:1px solid #26313d;background:linear-gradient(100deg,#101720,#0d131a);border-radius:8px;padding:22px 24px;margin-bottom:16px;box-shadow:var(--shadow)}.hero:before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--red)}.hero h1{font-size:22px;margin-bottom:7px}.hero p{color:#9ca8b5;font-size:13px}.hero-mark{position:absolute;right:25px;top:18px;text-align:right;color:#f7c51c;font-weight:900;font-size:18px}.hero-mark small{display:block;color:#aeb7c1;font-size:9px;letter-spacing:.5px}
 .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}.metric{background:linear-gradient(145deg,#101820,#0c1218);border:1px solid #26313c;border-radius:8px;padding:16px;min-height:108px;box-shadow:var(--shadow)}.metric-top{display:flex;align-items:center;gap:12px}.metric-icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:20px}.metric.blue .metric-icon{background:#0d55a8}.metric.yellow .metric-icon{background:#6f5711}.metric.green .metric-icon{background:#0a7047}.metric.red .metric-icon{background:#7c1218}.metric-label{font-size:12px;color:#aeb7c1}.metric-number{font-size:28px;font-weight:700;margin-top:3px}.metric-foot{font-size:10px;margin-top:8px}.metric.blue .metric-foot{color:#3e9cff}.metric.yellow .metric-foot{color:#e7bb2f}.metric.green .metric-foot{color:#24c77d}.metric.red .metric-foot{color:#ff4b52}
-.panel{background:linear-gradient(145deg,#0e151c,#0b1117);border:1px solid #242f3a;border-radius:8px;box-shadow:var(--shadow);overflow:hidden}.panel-head{padding:14px 16px;border-bottom:1px solid #222c36;display:flex;align-items:center;justify-content:space-between;gap:12px}.panel-title{font-size:16px;font-weight:700}.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.search,.select-dark{background:#111922;color:#d9e0e8;border:1px solid #34404d;border-radius:6px;padding:9px 11px;font-size:11px;outline:none}.search{min-width:240px}.select-dark{min-width:130px}.search:focus,.select-dark:focus{border-color:#64748b}.table-wrap{overflow:auto}.om-table{width:100%;border-collapse:collapse;min-width:1050px}.om-table th{background:#151e28;color:#9eabb8;text-align:left;font-size:10px;padding:11px 12px;white-space:nowrap}.om-table td{border-top:1px solid #1e2832;padding:11px 12px;color:#d6dde5;font-size:11px;vertical-align:middle}.om-table tr:hover td{background:#111a23}.om-table td:first-child{color:#fff;font-weight:700}.status-pill{display:inline-block;border-radius:20px;padding:5px 10px;font-size:10px;font-weight:700;white-space:nowrap}.status-green{background:#0b9f5c;color:#07150f}.status-blue{background:#2583f7;color:#06152b}.status-yellow{background:#f2bd28;color:#1c1703}.actions{display:flex;gap:5px;flex-wrap:wrap;align-items:center;justify-content:center}.actions button{border:1px solid #33404d!important;background:#151e28!important;color:#f1f5f9!important;border-radius:7px!important;padding:7px 9px!important;margin:0!important;font-size:12px!important;min-width:34px;box-shadow:0 2px 5px rgba(0,0,0,.18)}.actions button:hover{background:#263444!important;transform:translateY(-1px)}.actions .action-yellow{border-color:#8a6b12!important;background:#2b2410!important}.actions .action-blue{border-color:#1d64b8!important;background:#10253d!important}.actions .action-green{border-color:#168653!important;background:#0d2b20!important}.actions .action-red{border-color:#8b252b!important;background:#321216!important}.actions .action-edit{border-color:#315d93!important;background:#132238!important}.actions .action-neutral{border-color:#45515e!important;background:#1a232d!important}.actions button span{font-size:11px}.report-select-list{display:grid;gap:7px;max-height:300px;overflow:auto}.report-select-item{display:flex;align-items:flex-start;gap:10px;padding:11px 12px;border:1px solid #303b47;border-radius:7px;background:#111922;color:#e9edf2;cursor:pointer}.report-select-item:hover{border-color:#657487;background:#151f29}.report-select-item input{margin-top:3px;accent-color:#fff}.report-select-item strong{color:#fff}.turno-report{background:#05080c!important;color:#fff!important;border:1px solid #38434f!important}.turno-report-preview{background:#fff;color:#111;border-radius:8px;padding:16px;line-height:1.55;white-space:pre-wrap;font-family:Arial,Helvetica,sans-serif}.turno-report-preview .report-name{font-weight:900;font-size:15px}.historico-note{font-size:10px;color:#7f8b98;margin-left:auto}
+.panel{background:linear-gradient(145deg,#0e151c,#0b1117);border:1px solid #242f3a;border-radius:8px;box-shadow:var(--shadow);overflow:hidden}.panel-head{padding:14px 16px;border-bottom:1px solid #222c36;display:flex;align-items:center;justify-content:space-between;gap:12px}.panel-title{font-size:16px;font-weight:700}.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.search,.select-dark{background:#111922;color:#d9e0e8;border:1px solid #34404d;border-radius:6px;padding:9px 11px;font-size:11px;outline:none}.search{min-width:240px}.select-dark{min-width:130px}.search:focus,.select-dark:focus{border-color:#64748b}.table-wrap{overflow:auto}.om-table{width:100%;border-collapse:collapse;min-width:1050px}.om-table th{background:#151e28;color:#9eabb8;text-align:left;font-size:10px;padding:11px 12px;white-space:nowrap}.om-table td{border-top:1px solid #1e2832;padding:11px 12px;color:#d6dde5;font-size:11px;vertical-align:middle}.om-table tr:hover td{background:#111a23}.om-table td:first-child{color:#fff;font-weight:700}.status-pill{display:inline-block;border-radius:20px;padding:5px 10px;font-size:10px;font-weight:700;white-space:nowrap}.status-green{background:#0b9f5c;color:#07150f}.status-blue{background:#2583f7;color:#06152b}.status-yellow{background:#f2bd28;color:#1c1703}.actions{display:flex;gap:5px;flex-wrap:wrap;align-items:center;justify-content:center}.actions button{border:1px solid #33404d!important;background:#151e28!important;color:#f1f5f9!important;border-radius:7px!important;padding:7px 9px!important;margin:0!important;font-size:12px!important;min-width:34px;box-shadow:0 2px 5px rgba(0,0,0,.18)}.actions button:hover{background:#263444!important;transform:translateY(-1px)}.actions .action-yellow{border-color:#8a6b12!important;background:#2b2410!important}.actions .action-blue{border-color:#1d64b8!important;background:#10253d!important}.actions .action-green{border-color:#168653!important;background:#0d2b20!important}.actions .action-red{border-color:#8b252b!important;background:#321216!important}.actions .action-edit{border-color:#315d93!important;background:#132238!important}.actions .action-neutral{border-color:#45515e!important;background:#1a232d!important}.actions .action-clock{border-color:#8a6b12!important;background:#2b2410!important;color:#f2bd28!important}.actions button span{font-size:11px}.report-select-list{display:grid;gap:7px;max-height:300px;overflow:auto}.report-select-item{display:flex;align-items:flex-start;gap:10px;padding:11px 12px;border:1px solid #303b47;border-radius:7px;background:#111922;color:#e9edf2;cursor:pointer}.report-select-item:hover{border-color:#657487;background:#151f29}.report-select-item input{margin-top:3px;accent-color:#fff}.report-select-item strong{color:#fff}.turno-report{background:#05080c!important;color:#fff!important;border:1px solid #38434f!important}.turno-report-preview{background:#fff;color:#111;border-radius:8px;padding:16px;line-height:1.55;white-space:pre-wrap;font-family:Arial,Helvetica,sans-serif}.turno-report-preview .report-name{font-weight:900;font-size:15px}.historico-note{font-size:10px;color:#7f8b98;margin-left:auto}
 .grid-bottom{display:grid;grid-template-columns:1.05fr .95fr 1.15fr;gap:14px;margin-top:16px}.mini{padding:15px}.mini-list{max-height:280px;overflow:auto}.recent-item,.pending-item{padding:11px 0;border-bottom:1px solid #202a34;font-size:11px}.recent-item:last-child,.pending-item:last-child{border-bottom:0}.recent-line{display:flex;justify-content:space-between;gap:10px}.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:7px}.dot.green{background:#16c784}.dot.blue{background:#2583f7}.dot.yellow{background:#f2bd28}.muted{color:#7f8b98}.report-box{display:flex;flex-direction:column;gap:10px}.report-box label{font-size:10px;color:#9ca8b5}.report-box select,.report-box button{width:100%;padding:10px;border-radius:6px;border:1px solid #34404d;background:#111922;color:#e6ebf0}.btn-red{background:#e3131b!important;border-color:#e3131b!important;color:#fff!important;font-weight:700}.btn-dark{background:#141d26!important}.summary-row{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}.summary-chip{border:1px solid #26313c;border-radius:6px;padding:9px;text-align:center}.summary-chip b{display:block;font-size:16px}.summary-chip small{font-size:9px;color:#85919f}.pending-item b{color:#f0f3f7}.pending-item span{display:block;color:#7f8b98;margin-top:4px}
 .section{margin-top:16px}.section .panel{padding:0}.section-body{padding:16px}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:10px;color:#9da9b6}.field input,.field select,.field textarea{background:#111922;border:1px solid #34404d;color:#e6ebf0;border-radius:6px;padding:10px;outline:none}.field textarea{min-height:120px;resize:vertical}.button-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.btn{border:0;border-radius:6px;padding:10px 14px;font-size:11px;font-weight:700}.btn-primary{background:#e3131b;color:#fff}.btn-blue{background:#2583f7;color:#fff}.btn-yellow{background:#b98505;color:#fff}.btn-green{background:#16a05f;color:#fff}.btn-gray{background:#202b36;color:#dbe2e9}.danger-zone{border:1px solid #6c1b20;background:#1b0d10;padding:12px;border-radius:7px;display:flex;align-items:center;justify-content:space-between;gap:10px}.danger-zone span{font-size:11px;color:#e6aeb2}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:1000;align-items:center;justify-content:center;padding:20px}.modal-card{width:min(680px,96vw);max-height:92vh;overflow:auto;background:#101820;border:1px solid #34404d;border-radius:10px;box-shadow:0 20px 70px #000;padding:20px}.modal-card h2{font-size:17px;margin-bottom:15px}.modal-card input,.modal-card select,.modal-card textarea{width:100%;background:#0d141b;border:1px solid #34404d;color:#fff;border-radius:6px;padding:10px;margin:6px 0 12px}.modal-actions{display:flex;gap:8px}.modal-actions button{flex:1;border:0;border-radius:6px;padding:10px;font-weight:700}.compat{display:none!important}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:1000;align-items:center;justify-content:center;padding:20px}.modal-card{width:min(680px,96vw);max-height:92vh;overflow:auto;background:#101820;border:1px solid #34404d;border-radius:10px;box-shadow:0 20px 70px #000;padding:20px}.modal-card h2{font-size:17px;margin-bottom:15px}.modal-card input,.modal-card select,.modal-card textarea{width:100%;background:#0d141b;color:#fff;border:1px solid #34404d;color:#fff;border-radius:6px;padding:10px;margin:6px 0 12px}.modal-actions{display:flex;gap:8px}.modal-actions button{flex:1;border:0;border-radius:6px;padding:10px;font-weight:700}.compat{display:none!important}
 #erro{display:none;background:#4b1116;color:#ffd5d7;border:1px solid #7d2228;padding:10px;border-radius:7px;margin-bottom:12px;font-size:12px}
 .footer{padding:18px;text-align:center;color:#66727f;font-size:10px;border-top:1px solid #1e2730;margin-top:25px}
 @media(max-width:1050px){.sidebar{width:70px;flex-basis:70px}.main{margin-left:70px;width:calc(100% - 70px)}.brand{justify-content:center;padding:10px}.brand-name,.brand-sub,.brand-cat{display:none}.brand-sotreq{font-size:12px;padding:8px}.nav button{justify-content:center}.nav button span:last-child{display:none}.side-note{display:none}.cards{grid-template-columns:repeat(2,1fr)}.grid-bottom{grid-template-columns:1fr}.hero-mark{display:none}}
@@ -43,7 +43,7 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
   <div class="side-bottom"><div class="side-note">♧<br><strong>Juntos por uma operação mais eficiente!</strong></div></div>
 </aside>
 <main class="main">
-<header class="topbar"><div class="server">● <b>Servidor Online</b><br><span>Atualização automática</span></div><div>🔔</div><div class="user"><span class="avatar">👤</span><span><strong>TURNO C</strong><br><small class="muted">Técnicos</small></span></div></header>
+<header class="topbar"><div class="server">● <b>Servidor Online</b><br><span>Atualização automática</span></div><div>🔔</div><div class="user"><span class="avatar">👤</span><span><strong>Rafael Mota</strong><br><small class="muted">Técnico</small></span></div></header>
 <div class="content" id="dashboard">
 <div id="erro"></div>
 <section class="hero"><div><h1>Olá, Rafael!</h1><p>Aqui está o resumo das ordens de manutenção de hoje.</p></div><div class="hero-mark">SOTREQ<small>SOLUÇÕES PARA<br>UM MUNDO MELHOR</small></div></section>
@@ -83,7 +83,8 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
 <div class="modal" id="modalNovaOM"><div class="modal-card"><h2>➕ Nova Ordem de Manutenção</h2><form id="formOM"><div class="form-grid"><div class="field"><label>NÚMERO DA OM</label><input id="numero" required placeholder="Número da OM"></div><div class="field"><label>EQUIPAMENTO</label><select id="equipamento" required><option value="">Selecione o equipamento</option></select></div><div class="field full"><label>MODELO DO RELATÓRIO</label><select id="modeloRelatorio" required><option value="">Selecione o modelo</option><option>MP MINESTAR FLEET</option><option>MP MINESTAR RP & EC</option><option>MP MINESTAR HEALTH</option><option>MP MINESTAR TERRAIN TT</option><option>MP MINESTAR PZ</option></select></div><div class="field full"><label>DESCRIÇÃO</label><textarea id="descricao" required placeholder="Descrição do serviço"></textarea></div><div class="field"><label>TIPO DE RESPONSÁVEL</label><select id="tipoResponsavel"><option value="">Sem responsável</option><option value="pessoa">Pessoa</option></select></div><div class="field"><label>RESPONSÁVEL</label><select id="responsavel"><option value="">Selecione o responsável</option></select></div></div><div class="button-row"><button class="btn btn-primary" type="submit">➕ Cadastrar OM</button><button class="btn btn-gray" type="button" onclick="fecharModal('modalNovaOM')">Cancelar</button></div><div id="mensagemOM"></div></form></div></div>
 
 <!-- MODAIS COMPATÍVEIS COM AS FUNÇÕES EXISTENTES -->
-<div class="modal" id="modalEditarOM"><div class="modal-card"><h2>✏️ Editar OM</h2><input type="hidden" id="editarOMId"><label>Número da OM</label><input id="editarOMNumero"><label>Equipamento</label><input id="editarOMEquipamento"><label>Descrição</label><textarea id="editarOMDescricao"></textarea><label>Horário inicial</label><input type="time" id="editarOMHorarioInicial"><label>Horário final</label><input type="time" id="editarOMHorarioFinal"><div class="modal-actions"><button class="btn-primary" onclick="salvarEdicaoOM()">💾 Salvar</button><button class="btn-gray" onclick="fecharEditarOM()">Cancelar</button></div></div></div>
+<div class="modal" id="modalEditarOM"><div class="modal-card"><h2>✏️ Editar OM</h2><input type="hidden" id="editarOMId"><label>Número da OM</label><input id="editarOMNumero"><label>Equipamento</label><input id="editarOMEquipamento"><label>Descrição</label><textarea id="editarOMDescricao"></textarea><div class="modal-actions"><button class="btn-primary" onclick="salvarEdicaoOM()">💾 Salvar</button><button class="btn-gray" onclick="fecharEditarOM()">Cancelar</button></div></div></div>
+<div class="modal" id="modalHorarios"><div class="modal-card"><h2>🕐 Definir horários da OM</h2><input type="hidden" id="horariosOMId"><div id="horariosOMInfo" class="muted" style="margin-bottom:10px"></div><label>⏰ Horário inicial</label><input type="time" id="horariosOMInicial"><label>⏰ Horário final</label><input type="time" id="horariosOMFinal"><div class="modal-actions"><button class="btn-primary" type="button" onclick="salvarHorariosOM()">💾 Salvar horários</button><button class="btn-gray" type="button" onclick="fecharHorariosOM()">Cancelar</button></div></div></div>
 <div class="modal" id="modalDetalhesOM"><div class="modal-card"><h2>📋 Detalhes da OM</h2><div id="conteudoDetalhesOM">🔄 Carregando...</div><button class="btn btn-gray" style="width:100%;margin-top:12px" onclick="fecharDetalhesOM()">Fechar</button></div></div>
 <div class="modal" id="modalGerarRelatorio"><div class="modal-card"><h2>📄 Gerar Relatório</h2><div id="conteudoGerarRelatorio">🔄 Carregando...</div><button class="btn btn-gray" style="width:100%;margin-top:12px" onclick="fecharGerarRelatorio()">Fechar</button></div></div>
 <div class="modal" id="modalResponsavel"><div class="modal-card"><h2>🔄 Alterar responsável</h2><p id="omSelecionada" class="muted"></p><select id="novoTipoResponsavel"><option value="">Sem responsável</option><option value="pessoa">Pessoa</option></select><select id="novoResponsavel"><option value="">Selecione o responsável</option></select><div class="modal-actions"><button class="btn-primary" onclick="salvarNovoResponsavel()">💾 Salvar</button><button class="btn-gray" onclick="fecharAlterarResponsavel()">Cancelar</button></div></div></div>
@@ -308,7 +309,7 @@ function carregarModelosRelatorio() {
                             padding: 10px;
                             border: 1px solid #ccc;
                             border-radius: 8px;
-                            background: #f8fafc;
+                            background: #0d141b; color: #f4f7fb;
                         "
                     >
                 `;
@@ -646,7 +647,7 @@ function carregarOMs() {
                                 <button class="action-yellow" onclick="alterarStatus(${om.id}, 'Pendente')" title="Marcar como Pendente">🟡</button>
                                 <button class="action-blue" onclick="alterarStatus(${om.id}, 'Em execução')" title="Marcar Em execução">🔵</button>
                                 <button class="action-green" onclick="alterarStatus(${om.id}, 'Concluída')" title="Marcar Concluída">🟢</button>
-                                <button class="action-neutral" onclick="abrirAlterarResponsavel(${om.id})" title="Alterar responsável">🔄</button>
+                                <button class="action-neutral action-clock" onclick="abrirDefinirHorarios(${om.id})" title="Definir horários da OM">🕐</button>
                                 <button class="action-neutral" onclick="abrirDetalhesOM(${om.id})" title="Ver detalhes">👁️</button>
                                 <button class="action-neutral" onclick="gerarRelatorio(${om.id})" title="Gerar relatório">📄</button>
                                 <button class="action-red" onclick="excluirOM(${om.id})" title="Excluir OM">🗑️</button>
@@ -668,864 +669,108 @@ function carregarOMs() {
 // =====================================
 
 function normalizarDataTexto(data) {
-
-    if (!data) {
-        return "";
-    }
-
+    if (!data) return "";
     const texto = String(data).trim();
-
-    // Formato: 08/09/2026, 14:23:17
-    let m = texto.match(
-        /^(\d{1,2})\/(\d{1,2})\/(\d{4})/
-    );
-
-    if (m) {
-
-        return (
-            String(m[1]).padStart(2, "0") +
-            "/" +
-            String(m[2]).padStart(2, "0") +
-            "/" +
-            m[3]
-        );
-
-    }
-
-    // Tenta interpretar datas em formato ISO
+    const m = texto.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:,\s*(\d{1,2}):(\d{2})(?::(\d{2}))?)?/);
+    if (m) return String(m[1]).padStart(2,"0") + "/" + String(m[2]).padStart(2,"0") + "/" + m[3];
     const d = new Date(texto);
-
-    if (!isNaN(d.getTime())) {
-
-        return d.toLocaleDateString("pt-BR");
-
-    }
-
-    // Última tentativa:
-    // pega somente a parte antes da vírgula
-    return texto
-        .split(",")[0]
-        .trim();
-
+    return isNaN(d.getTime()) ? texto.split(",")[0].trim() : d.toLocaleDateString("pt-BR");
 }
-
-
-// =====================================
-// EXTRAIR HORA DA DATA
-// =====================================
 
 function extrairHoraTexto(data) {
-
-    if (!data) {
-        return "--:--";
-    }
-
-    const texto = String(data);
-
-    // Formato:
-    // 08/09/2026, 14:23:17
-    let m = texto.match(
-        /,\s*(\d{1,2}):(\d{2})(?::\d{2})?/
-    );
-
-    if (m) {
-
-        return (
-            String(m[1]).padStart(2, "0") +
-            ":" +
-            m[2]
-        );
-
-    }
-
-    // Formato ISO:
-    // 2026-09-08T14:23:17
-    m = texto.match(
-        /T(\d{1,2}):(\d{2})/
-    );
-
-    if (m) {
-
-        return (
-            String(m[1]).padStart(2, "0") +
-            ":" +
-            m[2]
-        );
-
-    }
-
-    return "--:--";
-
+    if (!data) return "--:--";
+    const m = String(data).match(/(?:,\s*|T)(\d{1,2}):(\d{2})/);
+    return m ? String(m[1]).padStart(2,"0") + ":" + m[2] : "--:--";
 }
-
-
-// =====================================
-// CARREGAR OMs CONCLUÍDAS
-// =====================================
 
 function carregarOMsRelatorio(silencioso) {
-
-    const lista =
-        document.getElementById(
-            "listaOMsRelatorio"
-        );
-
-    if (!lista) {
-
-        console.warn(
-            "⚠️ listaOMsRelatorio não encontrada."
-        );
-
-        return;
-    }
-
-
-    // Só mostra carregamento
-    // quando for carregamento manual
-    if (!silencioso) {
-
-        lista.innerHTML = `
-            <div class="muted" style="
-                padding: 12px;
-            ">
-                🔄 Carregando OMs concluídas...
-            </div>
-        `;
-
-    }
-
+    const lista = document.getElementById("listaOMsRelatorio");
+    if (!lista) return;
+    if (!silencioso) lista.innerHTML = "🔄 Carregando OMs concluídas...";
 
     fetch("/atribuicoes")
-
         .then(function(response) {
-
-            if (!response.ok) {
-
-                throw new Error(
-                    "Erro HTTP: " +
-                    response.status
-                );
-
-            }
-
+            if (!response.ok) throw new Error("Erro HTTP: " + response.status);
             return response.json();
-
         })
-
         .then(function(oms) {
-
-            const listaOMs =
-                Array.isArray(oms)
-                    ? oms
-                    : [];
-
-
-            // =================================
-            // DATA DE HOJE
-            // =================================
-
-            const agora =
-                new Date();
-
-            const hoje =
-                String(
-                    agora.getDate()
-                ).padStart(2, "0") +
-                "/" +
-                String(
-                    agora.getMonth() + 1
-                ).padStart(2, "0") +
-                "/" +
-                agora.getFullYear();
-
-
-            console.log(
-                "📅 Data usada no relatório:",
-                hoje
-            );
-
-
-            // =================================
-            // FILTRAR OMs CONCLUÍDAS DE HOJE
-            // =================================
-
-            const concluidas =
-                listaOMs.filter(function(om) {
-
-                    const status =
-                        String(
-                            om.status || ""
-                        )
-                        .trim()
-                        .toLowerCase();
-
-
-                    const dataOM =
-                        normalizarDataTexto(
-                            om.data
-                        );
-
-
-                    console.log(
-                        "📋 OM:",
-                        om.om,
-                        "| Status:",
-                        om.status,
-                        "| Data:",
-                        om.data,
-                        "| Data normalizada:",
-                        dataOM
-                    );
-
-
-                    return (
-                        status === "concluída" &&
-                        dataOM === hoje
-                    );
-
-                });
-
-
-            console.log(
-                "✅ OMs concluídas hoje:",
-                concluidas.length,
-                concluidas
-            );
-
-
-            // =================================
-            // NENHUMA OM
-            // =================================
+            const hoje = new Date().toLocaleDateString("pt-BR");
+            const concluidas = (Array.isArray(oms) ? oms : []).filter(function(om) {
+                return String(om.status || "").trim().toLowerCase() === "concluída" && normalizarDataTexto(om.data) === hoje;
+            });
 
             if (!concluidas.length) {
-
-                lista.innerHTML = `
-                    <div
-                        class="muted"
-                        style="
-                            padding: 12px;
-                            text-align: center;
-                        "
-                    >
-                        📭 Nenhuma OM concluída hoje.
-                    </div>
-                `;
-
+                lista.innerHTML = '<div class="muted" style="padding:12px">📭 Nenhuma OM concluída hoje.</div>';
                 return;
-
             }
 
-
-            // =================================
-            // CABEÇALHO
-            // =================================
-
-            let html = `
-
-                <div style="
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    gap: 10px;
-                    margin-bottom: 10px;
-                    flex-wrap: wrap;
-                ">
-
-                    <strong>
-                        🟢 OMs concluídas de hoje:
-                        ${concluidas.length}
-                    </strong>
-
-                    <button
-                        type="button"
-                        class="btn btn-gray"
-                        onclick="
-                            selecionarTodasOMsRelatorio()
-                        "
-                    >
-                        ☑️ Selecionar todas
-                    </button>
-
-                </div>
-
-                <div
-                    class="report-select-list"
-                >
-            `;
-
-
-            // =================================
-            // LISTA DAS OMs
-            // =================================
-
-            concluidas.forEach(
-                function(om) {
-
-                    const descricao =
-                        om.modelo_relatorio ||
-                        om.descricao ||
-                        "-";
-
-
-                    const horaInicial =
-                        om.horario_inicial ||
-                        extrairHoraTexto(
-                            om.data
-                        );
-
-
-                    const horaFinal =
-                        om.horario_final ||
-                        "--:--";
-
-
-                    html += `
-
-                        <label
-                            class="report-select-item"
-                        >
-
-                            <input
-                                type="checkbox"
-                                class="omRelatorio"
-                                value="${om.id}"
-                                checked
-                            >
-
-                            <div>
-
-                                <strong>
-                                    📁 OM ${om.om || "-"}
-                                </strong>
-
-                                <br>
-
-                                🚜
-                                ${om.equipamento || "-"}
-
-                                <br>
-
-                                📄
-                                ${descricao}
-
-                                <br>
-
-                                ⏰
-                                ${horaInicial}
-                                →
-                                ${horaFinal}
-
-                            </div>
-
-                        </label>
-
-                    `;
-
-                }
-            );
-
-
-            html += `
-                </div>
-            `;
-
-
-            lista.innerHTML = html;
-
+            lista.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><strong style="color:#fff">OMs concluídas de hoje</strong><button type="button" class="btn btn-gray" onclick="selecionarTodasOMsRelatorio()">Selecionar todas</button></div><div class="report-select-list">' + concluidas.map(function(om){
+                return `<label class="report-select-item"><input type="checkbox" class="omRelatorio" value="${om.id}" checked><div><strong>📁 OM ${om.om || "-"}</strong><br>🚜 ${om.equipamento || "-"}<br>📄 ${om.modelo_relatorio || om.descricao || "-"}<br>⏰ ${om.horario_inicial || ""} → ${om.horario_final || ""}</div></label>`;
+            }).join("") + '</div>';
         })
-
         .catch(function(error) {
-
-            console.error(
-                "❌ Erro ao carregar OMs concluídas:",
-                error
-            );
-
-
-            // Só mostra erro se não for
-            // uma atualização silenciosa
-            if (!silencioso) {
-
-                lista.innerHTML = `
-                    <div style="
-                        padding: 12px;
-                        color: #ff8b90;
-                    ">
-                        ❌ Erro ao carregar
-                        OMs concluídas.
-                    </div>
-                `;
-
-            }
-
+            console.error("Erro ao carregar OMs concluídas:", error);
+            if (!silencioso) lista.innerHTML = '<div style="padding:12px;color:#ff8b90">❌ Erro ao carregar OMs concluídas.</div>';
         });
+}
 
+function selecionarTodasOMsRelatorio(){
+    document.querySelectorAll(".omRelatorio").forEach(function(c){ c.checked = true; });
 }
 
 
 // =====================================
-// SELECIONAR TODAS
-// =====================================
-
-function selecionarTodasOMsRelatorio() {
-
-    document
-        .querySelectorAll(
-            ".omRelatorio"
-        )
-        .forEach(function(checkbox) {
-
-            checkbox.checked = true;
-
-        });
-
-}
-
-/// =====================================
-// GERAR RELATÓRIO DE FIM DE TURNO
+// GERAR RELATÓRIO DE TURNO
 // =====================================
 
 function gerarRelatorioTurno() {
-
     fetch("/atribuicoes")
-
-        .then(function(response) {
-
-            if (!response.ok) {
-                throw new Error(
-                    "Erro HTTP: " + response.status
-                );
+        .then(function(response){ if(!response.ok) throw new Error("Erro HTTP: "+response.status); return response.json(); })
+        .then(function(oms){
+            const checks = Array.from(document.querySelectorAll(".omRelatorio:checked"));
+            const ids = checks.map(function(c){ return Number(c.value); });
+            const hoje = new Date().toLocaleDateString("pt-BR");
+            let selecionadas = (Array.isArray(oms)?oms:[]).filter(function(om){ return ids.includes(Number(om.id)); });
+            if (!checks.length) {
+                selecionadas = (Array.isArray(oms)?oms:[]).filter(function(om){ return String(om.status||"").trim().toLowerCase()==="concluída" && normalizarDataTexto(om.data)===hoje; });
             }
 
-            return response.json();
+            let relatorio = "📈 RELATÓRIO DE FIM DE TURNO – TURNO C SOTREQ\n\n";
+            relatorio += "🗓 DATA: " + hoje + "\n\n";
+            relatorio += "🚨IAMO 🚨\n";
+            relatorio += "CAPACIDADE: 8.8\n";
+            relatorio += "HH UTILIZADO: N/A\n";
+            relatorio += "Desvio: N/A\n\n";
 
-        })
-
-        .then(function(oms) {
-
-            const listaOMs =
-                Array.isArray(oms)
-                    ? oms
-                    : [];
-
-            // =====================================
-            // DATA DE HOJE
-            // =====================================
-
-            const hoje =
-                new Date()
-                    .toLocaleDateString("pt-BR");
-
-
-            // =====================================
-            // NORMALIZAR TEXTO
-            // =====================================
-
-            function normalizarStatus(valor) {
-
-                return String(valor || "")
-                    .trim()
-                    .toLowerCase()
-                    .normalize("NFD")
-                    .replace(/[\u0300-\u036f]/g, "");
-
-            }
-
-
-            // =====================================
-            // OMs SELECIONADAS
-            // =====================================
-
-            const checks =
-                Array.from(
-                    document.querySelectorAll(
-                        ".omRelatorio:checked"
-                    )
-                );
-
-            const idsSelecionados =
-                checks.map(function(check) {
-
-                    return Number(
-                        check.value
-                    );
-
-                });
-
-
-            // =====================================
-            // BUSCAR OMs CONCLUÍDAS
-            // =====================================
-
-            let concluidasHoje =
-                listaOMs.filter(function(om) {
-
-                    const status =
-                        normalizarStatus(
-                            om.status
-                        );
-
-                    const data =
-                        normalizarDataTexto(
-                            om.data
-                        );
-
-                    return (
-                        status === "concluida" &&
-                        data === hoje
-                    );
-
-                });
-
-
-            // =====================================
-            // SE EXISTIREM CHECKBOXES,
-            // RESPEITAR A SELEÇÃO
-            // =====================================
-
-            if (idsSelecionados.length) {
-
-                concluidasHoje =
-                    concluidasHoje.filter(
-                        function(om) {
-
-                            return idsSelecionados
-                                .includes(
-                                    Number(om.id)
-                                );
-
-                        }
-                    );
-
-            }
-
-
-            console.log(
-                "📋 OMs concluídas encontradas:",
-                concluidasHoje
-            );
-
-
-            // =====================================
-            // MONTAR RELATÓRIO
-            // =====================================
-
-            let relatorio = "";
-
-            relatorio +=
-                "📈 RELATÓRIO DE FIM DE TURNO – TURNO C SOTREQ\n\n";
-
-            relatorio +=
-                "🗓 DATA: " +
-                hoje +
-                "\n\n";
-
-
-            // =====================================
-            // IAMO
-            // =====================================
-
-            relatorio +=
-                "🚨IAMO 🚨\n";
-
-            relatorio +=
-                "CAPACIDADE: 8.8\n";
-
-            relatorio +=
-                "HH UTILIZADO: N/A\n";
-
-            relatorio +=
-                "Desvio: N/A\n\n";
-
-
-            // =====================================
-            // OMS CONCLUÍDAS
-            // =====================================
-
-            relatorio +=
-                "📋 OMs CONCLUÍDAS\n\n";
-
-
-            if (!concluidasHoje.length) {
-
-                relatorio +=
-                    "Nenhuma OM concluída hoje.\n\n";
-
+            relatorio += "📋 OMs CONCLUÍDAS\n\n";
+            if (!selecionadas.length) {
+                relatorio += "Nenhuma OM concluída hoje.\n\n";
             } else {
-
-                concluidasHoje.forEach(
-                    function(om) {
-
-                        relatorio +=
-                            "🚜 Equipamento: " +
-                            (om.equipamento || "-") +
-                            "\n";
-
-                        relatorio +=
-                            "📁 OM: " +
-                            (om.om || "-") +
-                            "\n";
-
-                        relatorio +=
-                            "📄 Relatório: " +
-                            (
-                                om.modelo_relatorio ||
-                                om.descricao ||
-                                "-"
-                            ) +
-                            "\n";
-
-                        relatorio +=
-                            "⏰ Horário: " +
-                            (
-                                om.horario_inicial ||
-                                extrairHoraTexto(om.data) ||
-                                "--:--"
-                            ) +
-                            " → " +
-                            (
-                                om.horario_final ||
-                                "--:--"
-                            ) +
-                            "\n";
-
-                        relatorio +=
-                            "⚠️ Pendência: " +
-                            (
-                                om.motivo_pendencia
-                                    ? "SIM - " +
-                                      om.motivo_pendencia
-                                    : "NÃO"
-                            ) +
-                            "\n\n";
-
-                    }
-                );
-
+                selecionadas.forEach(function(om){
+                    relatorio += "OM: " + (om.om||"-") + "\n";
+                    relatorio += "Equipamento: " + (om.equipamento||"-") + "\n";
+                    relatorio += "Modelo: " + (om.modelo_relatorio||om.descricao||"-") + "\n";
+                    relatorio += "Horário: " + (om.horario_inicial||"") + " → " + (om.horario_final||"") + "\n";
+                    relatorio += "Pendências: " + (om.motivo_pendencia ? "SIM" : "NÃO") + "\n\n";
+                });
             }
 
+            relatorio += "🛺 ATIVIDADES EXTRA SAP: \n\n";
+            relatorio += "🚜 APONTAMENTOS GPV: \n\n";
+            relatorio += "⚠️ PENDÊNCIAS\n\n";
+            const pendentes = (Array.isArray(oms)?oms:[]).filter(function(om){ return String(om.status||"").trim().toLowerCase()==="pendente"; });
+            if (!pendentes.length) relatorio += "Nenhuma OM pendente.\n";
+            else pendentes.forEach(function(om){ relatorio += "* " + (om.equipamento||"-") + " – OM " + (om.om||"-") + (om.descricao ? " – " + om.descricao : "") + (om.motivo_pendencia ? " – Motivo: " + om.motivo_pendencia : "") + "\n"; });
+            relatorio += "\n🧑🏾‍🔧 EXECUTANTES\n\n👨🏻‍🔧 JOÃO LENO\n👨🏻‍🔧 RAFAEL MOTA\n👨🏻‍🔧 JOÃO ARAÚJO\n👨🏻‍🔧 LUCAS BRAGA";
 
-            // =====================================
-            // ATIVIDADES EXTRA SAP
-            // =====================================
-
-            relatorio +=
-                "🛺 ATIVIDADES EXTRA SAP:\n\n";
-
-
-            // =====================================
-            // APONTAMENTOS GPV
-            // =====================================
-
-            relatorio +=
-                "🚜 APONTAMENTOS GPV:\n\n";
-
-
-            // =====================================
-            // PENDÊNCIAS
-            // =====================================
-
-            relatorio +=
-                "⚠️ PENDÊNCIAS\n\n";
-
-
-            const pendentes =
-                listaOMs.filter(
-                    function(om) {
-
-                        return (
-                            normalizarStatus(
-                                om.status
-                            ) === "pendente"
-                        );
-
-                    }
-                );
-
-
-            if (!pendentes.length) {
-
-                relatorio +=
-                    "Nenhuma OM pendente.\n\n";
-
-            } else {
-
-                pendentes.forEach(
-                    function(om) {
-
-                        relatorio +=
-                            "* " +
-                            (
-                                om.equipamento ||
-                                "-"
-                            ) +
-                            " – OM " +
-                            (
-                                om.om ||
-                                "-"
-                            );
-
-                        if (om.descricao) {
-
-                            relatorio +=
-                                " – " +
-                                om.descricao;
-
-                        }
-
-                        if (om.motivo_pendencia) {
-
-                            relatorio +=
-                                " – Motivo: " +
-                                om.motivo_pendencia;
-
-                        }
-
-                        relatorio +=
-                            "\n";
-
-                    }
-                );
-
-                relatorio +=
-                    "\n";
-
-            }
-
-
-            // =====================================
-            // EXECUTANTES
-            // =====================================
-
-            relatorio +=
-                "🧑🏾‍🔧 EXECUTANTES\n\n";
-
-            relatorio +=
-                "👨🏻‍🔧 JOÃO LENO\n";
-
-            relatorio +=
-                "👨🏻‍🔧 RAFAEL MOTA\n";
-
-            relatorio +=
-                "👨🏻‍🔧 JOÃO ARAÚJO\n";
-
-            relatorio +=
-                "👨🏻‍🔧 LUCAS BRAGA";
-
-
-            // =====================================
-            // MOSTRAR SOMENTE UM RELATÓRIO
-            // =====================================
-
-            const resultado =
-                document.getElementById(
-                    "resultadoRelatorioTurno"
-                );
-
-            if (!resultado) {
-
-                console.error(
-                    "❌ resultadoRelatorioTurno não encontrado."
-                );
-
-                return;
-
-            }
-
-
-            resultado.innerHTML = `
-
-                <div style="
-                    margin-top: 15px;
-                ">
-
-                    <textarea
-                        id="textoRelatorioTurno"
-                        readonly
-                        style="
-                            width: 100%;
-                            min-height: 650px;
-                            padding: 18px;
-                            box-sizing: border-box;
-                            resize: vertical;
-
-                            background: #05080c;
-                            color: #ffffff;
-
-                            border: 1px solid #38434f;
-                            border-radius: 8px;
-
-                            font-family:
-                                Arial,
-                                Helvetica,
-                                sans-serif;
-
-                            font-size: 14px;
-                            line-height: 1.6;
-
-                            white-space: pre-wrap;
-                        "
-                    ></textarea>
-
-                    <button
-                        type="button"
-                        class="btn btn-red"
-                        style="
-                            width: 100%;
-                            margin-top: 10px;
-                            padding: 13px;
-                            font-size: 14px;
-                        "
-                        onclick="
-                            copiarRelatorioTurno()
-                        "
-                    >
-                        📋 Copiar Relatório
-                    </button>
-
-                </div>
-
-            `;
-
-
-            const campo =
-                document.getElementById(
-                    "textoRelatorioTurno"
-                );
-
-
-            campo.value =
-                relatorio;
-
-
-            // =====================================
-            // MOSTRAR NO CONSOLE
-            // =====================================
-
-            console.log(
-                "📄 RELATÓRIO GERADO:"
-            );
-
-            console.log(
-                relatorio
-            );
-
+            const resultado = document.getElementById("resultadoRelatorioTurno");
+            resultado.innerHTML = `<div class="turno-report-preview"><div class="report-name">🚨IAMO 🚨</div>${relatorio.replace(/\n/g,"<br>").replace(/(JOÃO LENO|RAFAEL MOTA|JOÃO ARAÚJO|LUCAS BRAGA)/g,"<strong>$1</strong>")}</div><textarea id="textoRelatorioTurno" class="turno-report" rows="30" style="width:100%;margin-top:10px;padding:15px;border-radius:8px;resize:vertical;font-family:monospace;font-size:14px;box-sizing:border-box"></textarea><button type="button" class="btn btn-red" style="width:100%;margin-top:10px" onclick="copiarRelatorioTurno()">📋 Copiar Relatório</button>`;
+            document.getElementById("textoRelatorioTurno").value = relatorio;
         })
-
-        .catch(function(error) {
-
-            console.error(
-                "❌ Erro ao gerar relatório:",
-                error
-            );
-
-            alert(
-                "❌ Erro ao gerar o relatório."
-            );
-
-        });
-
+        .catch(function(error){ console.error("Erro ao gerar relatório:",error); alert("❌ Erro ao gerar o relatório."); });
 }
+
+
 // =====================================
 // COPIAR RELATÓRIO DE TURNO
 // =====================================
@@ -2028,7 +1273,7 @@ function carregarDuplas() {
 
                     margin-bottom: 10px;
 
-                    background: #f8fafc;
+                    background: #0d141b; color: #f4f7fb;
 
                     border-radius: 8px;
 
@@ -2334,420 +1579,6 @@ function gerarRelatorio(id) {
 
         .then(function(om) {
 
-           if (
-    om.modelo_relatorio !== "MP MINESTAR HEALTH" &&
-    om.modelo_relatorio !== "MP MINESTAR FLEET" &&
-    om.modelo_relatorio !== "MP MINESTAR RP & EC" &&
-    om.modelo_relatorio !== "MP MINESTAR PZ" &&
-    om.modelo_relatorio !== "MP MINESTAR TERRAIN TT"
-) {
-    if (om.modelo_relatorio === "MP MINESTAR FLEET") {
-
-    conteudo.innerHTML = `
-
-        <div style="
-            display: grid;
-            gap: 15px;
-        ">
-
-            <!-- INFORMAÇÕES DA OM -->
-
-            <div style="
-                padding: 12px;
-                background: #f1f5f9;
-                border-radius: 8px;
-            ">
-
-                <strong>📋 OM:</strong>
-                ${om.om || "-"}
-
-                <br>
-
-                <strong>🚜 Equipamento:</strong>
-                ${om.equipamento || "-"}
-
-                <br>
-
-                <strong>📄 Modelo:</strong>
-                ${om.modelo_relatorio || "-"}
-
-            </div>
-
-
-            <!-- MP HARDWARE -->
-
-            <div style="
-                padding: 12px;
-                background: #f8fafc;
-                border-radius: 8px;
-                border: 1px solid #e2e8f0;
-            ">
-
-                <strong>🔧 MP HARDWARE</strong>
-
-            </div>
-
-
-            <label>
-
-                ⏰ Horário Inicial — Hardware
-
-                <input
-                    type="time"
-                    id="fleetHardwareInicial"
-                    style="
-                        width: 100%;
-                        padding: 10px;
-                        margin-top: 5px;
-                        box-sizing: border-box;
-                    "
-                >
-
-            </label>
-
-
-            <label>
-
-                ⏰ Horário Final — Hardware
-
-                <input
-                    type="time"
-                    id="fleetHardwareFinal"
-                    style="
-                        width: 100%;
-                        padding: 10px;
-                        margin-top: 5px;
-                        box-sizing: border-box;
-                    "
-                >
-
-            </label>
-
-
-            <!-- MP SOFTWARE -->
-
-            <div style="
-                padding: 12px;
-                background: #f8fafc;
-                border-radius: 8px;
-                border: 1px solid #e2e8f0;
-            ">
-
-                <strong>💻 MP SOFTWARE</strong>
-
-            </div>
-
-
-            <label>
-
-                ⏰ Horário Inicial — Software
-
-                <input
-                    type="time"
-                    id="fleetSoftwareInicial"
-                    style="
-                        width: 100%;
-                        padding: 10px;
-                        margin-top: 5px;
-                        box-sizing: border-box;
-                    "
-                >
-
-            </label>
-
-
-            <label>
-
-                ⏰ Horário Final — Software
-
-                <input
-                    type="time"
-                    id="fleetSoftwareFinal"
-                    style="
-                        width: 100%;
-                        padding: 10px;
-                        margin-top: 5px;
-                        box-sizing: border-box;
-                    "
-                >
-
-            </label>
-
-
-            <!-- OM CONCLUÍDA -->
-
-            <label>
-
-                ⁉️ OM foi concluída?
-
-                <select
-                    id="fleetOMConcluida"
-                    style="
-                        width: 100%;
-                        padding: 10px;
-                        margin-top: 5px;
-                        box-sizing: border-box;
-                    "
-                >
-
-                    <option value="Sim">
-                        Sim
-                    </option>
-
-                    <option value="Não">
-                        Não
-                    </option>
-
-                </select>
-
-            </label>
-
-
-            <!-- PODE DAR BAIXA -->
-
-            <label>
-
-                ⁉️ Pode dar baixa?
-
-                <select
-                    id="fleetPodeDarBaixa"
-                    style="
-                        width: 100%;
-                        padding: 10px;
-                        margin-top: 5px;
-                        box-sizing: border-box;
-                    "
-                >
-
-                    <option value="Sim">
-                        Sim
-                    </option>
-
-                    <option value="Não">
-                        Não
-                    </option>
-
-                </select>
-
-            </label>
-
-
-            <!-- PENDÊNCIAS -->
-
-            <label>
-
-                🚨 Pendências
-
-                <textarea
-                    id="fleetPendencias"
-                    rows="3"
-                    placeholder="Digite as pendências ou deixe em branco se não houver."
-                    style="
-                        width: 100%;
-                        padding: 10px;
-                        margin-top: 5px;
-                        box-sizing: border-box;
-                        resize: vertical;
-                    "
-                ></textarea>
-
-            </label>
-
-
-            <!-- TURNO -->
-
-            <label>
-
-                🛠️ Equipe / Turno
-
-                <select
-                    id="fleetTurno"
-                    style="
-                        width: 100%;
-                        padding: 10px;
-                        margin-top: 5px;
-                        box-sizing: border-box;
-                    "
-                >
-
-                    <option value="C">C</option>
-                    <option value="A">A</option>
-                    <option value="B">B</option>
-                    <option value="D">D</option>
-
-                </select>
-
-            </label>
-
-
-            <!-- EXECUTANTE 1 -->
-
-            <label>
-
-                👨🏻‍🔧 Executante 1
-
-                <select
-                    id="fleetExecutante1"
-                    style="
-                        width: 100%;
-                        padding: 10px;
-                        margin-top: 5px;
-                        box-sizing: border-box;
-                    "
-                >
-
-                    <option value="">-- Nenhum --</option>
-                    <option value="Rafael">Rafael</option>
-                    <option value="João Leno">João Leno</option>
-                    <option value="Lucas">Lucas</option>
-                    <option value="João Araújo">João Araújo</option>
-
-                </select>
-
-            </label>
-
-
-            <!-- EXECUTANTE 2 -->
-
-            <label>
-
-                👨🏻‍🔧 Executante 2
-
-                <select
-                    id="fleetExecutante2"
-                    style="
-                        width: 100%;
-                        padding: 10px;
-                        margin-top: 5px;
-                        box-sizing: border-box;
-                    "
-                >
-
-                    <option value="">-- Nenhum --</option>
-                    <option value="Rafael">Rafael</option>
-                    <option value="João Leno">João Leno</option>
-                    <option value="Lucas">Lucas</option>
-                    <option value="João Araújo">João Araújo</option>
-
-                </select>
-
-            </label>
-
-
-            <!-- EXECUTANTE 3 -->
-
-            <label>
-
-                👨🏻‍🔧 Executante 3
-
-                <select
-                    id="fleetExecutante3"
-                    style="
-                        width: 100%;
-                        padding: 10px;
-                        margin-top: 5px;
-                        box-sizing: border-box;
-                    "
-                >
-
-                    <option value="">-- Nenhum --</option>
-                    <option value="Rafael">Rafael</option>
-                    <option value="João Leno">João Leno</option>
-                    <option value="Lucas">Lucas</option>
-                    <option value="João Araújo">João Araújo</option>
-
-                </select>
-
-            </label>
-
-
-            <!-- EXECUTANTE 4 -->
-
-            <label>
-
-                👨🏻‍🔧 Executante 4
-
-                <select
-                    id="fleetExecutante4"
-                    style="
-                        width: 100%;
-                        padding: 10px;
-                        margin-top: 5px;
-                        box-sizing: border-box;
-                    "
-                >
-
-                    <option value="">-- Nenhum --</option>
-                    <option value="Rafael">Rafael</option>
-                    <option value="João Leno">João Leno</option>
-                    <option value="Lucas">Lucas</option>
-                    <option value="João Araújo">João Araújo</option>
-
-                </select>
-
-            </label>
-
-
-            <!-- BOTÃO -->
-
-            <button
-                type="button"
-                onclick="montarRelatorioFleet()"
-                style="
-                    width: 100%;
-                    margin-top: 20px;
-                    padding: 14px;
-                    border: none;
-                    border-radius: 8px;
-                    background: #16a34a;
-                    color: white;
-                    font-weight: bold;
-                    font-size: 16px;
-                    cursor: pointer;
-                "
-            >
-                📄 Montar relatório
-            </button>
-
-        </div>
-
-    `;
-
-    return;
-}
-                conteudo.innerHTML = `
-
-                    <div
-                        style="
-                            padding: 15px;
-                            background: #fef3c7;
-                            border-radius: 8px;
-                        "
-                    >
-                        ⚠️ Este modelo ainda será
-                        configurado.
-
-                        <br><br>
-
-                        <strong>OM:</strong>
-                        ${om.om || "-"}
-
-                        <br>
-
-                        <strong>Equipamento:</strong>
-                        ${om.equipamento || "-"}
-
-                        <br>
-
-                        <strong>Modelo:</strong>
-                        ${om.modelo_relatorio || "-"}
-                    </div>
-
-                `;
-
-                return;
-            }
-// =====================================
 // FORMULÁRIO MP MINESTAR FLEET
 // =====================================
 
@@ -2770,7 +1601,7 @@ if (
             <div
                 style="
                     padding: 12px;
-                    background: #f1f5f9;
+                    background: #111922; color: #f4f7fb;
                     border-radius: 8px;
                 "
             >
@@ -2796,9 +1627,9 @@ if (
             <div
                 style="
                     padding: 12px;
-                    background: #f8fafc;
+                    background: #0d141b; color: #f4f7fb;
                     border-radius: 8px;
-                    border: 1px solid #e2e8f0;
+                    border: 1px solid #34404d;
                 "
             >
 
@@ -2813,6 +1644,7 @@ if (
                 <input
                     type="time"
                     id="fleetHardwareInicial"
+                    value="${om.horario_inicial || ""}"
                     style="
                         width: 100%;
                         padding: 10px;
@@ -2830,6 +1662,7 @@ if (
                 <input
                     type="time"
                     id="fleetHardwareFinal"
+                    value="${om.horario_final || ""}"
                     style="
                         width: 100%;
                         padding: 10px;
@@ -2846,9 +1679,9 @@ if (
             <div
                 style="
                     padding: 12px;
-                    background: #f8fafc;
+                    background: #0d141b; color: #f4f7fb;
                     border-radius: 8px;
-                    border: 1px solid #e2e8f0;
+                    border: 1px solid #34404d;
                 "
             >
 
@@ -2863,6 +1696,7 @@ if (
                 <input
                     type="time"
                     id="fleetSoftwareInicial"
+                    value="${om.horario_inicial || ""}"
                     style="
                         width: 100%;
                         padding: 10px;
@@ -2880,6 +1714,7 @@ if (
                 <input
                     type="time"
                     id="fleetSoftwareFinal"
+                    value="${om.horario_final || ""}"
                     style="
                         width: 100%;
                         padding: 10px;
@@ -3221,7 +2056,7 @@ if (om.modelo_relatorio === "MP MINESTAR RP & EC") {
             <div
                 style="
                     padding: 12px;
-                    background: #f1f5f9;
+                    background: #111922; color: #f4f7fb;
                     border-radius: 8px;
                 "
             >
@@ -3246,9 +2081,9 @@ if (om.modelo_relatorio === "MP MINESTAR RP & EC") {
             <div
                 style="
                     padding: 12px;
-                    background: #f8fafc;
+                    background: #0d141b; color: #f4f7fb;
                     border-radius: 8px;
-                    border: 1px solid #e2e8f0;
+                    border: 1px solid #34404d;
                 "
             >
 
@@ -3299,9 +2134,9 @@ if (om.modelo_relatorio === "MP MINESTAR RP & EC") {
             <div
                 style="
                     padding: 12px;
-                    background: #f8fafc;
+                    background: #0d141b; color: #f4f7fb;
                     border-radius: 8px;
-                    border: 1px solid #e2e8f0;
+                    border: 1px solid #34404d;
                 "
             >
 
@@ -3625,7 +2460,7 @@ if (om.modelo_relatorio === "MP MINESTAR PZ") {
             <div
                 style="
                     padding: 12px;
-                    background: #f1f5f9;
+                    background: #111922; color: #f4f7fb;
                     border-radius: 8px;
                 "
             >
@@ -3651,9 +2486,9 @@ if (om.modelo_relatorio === "MP MINESTAR PZ") {
             <div
                 style="
                     padding: 12px;
-                    background: #f8fafc;
+                    background: #0d141b; color: #f4f7fb;
                     border-radius: 8px;
-                    border: 1px solid #e2e8f0;
+                    border: 1px solid #34404d;
                 "
             >
 
@@ -3703,9 +2538,9 @@ if (om.modelo_relatorio === "MP MINESTAR PZ") {
 <div
     style="
         padding: 12px;
-        background: #f8fafc;
+        background: #0d141b; color: #f4f7fb;
         border-radius: 8px;
-        border: 1px solid #e2e8f0;
+        border: 1px solid #34404d;
     "
 >
 
@@ -3789,9 +2624,9 @@ if (om.modelo_relatorio === "MP MINESTAR PZ") {
             <div
                 style="
                     padding: 12px;
-                    background: #f8fafc;
+                    background: #0d141b; color: #f4f7fb;
                     border-radius: 8px;
-                    border: 1px solid #e2e8f0;
+                    border: 1px solid #34404d;
                 "
             >
 
@@ -4093,7 +2928,7 @@ if (om.modelo_relatorio === "MP MINESTAR TERRAIN TT") {
             <div
                 style="
                     padding: 12px;
-                    background: #f1f5f9;
+                    background: #111922; color: #f4f7fb;
                     border-radius: 8px;
                 "
             >
@@ -4119,9 +2954,9 @@ if (om.modelo_relatorio === "MP MINESTAR TERRAIN TT") {
             <div
                 style="
                     padding: 12px;
-                    background: #f8fafc;
+                    background: #0d141b; color: #f4f7fb;
                     border-radius: 8px;
-                    border: 1px solid #e2e8f0;
+                    border: 1px solid #34404d;
                 "
             >
 
@@ -4171,9 +3006,9 @@ if (om.modelo_relatorio === "MP MINESTAR TERRAIN TT") {
             <div
                 style="
                     padding: 12px;
-                    background: #f8fafc;
+                    background: #0d141b; color: #f4f7fb;
                     border-radius: 8px;
-                    border: 1px solid #e2e8f0;
+                    border: 1px solid #34404d;
                 "
             >
 
@@ -4222,9 +3057,9 @@ if (om.modelo_relatorio === "MP MINESTAR TERRAIN TT") {
             <div
                 style="
                     padding: 12px;
-                    background: #f8fafc;
+                    background: #0d141b; color: #f4f7fb;
                     border-radius: 8px;
-                    border: 1px solid #e2e8f0;
+                    border: 1px solid #34404d;
                 "
             >
 
@@ -4537,7 +3372,7 @@ conteudo.innerHTML = `
         <div
             style="
                 padding: 12px;
-                background: #f1f5f9;
+                background: #111922; color: #f4f7fb;
                 border-radius: 8px;
             "
         >
@@ -4597,9 +3432,9 @@ conteudo.innerHTML = `
         <div
             style="
                 padding: 12px;
-                background: #f8fafc;
+                background: #0d141b; color: #f4f7fb;
                 border-radius: 8px;
-                border: 1px solid #e2e8f0;
+                border: 1px solid #34404d;
             "
         >
 
@@ -5731,200 +4566,159 @@ function excluirOM(id) {
 // ABRIR EDIÇÃO
 // =====================================
 
+let horariosPreservadosEdicao = {
+    inicial: "",
+    final: ""
+};
+
 function editarOM(id) {
-
     fetch("/om/" + id)
-
         .then(function(response) {
-
-            return response.json()
-
-                .then(function(data) {
-
-                    if (!response.ok) {
-
-                        throw new Error(
-                            data.erro ||
-                            "Erro ao consultar OM."
-                        );
-
-                    }
-
-                    return data;
-
-                });
-
+            return response.json().then(function(data) {
+                if (!response.ok) throw new Error(data.erro || "Erro ao consultar OM.");
+                return data;
+            });
         })
-
         .then(function(om) {
-
-            document.getElementById(
-                "editarOMId"
-            ).value = om.id;
-
-            document.getElementById(
-                "editarOMNumero"
-            ).value = om.om || "";
-
-            document.getElementById(
-                "editarOMEquipamento"
-            ).value = om.equipamento || "";
-
-            document.getElementById(
-                "editarOMDescricao"
-            ).value = om.descricao || "";
-
-            document.getElementById(
-    "editarOMHorarioInicial"
-).value = om.horario_inicial || "";
-
-document.getElementById(
-    "editarOMHorarioFinal"
-).value = om.horario_final || "";
-
-            document.getElementById(
-                "modalEditarOM"
-            ).style.display =
-                "flex";
-
+            document.getElementById("editarOMId").value = om.id;
+            document.getElementById("editarOMNumero").value = om.om || "";
+            document.getElementById("editarOMEquipamento").value = om.equipamento || "";
+            document.getElementById("editarOMDescricao").value = om.descricao || "";
+            horariosPreservadosEdicao = {
+                inicial: om.horario_inicial || "",
+                final: om.horario_final || ""
+            };
+            document.getElementById("modalEditarOM").style.display = "flex";
         })
-
         .catch(function(error) {
-
             console.error(error);
-
-            alert(
-                "❌ " + error.message
-            );
-
+            alert("❌ " + error.message);
         });
-
 }
 
-
 // =====================================
-// SALVAR EDIÇÃO
+// SALVAR EDIÇÃO — SOMENTE OM/EQUIPAMENTO/DESCRIÇÃO
 // =====================================
 
 function salvarEdicaoOM() {
-
-    const id =
-        document.getElementById(
-            "editarOMId"
-        ).value;
-
-    const om =
-        document.getElementById(
-            "editarOMNumero"
-        ).value.trim();
-
-    const equipamento =
-        document.getElementById(
-            "editarOMEquipamento"
-        ).value.trim();
-
-    const descricao =
-        document.getElementById(
-            "editarOMDescricao"
-        ).value.trim();
-
-    const horarioInicial =
-        document.getElementById(
-            "editarOMHorarioInicial"
-        ).value;
-
-    const horarioFinal =
-        document.getElementById(
-            "editarOMHorarioFinal"
-        ).value;
+    const id = document.getElementById("editarOMId").value;
+    const om = document.getElementById("editarOMNumero").value.trim();
+    const equipamento = document.getElementById("editarOMEquipamento").value.trim();
+    const descricao = document.getElementById("editarOMDescricao").value.trim();
 
     if (!om || !equipamento) {
-
-        alert(
-            "⚠️ Informe o número da OM e o equipamento."
-        );
-
+        alert("⚠️ Informe o número da OM e o equipamento.");
         return;
     }
 
-    fetch(
-        "/om/" + id,
-        {
-            method: "PUT",
-
-            headers: {
-                "Content-Type":
-                    "application/json"
-            },
-
-            body: JSON.stringify({
-
-                numero:
-                    om,
-
-                equipamento:
-                    equipamento,
-
-                descricao:
-                    descricao,
-
-                horario_inicial:
-                    horarioInicial,
-
-                horario_final:
-                    horarioFinal
-
-            })
-
-        }
-    )
-
+    fetch("/om/" + id, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            numero: om,
+            equipamento: equipamento,
+            descricao: descricao,
+            horario_inicial: horariosPreservadosEdicao.inicial,
+            horario_final: horariosPreservadosEdicao.final
+        })
+    })
     .then(function(response) {
-
-        return response.json()
-
-            .then(function(data) {
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        data.erro ||
-                        "Erro ao editar OM."
-                    );
-
-                }
-
-                return data;
-
-            });
-
+        return response.json().then(function(data) {
+            if (!response.ok) throw new Error(data.erro || "Erro ao editar OM.");
+            return data;
+        });
     })
-
     .then(function(data) {
-
-        alert(
-            "✅ " + data.mensagem
-        );
-
+        alert("✅ " + data.mensagem);
         fecharEditarOM();
-
         carregarOMs();
-
         carregarPainel();
-
+        carregarHistoricoOMs(true);
     })
-
     .catch(function(error) {
-
         console.error(error);
-
-        alert(
-            "❌ " + error.message
-        );
-
+        alert("❌ " + error.message);
     });
-
 }
+
+// =====================================
+// DEFINIR HORÁRIOS DA OM
+// =====================================
+
+function abrirDefinirHorarios(id) {
+    fetch("/om/" + id)
+        .then(function(response) {
+            return response.json().then(function(data) {
+                if (!response.ok) throw new Error(data.erro || "Erro ao consultar OM.");
+                return data;
+            });
+        })
+        .then(function(om) {
+            document.getElementById("horariosOMId").value = om.id;
+            document.getElementById("horariosOMInicial").value = om.horario_inicial || "";
+            document.getElementById("horariosOMFinal").value = om.horario_final || "";
+            document.getElementById("horariosOMInfo").innerHTML =
+                "📁 <strong style=\"color:#fff\">OM " + (om.om || "-") + "</strong> &nbsp; • &nbsp; 🚜 " + (om.equipamento || "-");
+            document.getElementById("modalHorarios").style.display = "flex";
+        })
+        .catch(function(error) {
+            console.error(error);
+            alert("❌ " + error.message);
+        });
+}
+
+function salvarHorariosOM() {
+    const id = document.getElementById("horariosOMId").value;
+    const horarioInicial = document.getElementById("horariosOMInicial").value;
+    const horarioFinal = document.getElementById("horariosOMFinal").value;
+
+    if (horarioInicial && horarioFinal && horarioFinal < horarioInicial) {
+        alert("⚠️ O horário final não pode ser menor que o horário inicial.");
+        return;
+    }
+
+    fetch("/om/" + id)
+        .then(function(response) {
+            return response.json().then(function(data) {
+                if (!response.ok) throw new Error(data.erro || "Erro ao consultar OM.");
+                return data;
+            });
+        })
+        .then(function(om) {
+            return fetch("/om/" + id, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    numero: om.om || "",
+                    equipamento: om.equipamento || "",
+                    descricao: om.descricao || "",
+                    horario_inicial: horarioInicial,
+                    horario_final: horarioFinal
+                })
+            });
+        })
+        .then(function(response) {
+            return response.json().then(function(data) {
+                if (!response.ok) throw new Error(data.erro || "Erro ao salvar horários.");
+                return data;
+            });
+        })
+        .then(function(data) {
+            alert("✅ Horários salvos com sucesso!");
+            fecharHorariosOM();
+            carregarOMs();
+            carregarHistoricoOMs(true);
+        })
+        .catch(function(error) {
+            console.error(error);
+            alert("❌ " + error.message);
+        });
+}
+
+function fecharHorariosOM() {
+    document.getElementById("modalHorarios").style.display = "none";
+}
+
 // =====================================
 // FECHAR EDIÇÃO
 // =====================================
@@ -9721,13 +8515,13 @@ function salvarHistoricoLocal(){
     try{ localStorage.setItem(HISTORICO_KEY,JSON.stringify(historicoOMs)); }catch(e){ console.warn("Não foi possível salvar o histórico local.",e); }
 }
 function carregarHistoricoLocal(){
-    try{ const salvo=JSON.parse(localStorage.getItem(HISTORICO_KEY)||"[]"); historicoOMs=Array.isArray(salvo)?salvo:[]; }catch(e){ historicoOMs=[]; }
+    try{ const salvo=JSON.parse(localStorage.getItem(HISTORICO_KEY)||"[]"); historicoOMs=(Array.isArray(salvo)?salvo:[]).filter(function(om){ return String(om&&om.om||"").trim()!=="12345"; }); }catch(e){ historicoOMs=[]; }
     limparHistoricoAntigo();
 }
 function mesclarHistorico(oms){
     const mapa=new Map();
     historicoOMs.forEach(function(om){ if(om&&om.id!=null) mapa.set(String(om.id),om); });
-    (Array.isArray(oms)?oms:[]).forEach(function(om){ if(om&&om.id!=null) mapa.set(String(om.id),om); });
+    (Array.isArray(oms)?oms:[]).forEach(function(om){ if(om&&String(om.om||"").trim()==="12345") return; if(om&&om.id!=null) mapa.set(String(om.id),om); });
     historicoOMs=Array.from(mapa.values()).sort(function(a,b){ return dataHistoricoValida(b)-dataHistoricoValida(a); });
     salvarHistoricoLocal();
 }
