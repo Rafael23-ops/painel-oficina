@@ -11,11 +11,11 @@
 html{scroll-behavior:smooth} body{background:var(--bg);color:var(--text);min-height:100vh}
 button,input,select,textarea{font:inherit} button{cursor:pointer}
 .app{display:flex;min-height:100vh}.sidebar{width:215px;flex:0 0 215px;background:#080d12;border-right:1px solid #202731;position:fixed;inset:0 auto 0 0;z-index:100;display:flex;flex-direction:column}
-.brand{height:86px;border-bottom:1px solid #222a33;display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;align-items:center;column-gap:8px;row-gap:5px;padding:9px 16px}.brand-sotreq{grid-column:1;grid-row:1;background:#f8c51c;color:#111;padding:7px 11px;font-size:18px;font-weight:900;line-height:1}.brand-cat{grid-column:2;grid-row:1;position:static;color:#fff;font-weight:900;font-size:16px;line-height:1}.brand-name{grid-column:1 / -1;grid-row:2;font-size:15px;font-weight:700;line-height:1.05;text-align:left}.brand-sub{grid-column:1 / -1;grid-row:2;font-size:9px;color:#8793a0;margin-top:17px;text-align:left}
+.brand{height:86px;border-bottom:1px solid #222a33;display:grid;grid-template-columns:auto auto 1fr;grid-template-rows:auto auto;align-items:center;column-gap:7px;row-gap:2px;padding:9px 12px}.brand-sotreq{grid-column:1;grid-row:1 / 3;background:#f8c51c;color:#111;padding:8px 10px;font-size:18px;font-weight:900;line-height:1}.brand-cat{grid-column:2;grid-row:1 / 3;position:static;color:#fff;font-weight:900;font-size:16px;line-height:1}.brand-name{grid-column:3;grid-row:1;font-size:15px;font-weight:700;line-height:1.05;text-align:left;white-space:nowrap}.brand-sub{grid-column:3;grid-row:2;font-size:9px;color:#8793a0;margin-top:0;text-align:left;white-space:nowrap}
 .nav{padding:18px 10px;display:flex;flex-direction:column;gap:5px}.nav button{width:100%;border:0;background:transparent;color:#cbd3dc;text-align:left;padding:12px 13px;border-radius:8px;display:flex;align-items:center;gap:12px;font-size:13px}.nav button:hover,.nav button.active{background:linear-gradient(90deg,#f02027,#c70d16);color:#fff}.nav .ico{width:20px;text-align:center;font-size:17px}.side-bottom{margin-top:auto;padding:14px}.side-note{border:1px solid #28333f;border-left:3px solid var(--red);border-radius:8px;padding:14px;color:#dbe2ea;font-size:12px;line-height:1.5;background:#0c1218}
 .main{margin-left:215px;min-width:0;width:calc(100% - 215px)}.topbar{height:72px;background:#090e14;border-bottom:1px solid #202731;display:flex;align-items:center;justify-content:flex-end;padding:0 28px;gap:24px}.server{font-size:11px;color:#9ba6b3}.server b{color:#23c77e}.user{display:flex;align-items:center;gap:10px;font-size:12px}.avatar{width:32px;height:32px;border-radius:50%;background:#293441;display:grid;place-items:center}.content{padding:20px 18px 28px;max-width:1450px;margin:auto}.hero{position:relative;overflow:hidden;border:1px solid #26313d;background:linear-gradient(100deg,#101720,#0d131a);border-radius:8px;padding:22px 24px;margin-bottom:16px;box-shadow:var(--shadow)}.hero:before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--red)}.hero h1{font-size:22px;margin-bottom:7px}.hero p{color:#9ca8b5;font-size:13px}.hero-mark{position:absolute;right:25px;top:18px;text-align:right;color:#f7c51c;font-weight:900;font-size:18px}.hero-mark small{display:block;color:#aeb7c1;font-size:9px;letter-spacing:.5px}
 .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}.metric{background:linear-gradient(145deg,#101820,#0c1218);border:1px solid #26313c;border-radius:8px;padding:16px;min-height:108px;box-shadow:var(--shadow)}.metric-top{display:flex;align-items:center;gap:12px}.metric-icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:20px}.metric.blue .metric-icon{background:#0d55a8}.metric.yellow .metric-icon{background:#6f5711}.metric.green .metric-icon{background:#0a7047}.metric.red .metric-icon{background:#7c1218}.metric-label{font-size:12px;color:#aeb7c1}.metric-number{font-size:28px;font-weight:700;margin-top:3px}.metric-foot{font-size:10px;margin-top:8px}.metric.blue .metric-foot{color:#3e9cff}.metric.yellow .metric-foot{color:#e7bb2f}.metric.green .metric-foot{color:#24c77d}.metric.red .metric-foot{color:#ff4b52}
-.panel{background:linear-gradient(145deg,#0e151c,#0b1117);border:1px solid #242f3a;border-radius:8px;box-shadow:var(--shadow);overflow:hidden}.panel-head{padding:14px 16px;border-bottom:1px solid #222c36;display:flex;align-items:center;justify-content:space-between;gap:12px}.panel-title{font-size:16px;font-weight:700}.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.search,.select-dark{background:#111922;color:#d9e0e8;border:1px solid #34404d;border-radius:6px;padding:9px 11px;font-size:11px;outline:none}.search{min-width:240px}.select-dark{min-width:130px}.search:focus,.select-dark:focus{border-color:#64748b}.table-wrap{overflow:auto}.om-table{width:100%;border-collapse:collapse;min-width:1050px}.om-table th{background:#151e28;color:#9eabb8;text-align:left;font-size:10px;padding:11px 12px;white-space:nowrap}.om-table td{border-top:1px solid #1e2832;padding:11px 12px;color:#d6dde5;font-size:11px;vertical-align:middle}.om-table tr:hover td{background:#111a23}.om-table td:first-child{color:#fff;font-weight:700}.status-pill{display:inline-block;border-radius:20px;padding:5px 10px;font-size:10px;font-weight:700;white-space:nowrap}.status-green{background:#0b9f5c;color:#07150f}.status-blue{background:#2583f7;color:#06152b}.status-yellow{background:#f2bd28;color:#1c1703}.actions{display:flex;gap:5px;flex-wrap:wrap;align-items:center;justify-content:center}.actions button{border:1px solid #33404d!important;background:#151e28!important;color:#f1f5f9!important;border-radius:7px!important;padding:7px 9px!important;margin:0!important;font-size:12px!important;min-width:34px;box-shadow:0 2px 5px rgba(0,0,0,.18)}.actions button:hover{background:#263444!important;transform:translateY(-1px)}.actions .action-yellow{border-color:#8a6b12!important;background:#2b2410!important}.actions .action-blue{border-color:#1d64b8!important;background:#10253d!important}.actions .action-green{border-color:#168653!important;background:#0d2b20!important}.actions .action-red{border-color:#8b252b!important;background:#321216!important}.actions .action-edit{border-color:#315d93!important;background:#132238!important}.actions .action-neutral{border-color:#45515e!important;background:#1a232d!important}.actions .action-clock{border-color:#8a6b12!important;background:#2b2410!important;color:#f2bd28!important}.actions button span{font-size:11px}.report-box>label{display:block;font-size:11px;color:#b8c2cd;margin-bottom:8px}.report-box>label .historico-note{float:right;font-size:9px;color:#718091;margin-left:8px}.report-select-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;padding:0 1px}.report-select-header-title{font-size:15px;font-weight:800;color:#fff;line-height:1.1}.report-select-header .btn{padding:8px 12px;font-size:10px;white-space:nowrap;min-width:112px}.report-select-list{display:grid;gap:7px;max-height:300px;overflow:auto;padding-right:2px}.report-select-item{display:grid;grid-template-columns:18px 1fr;align-items:start;gap:9px;padding:11px 12px;border:1px solid #303b47;border-radius:7px;background:#111922;color:#e9edf2;cursor:pointer;transition:.15s}.report-select-item:hover{border-color:#657487;background:#151f29}.report-select-item input{width:16px;height:16px;margin:2px 0 0;accent-color:#fff}.report-select-item .report-om-info{min-width:0;line-height:1.35}.report-select-item strong{color:#fff;font-size:11px}.report-select-item .muted{font-size:10px;line-height:1.45}.turno-report{background:#05080c!important;color:#fff!important;border:1px solid #38434f!important}.turno-report-preview{display:none!important}.historico-note{font-size:10px;color:#7f8b98;margin-left:auto}
+.panel{background:linear-gradient(145deg,#0e151c,#0b1117);border:1px solid #242f3a;border-radius:8px;box-shadow:var(--shadow);overflow:hidden}.panel-head{padding:14px 16px;border-bottom:1px solid #222c36;display:flex;align-items:center;justify-content:space-between;gap:12px}.panel-title{font-size:16px;font-weight:700}.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.search,.select-dark{background:#111922;color:#d9e0e8;border:1px solid #34404d;border-radius:6px;padding:9px 11px;font-size:11px;outline:none}.search{min-width:240px}.select-dark{min-width:130px}.search:focus,.select-dark:focus{border-color:#64748b}.table-wrap{overflow:auto}.om-table{width:100%;border-collapse:collapse;min-width:1050px}.om-table th{background:#151e28;color:#9eabb8;text-align:left;font-size:10px;padding:11px 12px;white-space:nowrap}.om-table td{border-top:1px solid #1e2832;padding:11px 12px;color:#d6dde5;font-size:11px;vertical-align:middle}.om-table tr:hover td{background:#111a23}.om-table td:first-child{color:#fff;font-weight:700}.status-pill{display:inline-block;border-radius:20px;padding:5px 10px;font-size:10px;font-weight:700;white-space:nowrap}.status-green{background:#0b9f5c;color:#07150f}.status-blue{background:#2583f7;color:#06152b}.status-yellow{background:#f2bd28;color:#1c1703}.actions{display:flex;gap:5px;flex-wrap:wrap;align-items:center;justify-content:center}.actions button{border:1px solid #33404d!important;background:#151e28!important;color:#f1f5f9!important;border-radius:7px!important;padding:7px 9px!important;margin:0!important;font-size:12px!important;min-width:34px;box-shadow:0 2px 5px rgba(0,0,0,.18)}.actions button:hover{background:#263444!important;transform:translateY(-1px)}.actions .action-yellow{border-color:#8a6b12!important;background:#2b2410!important}.actions .action-blue{border-color:#1d64b8!important;background:#10253d!important}.actions .action-green{border-color:#168653!important;background:#0d2b20!important}.actions .action-red{border-color:#8b252b!important;background:#321216!important}.actions .action-edit{border-color:#315d93!important;background:#132238!important}.actions .action-neutral{border-color:#45515e!important;background:#1a232d!important}.actions .action-clock{border-color:#8a6b12!important;background:#2b2410!important;color:#f2bd28!important}.actions button span{font-size:11px}.report-select-heading{font-size:13px;font-weight:800;color:#fff;line-height:1.25}.btn-select-all{width:100%;margin-top:2px;padding:10px 12px;border:1px solid #465465;border-radius:7px;background:#151f29;color:#fff;font-size:11px;font-weight:800}.btn-select-all:hover{background:#202d3c;border-color:#718096}.report-select-list{display:grid;gap:7px;max-height:300px;overflow:auto}.report-select-item{display:flex;align-items:flex-start;gap:10px;padding:11px 12px;border:1px solid #303b47;border-radius:7px;background:#111922;color:#e9edf2;cursor:pointer}.report-select-item:hover{border-color:#657487;background:#151f29}.report-select-item input{margin-top:3px;accent-color:#fff}.report-select-item strong{color:#fff}.turno-report{background:#05080c!important;color:#fff!important;border:1px solid #38434f!important}.report-specific-content,.report-specific-content *{box-sizing:border-box}.report-specific-content>div{background:#111922!important;color:#f4f7fb!important}.report-specific-content input,.report-specific-content select,.report-specific-content textarea{background:#0d141b!important;color:#f4f7fb!important;border:1px solid #34404d!important}.historico-note{font-size:10px;color:#7f8b98;margin-left:auto}
 .grid-bottom{display:grid;grid-template-columns:1.05fr .95fr 1.15fr;gap:14px;margin-top:16px}.mini{padding:15px}.mini-list{max-height:280px;overflow:auto}.recent-item,.pending-item{padding:11px 0;border-bottom:1px solid #202a34;font-size:11px}.recent-item:last-child,.pending-item:last-child{border-bottom:0}.recent-line{display:flex;justify-content:space-between;gap:10px}.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:7px}.dot.green{background:#16c784}.dot.blue{background:#2583f7}.dot.yellow{background:#f2bd28}.muted{color:#7f8b98}.report-box{display:flex;flex-direction:column;gap:10px}.report-box label{font-size:10px;color:#9ca8b5}.report-box select,.report-box button{width:100%;padding:10px;border-radius:6px;border:1px solid #34404d;background:#111922;color:#e6ebf0}.btn-red{background:#e3131b!important;border-color:#e3131b!important;color:#fff!important;font-weight:700}.btn-dark{background:#141d26!important}.summary-row{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}.summary-chip{border:1px solid #26313c;border-radius:6px;padding:9px;text-align:center}.summary-chip b{display:block;font-size:16px}.summary-chip small{font-size:9px;color:#85919f}.pending-item b{color:#f0f3f7}.pending-item span{display:block;color:#7f8b98;margin-top:4px}
 .section{margin-top:16px}.section .panel{padding:0}.section-body{padding:16px}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:10px;color:#9da9b6}.field input,.field select,.field textarea{background:#111922;border:1px solid #34404d;color:#e6ebf0;border-radius:6px;padding:10px;outline:none}.field textarea{min-height:120px;resize:vertical}.button-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.btn{border:0;border-radius:6px;padding:10px 14px;font-size:11px;font-weight:700}.btn-primary{background:#e3131b;color:#fff}.btn-blue{background:#2583f7;color:#fff}.btn-yellow{background:#b98505;color:#fff}.btn-green{background:#16a05f;color:#fff}.btn-gray{background:#202b36;color:#dbe2e9}.danger-zone{border:1px solid #6c1b20;background:#1b0d10;padding:12px;border-radius:7px;display:flex;align-items:center;justify-content:space-between;gap:10px}.danger-zone span{font-size:11px;color:#e6aeb2}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:1000;align-items:center;justify-content:center;padding:20px}.modal-card{width:min(680px,96vw);max-height:92vh;overflow:auto;background:#101820;border:1px solid #34404d;border-radius:10px;box-shadow:0 20px 70px #000;padding:20px}.modal-card h2{font-size:17px;margin-bottom:15px}.modal-card input,.modal-card select,.modal-card textarea{width:100%;background:#0d141b;color:#fff;border:1px solid #34404d;color:#fff;border-radius:6px;padding:10px;margin:6px 0 12px}.modal-actions{display:flex;gap:8px}.modal-actions button{flex:1;border:0;border-radius:6px;padding:10px;font-weight:700}.compat{display:none!important}
@@ -61,7 +61,7 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
 
 <div class="grid-bottom">
  <section class="panel mini"><div class="panel-head"><div class="panel-title">◷ Últimas OMs Atualizadas</div></div><div class="mini-list" id="ultimasOMs"><div class="muted" style="padding:15px">Carregando...</div></div></section>
- <section class="panel mini" id="relatorios"><div class="panel-head"><div class="panel-title">▤ Gerar Relatório</div></div><div class="report-box"><label>Selecione as OMs concluídas do dia <span class="historico-note">Atualização automática</span></label><div id="listaOMsRelatorio">Carregando OMs concluídas...</div><button class="btn-red" type="button" onclick="gerarRelatorioTurno()">▣ Gerar Relatório de Turno</button><div id="resultadoRelatorioTurno"></div></div></section>
+ <section class="panel mini" id="relatorios"><div class="panel-head"><div class="panel-title">▤ Gerar Relatório</div></div><div class="report-box"><div class="report-select-heading">OMs concluídas de hoje</div><div class="historico-note" style="margin:0">Atualização automática</div><button type="button" class="btn-select-all" onclick="selecionarTodasOMsRelatorio()">☑ Selecionar todas as OMs</button><div id="listaOMsRelatorio">Carregando OMs concluídas...</div><button class="btn-red" type="button" onclick="gerarRelatorioTurno()">▣ Gerar Relatório de Turno</button><div id="resultadoRelatorioTurno"></div></div></section>
  <section class="panel mini" id="fimTurno"><div class="panel-head"><div class="panel-title">▣ Relatório de Fim de Turno</div><button class="btn btn-gray" type="button" onclick="gerarRelatorioTurno()">Ver relatório</button></div><div id="resumoFimTurno" class="mini-list"><div class="pending-item">Carregando resumo...</div></div></section>
 </div>
 
@@ -696,16 +696,17 @@ function carregarOMsRelatorio(silencioso) {
         .then(function(oms) {
             const hoje = new Date().toLocaleDateString("pt-BR");
             const concluidas = (Array.isArray(oms) ? oms : []).filter(function(om) {
-                return String(om.status || "").trim().toLowerCase() === "concluída" && normalizarDataTexto(om.data) === hoje;
+                return String(om.status || "").trim().toLowerCase() === "concluída"
+                    && normalizarDataTexto(om.data) === hoje;
             });
 
             if (!concluidas.length) {
-                lista.innerHTML = '<div class="muted" style="padding:12px">📭 Nenhuma OM concluída hoje.</div>';
+                lista.innerHTML = '<div class="muted" style="padding:12px 0">📭 Nenhuma OM concluída hoje.</div>';
                 return;
             }
 
-            lista.innerHTML = '<div class="report-select-header"><div class="report-select-header-title">OMs concluídas de hoje</div><button type="button" class="btn btn-gray" onclick="selecionarTodasOMsRelatorio()">☑ Selecionar todas</button></div><div class="report-select-list">' + concluidas.map(function(om){
-                return `<label class="report-select-item"><input type="checkbox" class="omRelatorio" value="${om.id}" checked><div class="report-om-info"><strong>📁 OM ${om.om || "-"}</strong><div class="muted">🚜 ${om.equipamento || "-"}</div><div class="muted">📄 ${om.modelo_relatorio || om.descricao || "-"}</div><div class="muted">⏰ ${om.horario_inicial || "--:--"} → ${om.horario_final || "--:--"}</div></div></label>`;
+            lista.innerHTML = '<div class="report-select-list">' + concluidas.map(function(om) {
+                return `<label class="report-select-item"><input type="checkbox" class="omRelatorio" value="${om.id}" checked><div><strong>📁 OM ${om.om || "-"}</strong><br>🚜 ${om.equipamento || "-"}<br>📄 ${om.modelo_relatorio || om.descricao || "-"}</div></label>`;
             }).join("") + '</div>';
         })
         .catch(function(error) {
@@ -730,45 +731,37 @@ function gerarRelatorioTurno() {
             return response.json();
         })
         .then(function(oms) {
-            const listaOMs = Array.isArray(oms) ? oms : [];
-            const checks = Array.from(document.querySelectorAll(".omRelatorio:checked"));
-            const ids = checks.map(function(c) { return Number(c.value); });
+            const lista = Array.isArray(oms) ? oms : [];
             const hoje = new Date().toLocaleDateString("pt-BR");
+            const checks = Array.from(document.querySelectorAll(".omRelatorio:checked"));
+            const ids = checks.map(function(c){ return Number(c.value); });
 
-            let selecionadas;
+            // O relatório de turno aceita SOMENTE OMs concluídas de hoje.
+            const concluidasHoje = lista.filter(function(om) {
+                return String(om.status || "").trim().toLowerCase() === "concluída"
+                    && normalizarDataTexto(om.data) === hoje;
+            });
 
-            if (checks.length) {
-                selecionadas = listaOMs.filter(function(om) {
-                    return ids.includes(Number(om.id)) &&
-                           String(om.status || "").trim().toLowerCase() === "concluída" &&
-                           normalizarDataTexto(om.data) === hoje;
-                });
-            } else {
-                selecionadas = listaOMs.filter(function(om) {
-                    return String(om.status || "").trim().toLowerCase() === "concluída" &&
-                           normalizarDataTexto(om.data) === hoje;
-                });
-            }
+            const selecionadas = checks.length
+                ? concluidasHoje.filter(function(om){ return ids.includes(Number(om.id)); })
+                : concluidasHoje;
 
             let relatorio = "📈 Relatório Turno C SOTREQ\n\n";
             relatorio += "🗓️ " + hoje + "\n\n";
 
             if (!selecionadas.length) {
-                relatorio += "📁 N° OM: \n";
-                relatorio += "Descrição resumida: \n";
-                relatorio += "⏰ Horário inicial: \n";
-                relatorio += "⏰ Horário final: \n";
-                relatorio += "🚜 Equipamento: \n";
-                relatorio += "🚨Pendências: \n\n";
+                relatorio += "📁 N° OM: \nDescrição resumida: \n⏰ Horário inicial: \n⏰ Horário final: \n🚜 Equipamento: \n🚨Pendências: \n\n";
             } else {
                 selecionadas.forEach(function(om, indice) {
+                    if (indice > 0) relatorio += "\n";
                     relatorio += "📁 N° OM: " + (om.om || "") + "\n";
-                    relatorio += "Descrição resumida: " + (om.descricao || om.modelo_relatorio || "") + "\n";
+                    relatorio += "Descrição resumida: " + (om.descricao || "") + "\n";
                     relatorio += "⏰ Horário inicial: " + (om.horario_inicial || "") + "\n";
                     relatorio += "⏰ Horário final: " + (om.horario_final || "") + "\n";
                     relatorio += "🚜 Equipamento: " + (om.equipamento || "") + "\n";
-                    relatorio += "🚨Pendências: " + (om.motivo_pendencia || "") + "\n\n";
+                    relatorio += "🚨Pendências: " + (om.motivo_pendencia || "") + "\n";
                 });
+                relatorio += "\n";
             }
 
             relatorio += "📢 Acionamentos e Resoluções Remoto. 📢\n\n";
@@ -787,13 +780,8 @@ function gerarRelatorioTurno() {
             const resultado = document.getElementById("resultadoRelatorioTurno");
             if (!resultado) return;
 
-            // UM ÚNICO relatório: sem prévia branca e sem segundo relatório duplicado.
-            resultado.innerHTML = `
-                <div style="background:#05080c;border:1px solid #38434f;border-radius:8px;padding:14px;margin-top:10px">
-                    <textarea id="textoRelatorioTurno" class="turno-report" rows="30" readonly style="width:100%;padding:15px;border-radius:8px;resize:vertical;font-family:monospace;font-size:14px;line-height:1.5;box-sizing:border-box;background:#05080c!important;color:#fff!important;border:1px solid #38434f!important;outline:none"></textarea>
-                    <button type="button" class="btn btn-red" style="width:100%;margin-top:10px" onclick="copiarRelatorioTurno()">📋 Copiar Relatório</button>
-                </div>`;
-
+            // Um único relatório visível: sem a segunda aba/caixa branca.
+            resultado.innerHTML = '<textarea id="textoRelatorioTurno" class="turno-report" rows="30" style="width:100%;margin-top:10px;padding:15px;border-radius:8px;resize:vertical;font-family:monospace;font-size:14px;box-sizing:border-box"></textarea><button type="button" class="btn btn-red" style="width:100%;margin-top:10px" onclick="copiarRelatorioTurno()">📋 Copiar Relatório</button>';
             document.getElementById("textoRelatorioTurno").value = relatorio;
         })
         .catch(function(error) {
@@ -801,6 +789,7 @@ function gerarRelatorioTurno() {
             alert("❌ Erro ao gerar o relatório.");
         });
 }
+
 
 // =====================================
 // COPIAR RELATÓRIO DE TURNO
@@ -1580,6 +1569,8 @@ function gerarRelatorio(id) {
             "conteudoGerarRelatorio"
         );
 
+    modal.classList.add("report-specific-modal");
+    conteudo.classList.add("report-specific-content");
     modal.style.display = "flex";
 
     conteudo.innerHTML =
@@ -4615,10 +4606,6 @@ function editarOM(id) {
             document.getElementById("editarOMNumero").value = om.om || "";
             document.getElementById("editarOMEquipamento").value = om.equipamento || "";
             document.getElementById("editarOMDescricao").value = om.descricao || "";
-            horariosPreservadosEdicao = {
-                inicial: om.horario_inicial || "",
-                final: om.horario_final || ""
-            };
             document.getElementById("modalEditarOM").style.display = "flex";
         })
         .catch(function(error) {
@@ -4648,9 +4635,7 @@ function salvarEdicaoOM() {
         body: JSON.stringify({
             numero: om,
             equipamento: equipamento,
-            descricao: descricao,
-            horario_inicial: horariosPreservadosEdicao.inicial,
-            horario_final: horariosPreservadosEdicao.final
+            descricao: descricao
         })
     })
     .then(function(response) {
@@ -4890,11 +4875,8 @@ function fecharDetalhesOM() {
 // =====================================
 
 function fecharGerarRelatorio() {
-
-    document.getElementById(
-        "modalGerarRelatorio"
-    ).style.display = "none";
-
+    const modal = document.getElementById("modalGerarRelatorio");
+    if (modal) modal.style.display = "none";
 }
 // =====================================
 // FECHAR RESPONSÁVEL
@@ -7437,1154 +7419,249 @@ async function cadastrarAtividadesDoDia() {
     }
 }
 // =====================================
+// CADASTRAR OMs ENCONTRADAS NO CRUZAMENTO
+// =====================================
+
+function mostrarBotaoCadastroPendencias() {
+    const resultado = document.getElementById("resultadoPendencias");
+    if (!resultado) return;
+
+    const antigo = document.getElementById("botaoCadastroPendencias");
+    if (antigo) antigo.remove();
+
+    const candidatas = (window.pendenciasImportadas || []).filter(function(item) {
+        return item.situacao === "CADASTRAR";
+    });
+    if (!candidatas.length) return;
+
+    const botao = document.createElement("button");
+    botao.id = "botaoCadastroPendencias";
+    botao.type = "button";
+    botao.style.cssText = "margin-top:15px;width:100%;padding:14px;border:none;border-radius:8px;background:#16a34a;color:#fff;font-size:15px;font-weight:800;cursor:pointer";
+    botao.textContent = "✅ Cadastrar " + candidatas.length + " OMs na oficina";
+    botao.onclick = cadastrarPendenciasEncontradas;
+    resultado.appendChild(botao);
+}
+
+async function cadastrarPendenciasEncontradas() {
+    const candidatas = (window.pendenciasImportadas || []).filter(function(item) {
+        return item.situacao === "CADASTRAR";
+    });
+
+    if (!candidatas.length) {
+        alert("⚠️ Não existem OMs para cadastrar.");
+        return;
+    }
+
+    if (!confirm("Deseja cadastrar " + candidatas.length + " OMs encontradas na oficina?")) return;
+
+    const botao = document.getElementById("botaoCadastroPendencias");
+    if (botao) { botao.disabled = true; botao.textContent = "⏳ Cadastrando OMs..."; }
+
+    try {
+        const resposta = await fetch("/om/importar-pendencias", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                lista: candidatas.map(function(atividade) {
+                    return {
+                        ...atividade,
+                        modelo_relatorio: identificarModeloRelatorio(atividade.equipamento, atividade.descricao)
+                    };
+                })
+            })
+        });
+
+        const dados = await resposta.json();
+        if (!resposta.ok) throw new Error(dados.erro || "Erro ao importar OMs.");
+
+        alert("✅ Importação concluída!\n\n" +
+            "🟢 Novas OMs cadastradas: " + ((dados.cadastradas || []).length) + "\n" +
+            "🔵 OMs que já existiam: " + ((dados.existentes || []).length) + "\n" +
+            "⚠️ Erros: " + ((dados.erros || []).length));
+
+        if (botao) { botao.disabled = true; botao.textContent = "✅ Importação concluída"; botao.style.background = "#64748b"; }
+        carregarOMs();
+        carregarPainel();
+    } catch (erro) {
+        console.error("Erro na importação:", erro);
+        alert("❌ Não foi possível cadastrar as OMs.\n\n" + erro.message);
+        if (botao) { botao.disabled = false; botao.textContent = "✅ Cadastrar " + candidatas.length + " OMs na oficina"; }
+    }
+}
+
+// =====================================
 // CRUZAR PENDÊNCIAS COM EQUIPAMENTOS
 // =====================================
 
 window.cruzarPendencias = function () {
-
-    const campoPendencias =
-        document.getElementById("textoPendencias");
-
-    const campoEquipamentos =
-        document.getElementById("textoEquipamentosOficina");
-
-    const resultado =
-        document.getElementById("resultadoPendencias");
+    const campoPendencias = document.getElementById("textoPendencias");
+    const campoEquipamentos = document.getElementById("textoEquipamentosOficina");
+    const resultado = document.getElementById("resultadoPendencias");
 
     if (!campoPendencias || !campoEquipamentos || !resultado) {
         alert("❌ Campos do cruzamento não encontrados.");
         return;
     }
 
-    const textoPendencias =
-        campoPendencias.value.trim();
-
-    const textoEquipamentos =
-        campoEquipamentos.value.trim();
+    const textoPendencias = campoPendencias.value.trim();
+    const textoEquipamentos = campoEquipamentos.value.trim();
 
     if (!textoPendencias) {
         alert("⚠️ Cole primeiro as pendências do turno anterior.");
         return;
     }
-
     if (!textoEquipamentos) {
         alert("⚠️ Informe primeiro os equipamentos que estão na oficina.");
         return;
     }
-// =====================================
-// BOTÃO PARA CADASTRAR OMs ENCONTRADAS
-// =====================================
 
-function mostrarBotaoCadastroPendencias() {
-
-    const resultado =
-        document.getElementById("resultadoPendencias");
-
-    if (!resultado) return;
-
-    const existentes =
-        document.getElementById(
-            "botaoCadastroPendencias"
-        );
-
-    if (existentes) {
-        existentes.remove();
-    }
-
-    const candidatas =
-        (window.pendenciasImportadas || [])
-            .filter(
-                item =>
-                    item.situacao === "CADASTRAR"
-            );
-
-    if (candidatas.length === 0) {
-        return;
-    }
-
-    const botao =
-        document.createElement("button");
-
-    botao.id =
-        "botaoCadastroPendencias";
-
-    botao.type =
-        "button";
-
-    botao.style.cssText = `
-        margin-top: 15px;
-        width: 100%;
-        padding: 14px;
-        border: none;
-        border-radius: 8px;
-        background: #16a34a;
-        color: white;
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-    `;
-
-    botao.innerHTML =
-        "✅ Cadastrar " +
-        candidatas.length +
-        " OMs na oficina";
-
-    botao.onclick =
-        cadastrarPendenciasEncontradas;
-
-    resultado.appendChild(botao);
-}
-
-
-// =====================================
-// CADASTRAR SOMENTE AS OMs 🟢
-// =====================================
-
-async function cadastrarPendenciasEncontradas() {
-
-    const candidatas =
-        (window.pendenciasImportadas || [])
-            .filter(
-                item =>
-                    item.situacao === "CADASTRAR"
-            );
-
-    if (candidatas.length === 0) {
-
-        alert(
-            "⚠️ Não existem OMs para cadastrar."
-        );
-
-        return;
-    }
-
-    const confirmar =
-        confirm(
-            "Deseja cadastrar " +
-            candidatas.length +
-            " OMs encontradas na oficina?"
-        );
-
-    if (!confirmar) {
-        return;
-    }
-
-    const botao =
-        document.getElementById(
-            "botaoCadastroPendencias"
-        );
-
-    if (botao) {
-
-        botao.disabled = true;
-
-        botao.innerHTML =
-            "⏳ Cadastrando OMs...";
-
-    }
-
-    try {
-
-        const resposta =
-            await fetch(
-                "/om/importar-pendencias",
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body: JSON.stringify({
-    lista: candidatas.map(function(atividade) {
-
-        return {
-            ...atividade,
-
-            modelo_relatorio:
-                identificarModeloRelatorio(
-                    atividade.equipamento,
-                    atividade.descricao
-                )
-        };
-
-    })
-})
-                }
-            );
-
-        const dados =
-            await resposta.json();
-
-        if (!resposta.ok) {
-
-            throw new Error(
-                dados.erro ||
-                "Erro ao importar OMs."
-            );
-
-        }
-
-        // =================================
-        // RESULTADO
-        // =================================
-
-        const quantidadeCadastrada =
-            dados.cadastradas
-                ? dados.cadastradas.length
-                : 0;
-
-        const quantidadeExistente =
-            dados.existentes
-                ? dados.existentes.length
-                : 0;
-
-        const quantidadeErros =
-            dados.erros
-                ? dados.erros.length
-                : 0;
-
-        let mensagem =
-            "✅ Importação concluída!\n\n";
-
-        mensagem +=
-            "🟢 Novas OMs cadastradas: " +
-            quantidadeCadastrada +
-            "\n";
-
-        mensagem +=
-            "🔵 OMs que já existiam: " +
-            quantidadeExistente +
-            "\n";
-
-        mensagem +=
-            "⚠️ Erros: " +
-            quantidadeErros;
-
-        alert(mensagem);
-
-        // =================================
-        // ATUALIZAR BOTÃO
-        // =================================
-
-        if (botao) {
-
-            botao.disabled = true;
-
-            botao.innerHTML =
-                "✅ Importação concluída";
-
-            botao.style.background =
-                "#64748b";
-
-        }
-
-        console.log(
-            "📥 Resultado da importação:",
-            dados
-        );
-
-    } catch (erro) {
-
-        console.error(
-            "Erro na importação:",
-            erro
-        );
-
-        alert(
-            "❌ Não foi possível cadastrar as OMs.\n\n" +
-            erro.message
-        );
-
-        if (botao) {
-
-            botao.disabled = false;
-
-            botao.innerHTML =
-                "✅ Cadastrar " +
-                candidatas.length +
-                " OMs na oficina";
-
-        }
-
-    }
-
-}
-    // =====================================
-    // NORMALIZAR TEXTO
-    // =====================================
-
-    function normalizar(texto) {
-
-        return texto
+    function normalizarTextoCruza(texto) {
+        return String(texto || "")
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "")
             .replace(/\s+/g, " ")
             .trim()
             .toUpperCase();
-
     }
 
-    // =====================================
-// IDENTIFICAR E NORMALIZAR EQUIPAMENTO
-// =====================================
-
-function identificarCodigoEquipamento(linha) {
-
-    const texto = normalizar(linha);
-
-    /*
-     * REGRA:
-     *
-     * RP1013KS51  -> RP51
-     * PZ1011KS51  -> PZ51
-     * PC1012KS73  -> PC73
-     * CA1014KS139 -> CA139
-     * TT1012KS70  -> TT70
-     *
-     * Ou seja:
-     * pega as 2 primeiras letras
-     * + números depois de KS.
-     */
-
-    const equipamentoCompleto =
-        texto.match(/\b([A-Z]{2})\d+KS(\d+)\b/);
-
-    if (equipamentoCompleto) {
-
-        return (
-            equipamentoCompleto[1] +
-            equipamentoCompleto[2]
-        );
-
+    function normalizarCodigoCruza(codigo) {
+        let t = normalizarTextoCruza(codigo).replace(/[\s-]+/g, "");
+        const completo = t.match(/^([A-Z]{2})\d+KS(\d+)$/);
+        if (completo) t = completo[1] + completo[2];
+        return t;
     }
 
-    /*
-     * EQUIPAMENTO SIMPLES
-     *
-     * PC33
-     * PZ80
-     * RP51
-     * MA53
-     * PZ55
-     */
+    function extrairEquipamentosCruza(texto) {
+        const encontrados = [];
+        const base = normalizarTextoCruza(texto);
 
-    const equipamentosSimples =
-        texto.match(/\b[A-Z]{2}\d{2,3}\b/g);
+        // Código completo: RP1013KS51 -> RP51
+        const completos = base.match(/\b[A-Z]{2}\d+KS\d+\b/g) || [];
+        completos.forEach(function(codigo){
+            const normalizado = normalizarCodigoCruza(codigo);
+            if (normalizado) encontrados.push(normalizado);
+        });
 
-    if (equipamentosSimples) {
+        // Código simples, aceitando PC-93 / PC 93 / PC93 / DG630 etc.
+        const simples = base.match(/\b[A-Z]{2}[\s-]?\d{2,3}\b/g) || [];
+        simples.forEach(function(codigo){
+            const normalizado = normalizarCodigoCruza(codigo);
+            if (!/^(MP|GPS|CAN|HO|OM)\d*$/.test(normalizado)) encontrados.push(normalizado);
+        });
 
-        const ignorar = [
-            "MP",
-            "GPS",
-            "CAN",
-            "HO",
-            "OM"
-        ];
-
-        for (const codigo of equipamentosSimples) {
-
-            if (!ignorar.includes(codigo)) {
-
-                return codigo;
-
-            }
-
-        }
-
+        return Array.from(new Set(encontrados));
     }
 
-    return "";
-
-}
-
-
-// =====================================
-// IDENTIFICAR TODAS AS FORMAS DE EQUIPAMENTO
-// =====================================
-
-function identificarInformacoesEquipamento(linha) {
-
-    const texto = normalizar(linha);
-
-    let equipamento = "";
-
-    let equipamentoCompleto = "";
-
-    // ---------------------------------
-    // PRIMEIRO: código completo
-    // ---------------------------------
-
-    const completo =
-        texto.match(/\b([A-Z]{2})\d+KS(\d+)\b/);
-
-    if (completo) {
-
-        equipamentoCompleto =
-            completo[0];
-
-        equipamento =
-            completo[1] +
-            completo[2];
-
-    }
-
-    // ---------------------------------
-    // DEPOIS: código simples
-    // ---------------------------------
-
-    const simples =
-        texto.match(/\b[A-Z]{2}\d{2,3}\b/g);
-
-    if (simples) {
-
-        const ignorar = [
-            "MP",
-            "GPS",
-            "CAN",
-            "HO",
-            "OM"
-        ];
-
-        for (const codigo of simples) {
-
-            if (!ignorar.includes(codigo)) {
-
-                equipamento = codigo;
-
-                break;
-
-            }
-
-        }
-
-    }
-
-    return {
-        equipamento:
-            equipamento,
-
-        equipamentoCompleto:
-            equipamentoCompleto
-
-    };
-
-}
-
-
-// =====================================
-// NORMALIZAR EQUIPAMENTO PARA COMPARAÇÃO
-// =====================================
-
-function normalizarEquipamento(codigo) {
-
-    if (!codigo) {
-        return "";
-    }
-
-    const texto =
-        normalizar(codigo);
-
-    /*
-     * Se for:
-     *
-     * RP1013KS51
-     *
-     * vira:
-     *
-     * RP51
-     */
-
-    const completo =
-        texto.match(
-            /^([A-Z]{2})\d+KS(\d+)$/
-        );
-
-    if (completo) {
-
-        return (
-            completo[1] +
-            completo[2]
-        );
-
-    }
-
-    /*
-     * Se já for:
-     *
-     * RP51
-     *
-     * mantém:
-     *
-     * RP51
-     */
-
-    return texto;
-
-}
-
-
-// =====================================
-// MONTAR LISTA DE EQUIPAMENTOS
-// =====================================
-
-const equipamentosOficina =
-    new Set();
-
-textoEquipamentos
-    .split(/\r?\n/)
-    .forEach(linha => {
-
-        const info =
-            identificarInformacoesEquipamento(
-                linha
-            );
-
-        const equipamento =
-            normalizarEquipamento(
-                info.equipamento
-            );
-
-        if (equipamento) {
-
-            equipamentosOficina.add(
-                equipamento
-            );
-
-        }
-
+    const equipamentosOficina = new Set();
+    textoEquipamentos.split(/\r?\n/).forEach(function(linha){
+        extrairEquipamentosCruza(linha).forEach(function(codigo){
+            equipamentosOficina.add(codigo);
+        });
     });
 
-console.log(
-    "🏭 Equipamentos encontrados na oficina:",
-    Array.from(equipamentosOficina)
-);
+    console.log("🏭 Equipamentos encontrados na oficina:", Array.from(equipamentosOficina));
 
+    const linhas = textoPendencias.split(/\r?\n/).map(function(l){ return l.trim(); }).filter(Boolean);
+    const pendencias = [];
 
-// =====================================
-// PROCESSAR PENDÊNCIAS
-// =====================================
-
-const pendencias = [];
-
-const linhasPendencias =
-    textoPendencias
-        .split(/\r?\n/)
-        .map(linha => linha.trim())
-        .filter(linha => linha !== "");
-
-
-for (
-    let i = 0;
-    i < linhasPendencias.length;
-    i++
-) {
-
-    const linhaOriginal =
-        linhasPendencias[i];
-
-    const linha =
-        normalizar(linhaOriginal);
-
-
-    // =================================
-    // PROCURAR OMs
-    // =================================
-
-    /*
-     * Aceita OM com 8 até 12 números.
-     *
-     * Exemplos:
-     *
-     * 202604358158
-     * 202603697886
-     * 202608000
-     *
-     * Também aceita OM colada na descrição:
-     *
-     * 202604259631DIAGNOSTICO...
-     */
-
-    const oms =
-        linha.match(
-            /(?<!\d)\d{8,12}(?!\d)/g
-        );
-
-
-    // Linha sem OM
-    if (!oms) {
-        continue;
-    }
-
-
-    // =================================
-    // IDENTIFICAR EQUIPAMENTO
-    // =================================
-
-    let equipamento =
-        "";
-
-    let equipamentoCompleto =
-        "";
-
-
-    const informacoes =
-        identificarInformacoesEquipamento(
-            linha
-        );
-
-
-    equipamento =
-        informacoes.equipamento;
-
-    equipamentoCompleto =
-        informacoes.equipamentoCompleto;
-
-
-    // =================================
-    // PRIORIZAR EQUIPAMENTO ANTES DA OM
-    // =================================
-
-    /*
-     * Exemplo:
-     *
-     * RP51 202603778084
-     * MP MINESTAR HEALTH
-     * RP1013KS51
-     *
-     * Resultado:
-     *
-     * RP51
-     *
-     * e não RP1013KS51.
-     */
-
-    const posicaoOM =
-        linha.search(
-            /(?<!\d)\d{8,12}(?!\d)/
-        );
-
-
-    if (posicaoOM >= 0) {
-
-        const antesOM =
-            linha.substring(
-                0,
-                posicaoOM
-            );
-
-
-        const equipamentoAntesOM =
-            identificarInformacoesEquipamento(
-                antesOM
-            );
-
-
-        if (
-            equipamentoAntesOM.equipamento
-        ) {
-
-            equipamento =
-                equipamentoAntesOM.equipamento;
-
-        }
-
-    }
-
-
-    // =================================
-    // NORMALIZAR EQUIPAMENTO
-    // =================================
-
-    equipamento =
-        normalizarEquipamento(
-            equipamento
-        );
-
-
-    // =================================
-    // DESCRIÇÃO
-    // =================================
-
-    let descricao =
-        linhaOriginal;
-
-
-    // Remove emojis
-    descricao =
-        descricao.replace(
-            /⚠️|🟢|🔵|🟡|🔴|🚫/g,
-            ""
-        );
-
-
-    // Remove código completo
-    if (equipamentoCompleto) {
-
-        const regexCompleto =
-            new RegExp(
-                "\\b" +
-                equipamentoCompleto +
-                "\\b",
-                "gi"
-            );
-
-        descricao =
-            descricao.replace(
-                regexCompleto,
-                ""
-            );
-
-    }
-
-
-    // Remove equipamento normalizado
-    if (equipamento) {
-
-        const regexEquipamento =
-            new RegExp(
-                "\\b" +
-                equipamento +
-                "\\b",
-                "gi"
-            );
-
-        descricao =
-            descricao.replace(
-                regexEquipamento,
-                ""
-            );
-
-    }
-
-
-    // Remove OMs
-    oms.forEach(
-        numeroOM => {
-
-            descricao =
-                descricao.replace(
-                    numeroOM,
-                    ""
-                );
-
-        }
-    );
-
-
-    // Remove OM:
-    descricao =
-        descricao.replace(
-            /\bOM\s*:\s*/gi,
-            ""
-        );
-
-
-    // Remove separadores
-    descricao =
-        descricao
-            .replace(
-                /[-–—:]+/g,
-                " "
-            )
-            .replace(
-                /\s+/g,
-                " "
-            )
+    function limparDescricao(linhaOriginal, numeroOM, equipamento) {
+        let d = String(linhaOriginal || "")
+            .replace(/⚠️|🟢|🔵|🟡|🔴|🚫/g, "")
+            .replace(new RegExp("\\b" + numeroOM + "\\b", "gi"), "")
+            .replace(/\bOM\s*:\s*/gi, "")
             .trim();
 
+        if (equipamento) {
+            const codigos = [equipamento, equipamento.slice(0,2) + "-" + equipamento.slice(2)];
+            codigos.forEach(function(codigo){
+                d = d.replace(new RegExp("\\b" + codigo.replace("-", "[-\\s]?") + "\\b", "gi"), "");
+            });
+        }
 
-    if (!descricao) {
-
-        descricao =
-            "Pendência do turno anterior";
-
+        d = d.replace(/^[-–—:|•\s]+|[-–—:|•\s]+$/g, "").replace(/\s+/g, " ").trim();
+        return d || "Pendência do turno anterior";
     }
 
+    linhas.forEach(function(linhaOriginal, indice){
+        const linha = normalizarTextoCruza(linhaOriginal);
+        const oms = linha.match(/(?<!\d)\d{8,12}(?!\d)/g);
+        if (!oms) return;
 
-    // =================================
-    // VERIFICAR CADA OM
-    // =================================
+        let equipamentosDaLinha = extrairEquipamentosCruza(linhaOriginal);
 
-    oms.forEach(
-        numeroOM => {
-
-            let situacao =
-                "REVISAR";
-
-
-            if (equipamento) {
-
-                if (
-                    equipamentosOficina.has(
-                        equipamento
-                    )
-                ) {
-
-                    situacao =
-                        "CADASTRAR";
-
-                } else {
-
-                    situacao =
-                        "FORA DA OFICINA";
-
+        // Quando a pendência veio quebrada em duas linhas, procura o equipamento
+        // imediatamente acima/abaixo da linha da OM.
+        if (!equipamentosDaLinha.length) {
+            const vizinhos = [indice - 1, indice + 1];
+            vizinhos.forEach(function(pos){
+                if (pos >= 0 && pos < linhas.length) {
+                    extrairEquipamentosCruza(linhas[pos]).forEach(function(codigo){
+                        if (!equipamentosDaLinha.includes(codigo)) equipamentosDaLinha.push(codigo);
+                    });
                 }
-
-            }
-
-
-            pendencias.push({
-
-                om:
-                    numeroOM,
-
-                equipamento:
-                    equipamento ||
-                    "Não identificado",
-
-                descricao:
-                    descricao,
-
-                situacao:
-                    situacao,
-
-                linhaOriginal:
-                    linhaOriginal
-
             });
-
-        }
-    );
-
-}
-    // =====================================
-    // REMOVER OMs DUPLICADAS
-    // =====================================
-
-    const mapa =
-        new Map();
-
-    pendencias.forEach(item => {
-
-        if (!mapa.has(item.om)) {
-
-            mapa.set(
-                item.om,
-                item
-            );
-
         }
 
+        const equipamento = equipamentosDaLinha.length ? normalizarCodigoCruza(equipamentosDaLinha[0]) : "";
+        let situacao = "REVISAR";
+        if (equipamento) situacao = equipamentosOficina.has(equipamento) ? "CADASTRAR" : "FORA DA OFICINA";
+
+        oms.forEach(function(numeroOM){
+            pendencias.push({
+                om: numeroOM,
+                equipamento: equipamento || "Não identificado",
+                descricao: limparDescricao(linhaOriginal, numeroOM, equipamento),
+                situacao: situacao,
+                linhaOriginal: linhaOriginal
+            });
+        });
     });
 
-    const pendenciasFinais =
-        Array.from(mapa.values());
+    const mapa = new Map();
+    pendencias.forEach(function(item){
+        if (!mapa.has(item.om)) mapa.set(item.om, item);
+    });
+    const pendenciasFinais = Array.from(mapa.values());
+    window.pendenciasImportadas = pendenciasFinais;
 
-    // =====================================
-    // GUARDAR TEMPORARIAMENTE
-    // =====================================
-
-    window.pendenciasImportadas =
-        pendenciasFinais;
-
-    // =====================================
-    // CONTADORES
-    // =====================================
-
-    const total =
-        pendenciasFinais.length;
-
-    const cadastrar =
-        pendenciasFinais.filter(
-            item =>
-                item.situacao === "CADASTRAR"
-        ).length;
-
-    const foraOficina =
-        pendenciasFinais.filter(
-            item =>
-                item.situacao === "FORA DA OFICINA"
-        ).length;
-
-    const revisar =
-        pendenciasFinais.filter(
-            item =>
-                item.situacao === "REVISAR"
-        ).length;
-
-    // =====================================
-    // MOSTRAR RESULTADO
-    // =====================================
-
-    resultado.style.display =
-        "block";
+    const total = pendenciasFinais.length;
+    const cadastrar = pendenciasFinais.filter(function(item){ return item.situacao === "CADASTRAR"; }).length;
+    const foraOficina = pendenciasFinais.filter(function(item){ return item.situacao === "FORA DA OFICINA"; }).length;
+    const revisar = pendenciasFinais.filter(function(item){ return item.situacao === "REVISAR"; }).length;
 
     let tabela = "";
-
-    pendenciasFinais.forEach(item => {
-
-        let fundo =
-            "#fff7ed";
-
-        let borda =
-            "#f59e0b";
-
-        let icone =
-            "🟡";
-
-        let textoSituacao =
-            "REVISAR";
-
-        if (
-            item.situacao ===
-            "CADASTRAR"
-        ) {
-
-            fundo =
-                "#dcfce7";
-
-            borda =
-                "#22c55e";
-
-            icone =
-                "🟢";
-
-            textoSituacao =
-                "EQUIPAMENTO ESTÁ NA OFICINA";
-
+    pendenciasFinais.forEach(function(item){
+        let fundo = "#fff7ed", borda = "#f59e0b", icone = "🟡", textoSituacao = "REVISAR";
+        if (item.situacao === "CADASTRAR") {
+            fundo = "#dcfce7"; borda = "#22c55e"; icone = "🟢"; textoSituacao = "EQUIPAMENTO ESTÁ NA OFICINA";
+        } else if (item.situacao === "FORA DA OFICINA") {
+            fundo = "#f1f5f9"; borda = "#cbd5e1"; icone = "⚪"; textoSituacao = "EQUIPAMENTO NÃO ESTÁ NA OFICINA";
         }
-
-        if (
-            item.situacao ===
-            "FORA DA OFICINA"
-        ) {
-
-            fundo =
-                "#f1f5f9";
-
-            borda =
-                "#cbd5e1";
-
-            icone =
-                "⚪";
-
-            textoSituacao =
-                "EQUIPAMENTO NÃO ESTÁ NA OFICINA";
-
-        }
-
-        tabela += `
-
-            <div style="
-                border: 1px solid ${borda};
-                border-radius: 8px;
-                padding: 12px;
-                margin-top: 10px;
-                background: ${fundo};
-            ">
-
-                <div style="
-                    font-size: 16px;
-                    font-weight: bold;
-                    margin-bottom: 8px;
-                ">
-
-                    ${icone}
-                    OM ${item.om}
-
-                </div>
-
-                <div>
-                    🚜
-                    <strong>
-                        Equipamento:
-                    </strong>
-
-                    ${item.equipamento}
-
-                </div>
-
-                <div style="
-                    margin-top: 5px;
-                ">
-
-                    📝
-                    <strong>
-                        Descrição:
-                    </strong>
-
-                    ${item.descricao}
-
-                </div>
-
-                <div style="
-                    margin-top: 8px;
-                    font-weight: bold;
-                ">
-
-                    ${textoSituacao}
-
-                </div>
-
-            </div>
-
-        `;
-
+        tabela += `<div style="border:1px solid ${borda};border-radius:8px;padding:12px;margin-top:10px;background:${fundo};color:#111827">
+            <div style="font-size:16px;font-weight:bold;margin-bottom:8px">${icone} OM ${item.om}</div>
+            <div>🚜 <strong>Equipamento:</strong> ${item.equipamento}</div>
+            <div style="margin-top:5px">📝 <strong>Descrição:</strong> ${item.descricao}</div>
+            <div style="margin-top:8px;font-weight:bold">${textoSituacao}</div>
+        </div>`;
     });
-// =====================================
-// RESULTADO FINAL — VISUAL ESCURO
-// =====================================
 
-resultado.innerHTML = `
-
-    <div style="
-        padding: 18px;
-        border-radius: 10px;
-        background: #0b1118;
-        border: 1px solid #263442;
-        color: #f1f5f9;
-        box-shadow: 0 4px 14px rgba(0,0,0,.25);
-    ">
-
-        <h3 style="
-            margin: 0 0 16px 0;
-            color: #ffffff;
-            font-size: 18px;
-            font-weight: 700;
-        ">
-            🔎 Resultado do cruzamento
-        </h3>
-
-        <div style="
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 10px;
-            margin-bottom: 18px;
-        ">
-
-            <div style="
-                padding: 12px;
-                background: #151e27;
-                border: 1px solid #334250;
-                border-radius: 8px;
-            ">
-                <div style="font-size: 13px; color: #aebbc8;">
-                    📋 Pendências encontradas
-                </div>
-
-                <strong style="
-                    display: block;
-                    margin-top: 5px;
-                    font-size: 20px;
-                    color: #ffffff;
-                ">
-                    ${total}
-                </strong>
-            </div>
-
-
-            <div style="
-                padding: 12px;
-                background: #102319;
-                border: 1px solid #1f8f4d;
-                border-radius: 8px;
-            ">
-                <div style="font-size: 13px; color: #aebbc8;">
-                    🟢 Equipamentos na oficina
-                </div>
-
-                <strong style="
-                    display: block;
-                    margin-top: 5px;
-                    font-size: 20px;
-                    color: #22c55e;
-                ">
-                    ${cadastrar}
-                </strong>
-            </div>
-
-
-            <div style="
-                padding: 12px;
-                background: #151b21;
-                border: 1px solid #475569;
-                border-radius: 8px;
-            ">
-                <div style="font-size: 13px; color: #aebbc8;">
-                    ⚪ Fora da oficina
-                </div>
-
-                <strong style="
-                    display: block;
-                    margin-top: 5px;
-                    font-size: 20px;
-                    color: #f1f5f9;
-                ">
-                    ${foraOficina}
-                </strong>
-            </div>
-
-
-            <div style="
-                padding: 12px;
-                background: #27200b;
-                border: 1px solid #b88600;
-                border-radius: 8px;
-            ">
-                <div style="font-size: 13px; color: #cbd5e1;">
-                    🟡 Precisam revisão
-                </div>
-
-                <strong style="
-                    display: block;
-                    margin-top: 5px;
-                    font-size: 20px;
-                    color: #f2bd28;
-                ">
-                    ${revisar}
-                </strong>
-            </div>
-
+    resultado.style.display = "block";
+    resultado.innerHTML = `<div style="padding:15px;border-radius:8px;background:#eff6ff;border:1px solid #bfdbfe;color:#111827">
+        <h3 style="margin-top:0">🔎 Resultado do cruzamento</h3>
+        <div style="display:grid;gap:7px;margin-bottom:15px">
+            <div>📋 <strong>Pendências encontradas:</strong> ${total}</div>
+            <div>🟢 <strong>Equipamentos na oficina:</strong> ${cadastrar}</div>
+            <div>⚪ <strong>Fora da oficina:</strong> ${foraOficina}</div>
+            <div>🟡 <strong>Precisam revisão:</strong> ${revisar}</div>
         </div>
+        <hr>
+        <h3>📋 Pendências encontradas</h3>
+        ${tabela || '<div style="padding:12px 0">📭 Nenhuma OM encontrada nas pendências.</div>'}
+    </div>`;
 
-
-        <div style="
-            height: 1px;
-            background: #334250;
-            margin: 18px 0;
-        "></div>
-
-
-        <h3 style="
-            margin: 0 0 12px 0;
-            color: #ffffff;
-            font-size: 17px;
-        ">
-            📋 Pendências encontradas
-        </h3>
-
-
-        <div style="
-            display: grid;
-            gap: 10px;
-        ">
-
-            ${tabela}
-
-        </div>
-
-    </div>
-
-`;
-
-console.log(
-    "📋 Pendências cruzadas:",
-    pendenciasFinais
-);
-
-mostrarBotaoCadastroPendencias();
+    console.log("📋 Pendências cruzadas:", pendenciasFinais);
+    mostrarBotaoCadastroPendencias();
 };
 
 </script>
