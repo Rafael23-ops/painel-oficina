@@ -14,52 +14,55 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
 .brand{
     height:86px;
     border-bottom:1px solid #222a33;
-    display:flex;
-    align-items:center;
-    gap:6px;
-    padding:9px 12px;
+    padding:8px 12px;
     box-sizing:border-box;
 }
 
+.brand-top{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    height:30px;
+}
+
 .brand-sotreq{
+    display:inline-block;
     background:#f8c51c;
     color:#111;
-    padding:7px 9px;
-    font-size:18px;
+    padding:6px 9px;
+    font-size:16px;
     font-weight:900;
     line-height:1;
-    display:inline-block;
 }
 
 .brand-cat{
+    display:inline-block;
     color:#fff;
     font-weight:900;
     font-size:16px;
     line-height:1;
 }
 
-.brand > div{
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    margin-left:2px;
-}
-
 .brand-name{
+    color:#fff;
     font-size:15px;
     font-weight:700;
-    line-height:1.05;
+    line-height:18px;
+    margin-top:1px;
     text-align:left;
     white-space:nowrap;
 }
 
 .brand-sub{
-    font-size:9px;
     color:#8793a0;
-    margin-top:2px;
+    font-size:9px;
+    line-height:11px;
+    margin:0;
+    padding:0;
     text-align:left;
     white-space:nowrap;
-}.nav{padding:18px 10px;display:flex;flex-direction:column;gap:5px}.nav button{width:100%;border:0;background:transparent;color:#cbd3dc;text-align:left;padding:12px 13px;border-radius:8px;display:flex;align-items:center;gap:12px;font-size:13px}.nav button:hover,.nav button.active{background:linear-gradient(90deg,#f02027,#c70d16);color:#fff}.nav .ico{width:20px;text-align:center;font-size:17px}.side-bottom{margin-top:auto;padding:14px}.side-note{border:1px solid #28333f;border-left:3px solid var(--red);border-radius:8px;padding:14px;color:#dbe2ea;font-size:12px;line-height:1.5;background:#0c1218}
+}
+.nav{padding:18px 10px;display:flex;flex-direction:column;gap:5px}.nav button{width:100%;border:0;background:transparent;color:#cbd3dc;text-align:left;padding:12px 13px;border-radius:8px;display:flex;align-items:center;gap:12px;font-size:13px}.nav button:hover,.nav button.active{background:linear-gradient(90deg,#f02027,#c70d16);color:#fff}.nav .ico{width:20px;text-align:center;font-size:17px}.side-bottom{margin-top:auto;padding:14px}.side-note{border:1px solid #28333f;border-left:3px solid var(--red);border-radius:8px;padding:14px;color:#dbe2ea;font-size:12px;line-height:1.5;background:#0c1218}
 .main{margin-left:215px;min-width:0;width:calc(100% - 215px)}.topbar{height:72px;background:#090e14;border-bottom:1px solid #202731;display:flex;align-items:center;justify-content:flex-end;padding:0 28px;gap:24px}.server{font-size:11px;color:#9ba6b3}.server b{color:#23c77e}.user{display:flex;align-items:center;gap:10px;font-size:12px}.avatar{width:32px;height:32px;border-radius:50%;background:#293441;display:grid;place-items:center}.content{padding:20px 18px 28px;max-width:1450px;margin:auto}.hero{position:relative;overflow:hidden;border:1px solid #26313d;background:linear-gradient(100deg,#101720,#0d131a);border-radius:8px;padding:22px 24px;margin-bottom:16px;box-shadow:var(--shadow)}.hero:before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--red)}.hero h1{font-size:22px;margin-bottom:7px}.hero p{color:#9ca8b5;font-size:13px}.hero-mark{position:absolute;right:25px;top:18px;text-align:right;color:#f7c51c;font-weight:900;font-size:18px}.hero-mark small{display:block;color:#aeb7c1;font-size:9px;letter-spacing:.5px}
 .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}.metric{background:linear-gradient(145deg,#101820,#0c1218);border:1px solid #26313c;border-radius:8px;padding:16px;min-height:108px;box-shadow:var(--shadow)}.metric-top{display:flex;align-items:center;gap:12px}.metric-icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:20px}.metric.blue .metric-icon{background:#0d55a8}.metric.yellow .metric-icon{background:#6f5711}.metric.green .metric-icon{background:#0a7047}.metric.red .metric-icon{background:#7c1218}.metric-label{font-size:12px;color:#aeb7c1}.metric-number{font-size:28px;font-weight:700;margin-top:3px}.metric-foot{font-size:10px;margin-top:8px}.metric.blue .metric-foot{color:#3e9cff}.metric.yellow .metric-foot{color:#e7bb2f}.metric.green .metric-foot{color:#24c77d}.metric.red .metric-foot{color:#ff4b52}
 .panel{background:linear-gradient(145deg,#0e151c,#0b1117);border:1px solid #242f3a;border-radius:8px;box-shadow:var(--shadow);overflow:hidden}.panel-head{padding:14px 16px;border-bottom:1px solid #222c36;display:flex;align-items:center;justify-content:space-between;gap:12px}.panel-title{font-size:16px;font-weight:700}.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.search,.select-dark{background:#111922;color:#d9e0e8;border:1px solid #34404d;border-radius:6px;padding:9px 11px;font-size:11px;outline:none}.search{min-width:240px}.select-dark{min-width:130px}.search:focus,.select-dark:focus{border-color:#64748b}.table-wrap{overflow:auto}.om-table{width:100%;border-collapse:collapse;min-width:1050px}.om-table th{background:#151e28;color:#9eabb8;text-align:left;font-size:10px;padding:11px 12px;white-space:nowrap}.om-table td{border-top:1px solid #1e2832;padding:11px 12px;color:#d6dde5;font-size:11px;vertical-align:middle}.om-table tr:hover td{background:#111a23}.om-table td:first-child{color:#fff;font-weight:700}.status-pill{display:inline-block;border-radius:20px;padding:5px 10px;font-size:10px;font-weight:700;white-space:nowrap}.status-green{background:#0b9f5c;color:#07150f}.status-blue{background:#2583f7;color:#06152b}.status-yellow{background:#f2bd28;color:#1c1703}.actions{display:flex;gap:5px;flex-wrap:wrap;align-items:center;justify-content:center}.actions button{border:1px solid #33404d!important;background:#151e28!important;color:#f1f5f9!important;border-radius:7px!important;padding:7px 9px!important;margin:0!important;font-size:12px!important;min-width:34px;box-shadow:0 2px 5px rgba(0,0,0,.18)}.actions button:hover{background:#263444!important;transform:translateY(-1px)}.actions .action-yellow{border-color:#8a6b12!important;background:#2b2410!important}.actions .action-blue{border-color:#1d64b8!important;background:#10253d!important}.actions .action-green{border-color:#168653!important;background:#0d2b20!important}.actions .action-red{border-color:#8b252b!important;background:#321216!important}.actions .action-edit{border-color:#315d93!important;background:#132238!important}.actions .action-neutral{border-color:#45515e!important;background:#1a232d!important}.actions .action-clock{border-color:#8a6b12!important;background:#2b2410!important;color:#f2bd28!important}.actions button span{font-size:11px}.report-select-heading{font-size:13px;font-weight:800;color:#fff;line-height:1.25}.btn-select-all {
@@ -92,7 +95,15 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
 <body>
 <div class="app">
 <aside class="sidebar">
-  <div class="brand"><span class="brand-sotreq">Sotreq</span><span class="brand-cat">CAT</span><div><div class="brand-name">🔧 OFICINA</div><div class="brand-sub">Sistema de Ordens de Manutenção</div></div></div>
+<div class="brand">
+    <div class="brand-top">
+        <span class="brand-sotreq">Sotreq</span>
+        <span class="brand-cat">CAT</span>
+    </div>
+
+    <div class="brand-name">🔧 OFICINA</div>
+    <div class="brand-sub">Sistema de Ordens de Manutenção</div>
+</div>
   <nav class="nav">
     <button class="active" onclick="irPara('dashboard',this)"><span class="ico">⌂</span><span>Dashboard</span></button>
     <button onclick="irPara('ordens',this)"><span class="ico">▣</span><span>Ordens de Manutenção</span></button>
@@ -741,7 +752,7 @@ function carregarOMs() {
                                 <button class="action-yellow" onclick="alterarStatus(${om.id}, 'Pendente')" title="Marcar como Pendente">🟡</button>
                                 <button class="action-blue" onclick="alterarStatus(${om.id}, 'Em execução')" title="Marcar Em execução">🔵</button>
                                 <button class="action-green" onclick="alterarStatus(${om.id}, 'Concluída')" title="Marcar Concluída">🟢</button>
-                                <button class="action-neutral action-clock" onclick="abrirDefinirHorarios(${om.id})" title="Definir horários da OM">🕐</button>
+                                <button class="action-neutral action-clock" onclick="abrirDefinirHorarios(${om.id})" title="Definir horários da OM">⏰</button>
                                 <button class="action-neutral" onclick="abrirDetalhesOM(${om.id})" title="Ver detalhes">👁️</button>
                                 <button class="action-neutral" onclick="gerarRelatorio(${om.id})" title="Gerar relatório">📄</button>
                                 <button class="action-red" onclick="excluirOM(${om.id})" title="Excluir OM">🗑️</button>
