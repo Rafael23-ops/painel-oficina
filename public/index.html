@@ -7717,20 +7717,81 @@ window.cruzarPendencias = function () {
     const revisar = pendenciasFinais.filter(function(item){ return item.situacao === "REVISAR"; }).length;
 
     let tabela = "";
-    pendenciasFinais.forEach(function(item){
-        let fundo = "#fff7ed", borda = "#f59e0b", icone = "🟡", textoSituacao = "REVISAR";
-        if (item.situacao === "CADASTRAR") {
-            fundo = "#dcfce7"; borda = "#22c55e"; icone = "🟢"; textoSituacao = "EQUIPAMENTO ESTÁ NA OFICINA";
-        } else if (item.situacao === "FORA DA OFICINA") {
-            fundo = "#f1f5f9"; borda = "#cbd5e1"; icone = "⚪"; textoSituacao = "EQUIPAMENTO NÃO ESTÁ NA OFICINA";
-        }
-        tabela += `<div style="border:1px solid ${borda};border-radius:8px;padding:12px;margin-top:10px;background:${fundo};color:#111827">
-            <div style="font-size:16px;font-weight:bold;margin-bottom:8px">${icone} OM ${item.om}</div>
-            <div>🚜 <strong>Equipamento:</strong> ${item.equipamento}</div>
-            <div style="margin-top:5px">📝 <strong>Descrição:</strong> ${item.descricao}</div>
-            <div style="margin-top:8px;font-weight:bold">${textoSituacao}</div>
-        </div>`;
-    });
+
+pendenciasFinais.forEach(function(item) {
+
+    let borda = "#f59e0b";
+    let icone = "🟡";
+    let textoSituacao = "REVISAR";
+
+    if (item.situacao === "CADASTRAR") {
+
+        borda = "#22c55e";
+        icone = "🟢";
+        textoSituacao = "EQUIPAMENTO ESTÁ NA OFICINA";
+
+    } else if (item.situacao === "FORA DA OFICINA") {
+
+        borda = "#64748b";
+        icone = "⚪";
+        textoSituacao = "EQUIPAMENTO NÃO ESTÁ NA OFICINA";
+    }
+
+    tabela += `
+        <div style="
+            border:1px solid ${borda};
+            border-radius:8px;
+            padding:12px;
+            margin-top:10px;
+            background:#111922;
+            color:#ffffff !important;
+        ">
+
+            <div style="
+                font-size:16px;
+                font-weight:bold;
+                margin-bottom:8px;
+                color:#ffffff !important;
+            ">
+                ${icone} OM ${item.om}
+            </div>
+
+            <div style="
+                color:#ffffff !important;
+            ">
+                🚜
+                <strong style="color:#ffffff !important;">
+                    Equipamento:
+                </strong>
+                <span style="color:#ffffff !important;">
+                    ${item.equipamento}
+                </span>
+            </div>
+
+            <div style="
+                margin-top:5px;
+                color:#ffffff !important;
+            ">
+                📝
+                <strong style="color:#ffffff !important;">
+                    Descrição:
+                </strong>
+                <span style="color:#ffffff !important;">
+                    ${item.descricao}
+                </span>
+            </div>
+
+            <div style="
+                margin-top:8px;
+                font-weight:bold;
+                color:${borda} !important;
+            ">
+                ${textoSituacao}
+            </div>
+
+        </div>
+    `;
+});
 
    resultado.style.display = "block";
 
