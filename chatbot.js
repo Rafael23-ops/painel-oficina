@@ -1017,55 +1017,471 @@ app.put("/om/:id", function(req, res) {
     );
 
 });
-// ===============================
+// =====================================================
+// HISTÓRICO DE OMS EXCLUÍDAS
+// Mantém as OMs excluídas por 7 dias
+// =====================================================
+
+db.run(`
+    CREATE TABLE IF NOT EXISTS historico_oms (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        om_id_original INTEGER,
+        om TEXT,
+        equipamento TEXT,
+        modelo_relatorio TEXT,
+        descricao TEXT,
+        horario_inicial TEXT,
+        horario_final TEXT,
+        motivo_pendencia TEXT,
+        status TEXT,
+        responsaveis TEXT,
+        tipo TEXT,
+        data TEXT,
+        data_exclusao TEXT
+    )
+`, function(err) {
+
+    if (err) {
+        console.error(
+            "❌ Erro ao criar tabela historico_oms:",
+            err.message
+        );
+    } else {
+        console.log(
+            "✅ Tabela historico_oms pronta."
+        );
+    }
+
+});
+
+
+// =====================================================
+// SALVAR UMA OM NO HISTÓRICO ANTES DE EXCLUIR
+// =====================================================
+
+function arquivarOM(id, callback) {
+
+    const sql = `
+        SELECT
+            ordens.id AS id,
+            ordens.om,
+            ordens.equipamento,
+            ordens.modelo_relatorio,
+            ordens.descricao,
+            ordens.horario_inicial,
+            ordens.horario_final,
+            ordens.motivo_pendencia,
+            ordens.status,
+
+            CASE
+                WHEN atribuicoes.pessoa_id IS NOT NULL
+                THEN pessoas.nome
+
+                WHEN atribuicoes.dupla_id IS NOT NULL
+                THEN p1.nome || ' + ' || p2.nome
+
+                ELSE NULL
+            END AS responsaveis,
+
+            CASE
+                WHEN atribuicoes.pessoa_id IS NOT NULL
+                THEN 'Pessoa'
+
+                WHEN atribuicoes.dupla_id IS NOT NULL
+                THEN 'Dupla'
+
+                ELSE NULL
+            END AS tipo,
+
+            ordens.data
+
+        FROM ordens
+
+        LEFT JOIN atribuicoes
+            ON atribuicoes.om_id = ordens.id
+
+        LEFT JOIN pessoas
+            ON atribuicoes.pessoa_id = pessoas.id
+
+        LEFT JOIN duplas
+            ON atribuicoes.dupla_id = duplas.id
+
+        LEFT JOIN pessoas p1
+            ON duplas.pessoa1_id = p1.id
+
+        LEFT JOIN pessoas p2
+            ON duplas.pessoa2_id = p2.id
+
+        WHERE ordens.id = ?
+    `;
+
+    db.get(sql, [id], function(err, om) {
+
+        if (err) {
+            return callback(err);
+        }
+
+        if (!om) {
+            return callback(null, null);
+        }
+
+        const dataExclusao =
+            new Date().toLocaleString("pt-BR");
+
+        const insert = `
+            INSERT INTO historico_oms (
+                om_id_original,
+                om,
+                equipamento,
+                modelo_relatorio,
+                descricao,
+                horario_inicial,
+                horario_final,
+                motivo_pendencia,
+                status,
+                responsaveis,
+                tipo,
+                data,
+                data_exclusao
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `;
+
+        db.run(
+            insert,
+            [
+                om.id,
+                om.om,
+                om.equipamento,
+                om.modelo_relatorio,
+                om.descricao,
+                om.horario_inicial,
+                om.horario_final,
+                om.motivo_pendencia,
+                om.status,
+                om.responsaveis,
+                om.tipo,
+                om.data,
+                dataExclusao
+            ],
+            function(err) {
+
+                if (err) {
+                    return callback(err);
+                }
+
+                callback(null, om);
+            }
+        );
+    });
+}
+
+
+// =====================================================
 // EXCLUIR TODAS AS OMS
-// ===============================
+// Primeiro arquiva, depois exclui
+// =====================================================
+
 app.delete("/oms", function(req, res) {
 
-    db.run(
-        "DELETE FROM atribuicoes",
+    db.all(
+        "SELECT id FROM ordens",
         [],
-        function(err) {
+        function(err, rows) {
 
             if (err) {
+
                 console.error(
-                    "Erro ao excluir atribuições:",
+                    "Erro ao buscar OMs:",
                     err.message
                 );
 
                 return res.status(500).json({
                     erro:
-                        "Erro ao excluir atribuições."
+                        "Erro ao buscar OMs."
+                });
+            }
+
+            if (!rows.length) {
+
+                return res.json({
+                    mensagem:
+                        "Nenhuma OM para excluir."
+                });
+            }
+
+            let processadas = 0;
+            let erros = [];
+
+            rows.forEach(function(row) {
+
+                arquivarOM(
+                    row.id,
+                    function(err) {
+
+                        if (err) {
+                            erros.push(err.message);
+                        }
+
+                        processadas++;
+
+                        if (
+                            processadas ===
+                            rows.length
+                        ) {
+
+                            if (erros.length) {
+
+                                console.error(
+                                    "Erros ao arquivar OMs:",
+                                    erros
+                                );
+
+                                return res.status(500).json({
+                                    erro:
+                                        "Erro ao arquivar OMs."
+                                });
+                            }
+
+                            db.run(
+                                "DELETE FROM atribuicoes",
+                                [],
+                                function(err) {
+
+                                    if (err) {
+
+                                        return res.status(500).json({
+                                            erro:
+                                                "Erro ao excluir atribuições."
+                                        });
+                                    }
+
+                                    db.run(
+                                        "DELETE FROM ordens",
+                                        [],
+                                        function(err) {
+
+                                            if (err) {
+
+                                                return res.status(500).json({
+                                                    erro:
+                                                        "Erro ao excluir OMs."
+                                                });
+                                            }
+
+                                            res.json({
+                                                mensagem:
+                                                    this.changes +
+                                                    " OM(s) excluída(s) e arquivada(s) no histórico."
+                                            });
+
+                                        }
+                                    );
+
+                                }
+                            );
+
+                        }
+
+                    }
+                );
+
+            });
+
+        }
+    );
+
+});
+
+
+// =====================================================
+// EXCLUIR UMA OM
+// Primeiro arquiva, depois exclui
+// =====================================================
+
+app.delete("/om/:id", function(req, res) {
+
+    const id = req.params.id;
+
+    arquivarOM(
+        id,
+        function(err, om) {
+
+            if (err) {
+
+                console.error(
+                    "Erro ao arquivar OM:",
+                    err.message
+                );
+
+                return res.status(500).json({
+                    erro:
+                        "Erro ao arquivar OM."
+                });
+            }
+
+            if (!om) {
+
+                return res.status(404).json({
+                    erro:
+                        "OM não encontrada."
                 });
             }
 
             db.run(
-                "DELETE FROM ordens",
-                [],
+                "DELETE FROM atribuicoes WHERE om_id = ?",
+                [id],
                 function(err) {
 
                     if (err) {
+
                         console.error(
-                            "Erro ao excluir OMs:",
+                            "Erro ao excluir atribuição:",
                             err.message
                         );
 
                         return res.status(500).json({
                             erro:
-                                "Erro ao excluir OMs."
+                                "Erro ao excluir atribuição."
                         });
                     }
 
-                    res.json({
-                        mensagem:
-                            this.changes +
-                            " OM(s) excluída(s) com sucesso."
-                    });
+                    db.run(
+                        "DELETE FROM ordens WHERE id = ?",
+                        [id],
+                        function(err) {
+
+                            if (err) {
+
+                                console.error(
+                                    "Erro ao excluir OM:",
+                                    err.message
+                                );
+
+                                return res.status(500).json({
+                                    erro:
+                                        "Erro ao excluir OM."
+                                });
+                            }
+
+                            res.json({
+                                mensagem:
+                                    "OM excluída com sucesso e mantida no histórico por 7 dias."
+                            });
+
+                        }
+                    );
+
                 }
             );
+
         }
     );
+
 });
+
+
+// =====================================================
+// LISTAR HISTÓRICO
+// =====================================================
+
+app.get("/historico-oms", function(req, res) {
+
+    db.all(
+        `
+        SELECT
+            id,
+            om_id_original,
+            om,
+            equipamento,
+            modelo_relatorio,
+            descricao,
+            horario_inicial,
+            horario_final,
+            motivo_pendencia,
+            status,
+            responsaveis,
+            tipo,
+            data,
+            data_exclusao
+        FROM historico_oms
+        ORDER BY id DESC
+        `,
+        [],
+        function(err, rows) {
+
+            if (err) {
+
+                console.error(
+                    "Erro ao consultar histórico:",
+                    err.message
+                );
+
+                return res.status(500).json({
+                    erro:
+                        "Erro ao consultar histórico."
+                });
+            }
+
+            res.json(rows);
+        }
+    );
+
+});
+
+
+// =====================================================
+// LIMPAR HISTÓRICO COM MAIS DE 7 DIAS
+// =====================================================
+
+function limparHistoricoAntigo() {
+
+    db.run(
+        `
+        DELETE FROM historico_oms
+        WHERE datetime(
+            substr(data_exclusao, 7, 4) || '-' ||
+            substr(data_exclusao, 4, 2) || '-' ||
+            substr(data_exclusao, 1, 2) || ' ' ||
+            substr(data_exclusao, 12)
+        )
+        < datetime('now', '-7 days', 'localtime')
+        `,
+        [],
+        function(err) {
+
+            if (err) {
+
+                console.error(
+                    "Erro ao limpar histórico antigo:",
+                    err.message
+                );
+
+                return;
+            }
+
+            if (this.changes > 0) {
+
+                console.log(
+                    "🧹 Histórico removido:",
+                    this.changes,
+                    "registro(s) com mais de 7 dias."
+                );
+            }
+
+        }
+    );
+
+}
+
+// Executa ao iniciar
+limparHistoricoAntigo();
+
+// Executa uma vez por dia
+setInterval(
+    limparHistoricoAntigo,
+    24 * 60 * 60 * 1000
+);
 // ===============================
 // EXCLUIR UMA OM
 // ===============================
