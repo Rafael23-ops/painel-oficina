@@ -43,7 +43,7 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
   <div class="side-bottom"><div class="side-note">♧<br><strong>Juntos por uma operação mais eficiente!</strong></div></div>
 </aside>
 <main class="main">
-<header class="topbar"><div class="server">● <b>Servidor Online</b><br><span>Atualização automática</span></div><div>🔔</div><div class="user"><span class="avatar">👤</span><span><strong>Rafael Mota</strong><br><small class="muted">Técnico</small></span></div></header>
+<header class="topbar"><div class="server">● <b>Servidor Online</b><br><span>Atualização automática</span></div><div>🔔</div><div class="user"><span class="avatar">👤</span><span><strong>TURNO C</strong><br><small class="muted">Técnicos</small></span></div></header>
 <div class="content" id="dashboard">
 <div id="erro"></div>
 <section class="hero"><div><h1>Olá, Rafael!</h1><p>Aqui está o resumo das ordens de manutenção de hoje.</p></div><div class="hero-mark">SOTREQ<small>SOLUÇÕES PARA<br>UM MUNDO MELHOR</small></div></section>
@@ -668,108 +668,864 @@ function carregarOMs() {
 // =====================================
 
 function normalizarDataTexto(data) {
-    if (!data) return "";
+
+    if (!data) {
+        return "";
+    }
+
     const texto = String(data).trim();
-    const m = texto.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:,\s*(\d{1,2}):(\d{2})(?::(\d{2}))?)?/);
-    if (m) return String(m[1]).padStart(2,"0") + "/" + String(m[2]).padStart(2,"0") + "/" + m[3];
+
+    // Formato: 08/09/2026, 14:23:17
+    let m = texto.match(
+        /^(\d{1,2})\/(\d{1,2})\/(\d{4})/
+    );
+
+    if (m) {
+
+        return (
+            String(m[1]).padStart(2, "0") +
+            "/" +
+            String(m[2]).padStart(2, "0") +
+            "/" +
+            m[3]
+        );
+
+    }
+
+    // Tenta interpretar datas em formato ISO
     const d = new Date(texto);
-    return isNaN(d.getTime()) ? texto.split(",")[0].trim() : d.toLocaleDateString("pt-BR");
-}
 
-function extrairHoraTexto(data) {
-    if (!data) return "--:--";
-    const m = String(data).match(/(?:,\s*|T)(\d{1,2}):(\d{2})/);
-    return m ? String(m[1]).padStart(2,"0") + ":" + m[2] : "--:--";
-}
+    if (!isNaN(d.getTime())) {
 
-function carregarOMsRelatorio(silencioso) {
-    const lista = document.getElementById("listaOMsRelatorio");
-    if (!lista) return;
-    if (!silencioso) lista.innerHTML = "🔄 Carregando OMs concluídas...";
+        return d.toLocaleDateString("pt-BR");
 
-    fetch("/atribuicoes")
-        .then(function(response) {
-            if (!response.ok) throw new Error("Erro HTTP: " + response.status);
-            return response.json();
-        })
-        .then(function(oms) {
-            const hoje = new Date().toLocaleDateString("pt-BR");
-            const concluidas = (Array.isArray(oms) ? oms : []).filter(function(om) {
-                return String(om.status || "").trim().toLowerCase() === "concluída" && normalizarDataTexto(om.data) === hoje;
-            });
+    }
 
-            if (!concluidas.length) {
-                lista.innerHTML = '<div class="muted" style="padding:12px">📭 Nenhuma OM concluída hoje.</div>';
-                return;
-            }
+    // Última tentativa:
+    // pega somente a parte antes da vírgula
+    return texto
+        .split(",")[0]
+        .trim();
 
-            lista.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><strong style="color:#fff">OMs concluídas de hoje</strong><button type="button" class="btn btn-gray" onclick="selecionarTodasOMsRelatorio()">Selecionar todas</button></div><div class="report-select-list">' + concluidas.map(function(om){
-                return `<label class="report-select-item"><input type="checkbox" class="omRelatorio" value="${om.id}" checked><div><strong>📁 OM ${om.om || "-"}</strong><br>🚜 ${om.equipamento || "-"}<br>📄 ${om.modelo_relatorio || om.descricao || "-"}<br>⏰ ${om.horario_inicial || extrairHoraTexto(om.data)} → ${om.horario_final || "--:--"}</div></label>`;
-            }).join("") + '</div>';
-        })
-        .catch(function(error) {
-            console.error("Erro ao carregar OMs concluídas:", error);
-            if (!silencioso) lista.innerHTML = '<div style="padding:12px;color:#ff8b90">❌ Erro ao carregar OMs concluídas.</div>';
-        });
-}
-
-function selecionarTodasOMsRelatorio(){
-    document.querySelectorAll(".omRelatorio").forEach(function(c){ c.checked = true; });
 }
 
 
 // =====================================
-// GERAR RELATÓRIO DE TURNO
+// EXTRAIR HORA DA DATA
+// =====================================
+
+function extrairHoraTexto(data) {
+
+    if (!data) {
+        return "--:--";
+    }
+
+    const texto = String(data);
+
+    // Formato:
+    // 08/09/2026, 14:23:17
+    let m = texto.match(
+        /,\s*(\d{1,2}):(\d{2})(?::\d{2})?/
+    );
+
+    if (m) {
+
+        return (
+            String(m[1]).padStart(2, "0") +
+            ":" +
+            m[2]
+        );
+
+    }
+
+    // Formato ISO:
+    // 2026-09-08T14:23:17
+    m = texto.match(
+        /T(\d{1,2}):(\d{2})/
+    );
+
+    if (m) {
+
+        return (
+            String(m[1]).padStart(2, "0") +
+            ":" +
+            m[2]
+        );
+
+    }
+
+    return "--:--";
+
+}
+
+
+// =====================================
+// CARREGAR OMs CONCLUÍDAS
+// =====================================
+
+function carregarOMsRelatorio(silencioso) {
+
+    const lista =
+        document.getElementById(
+            "listaOMsRelatorio"
+        );
+
+    if (!lista) {
+
+        console.warn(
+            "⚠️ listaOMsRelatorio não encontrada."
+        );
+
+        return;
+    }
+
+
+    // Só mostra carregamento
+    // quando for carregamento manual
+    if (!silencioso) {
+
+        lista.innerHTML = `
+            <div class="muted" style="
+                padding: 12px;
+            ">
+                🔄 Carregando OMs concluídas...
+            </div>
+        `;
+
+    }
+
+
+    fetch("/atribuicoes")
+
+        .then(function(response) {
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Erro HTTP: " +
+                    response.status
+                );
+
+            }
+
+            return response.json();
+
+        })
+
+        .then(function(oms) {
+
+            const listaOMs =
+                Array.isArray(oms)
+                    ? oms
+                    : [];
+
+
+            // =================================
+            // DATA DE HOJE
+            // =================================
+
+            const agora =
+                new Date();
+
+            const hoje =
+                String(
+                    agora.getDate()
+                ).padStart(2, "0") +
+                "/" +
+                String(
+                    agora.getMonth() + 1
+                ).padStart(2, "0") +
+                "/" +
+                agora.getFullYear();
+
+
+            console.log(
+                "📅 Data usada no relatório:",
+                hoje
+            );
+
+
+            // =================================
+            // FILTRAR OMs CONCLUÍDAS DE HOJE
+            // =================================
+
+            const concluidas =
+                listaOMs.filter(function(om) {
+
+                    const status =
+                        String(
+                            om.status || ""
+                        )
+                        .trim()
+                        .toLowerCase();
+
+
+                    const dataOM =
+                        normalizarDataTexto(
+                            om.data
+                        );
+
+
+                    console.log(
+                        "📋 OM:",
+                        om.om,
+                        "| Status:",
+                        om.status,
+                        "| Data:",
+                        om.data,
+                        "| Data normalizada:",
+                        dataOM
+                    );
+
+
+                    return (
+                        status === "concluída" &&
+                        dataOM === hoje
+                    );
+
+                });
+
+
+            console.log(
+                "✅ OMs concluídas hoje:",
+                concluidas.length,
+                concluidas
+            );
+
+
+            // =================================
+            // NENHUMA OM
+            // =================================
+
+            if (!concluidas.length) {
+
+                lista.innerHTML = `
+                    <div
+                        class="muted"
+                        style="
+                            padding: 12px;
+                            text-align: center;
+                        "
+                    >
+                        📭 Nenhuma OM concluída hoje.
+                    </div>
+                `;
+
+                return;
+
+            }
+
+
+            // =================================
+            // CABEÇALHO
+            // =================================
+
+            let html = `
+
+                <div style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    gap: 10px;
+                    margin-bottom: 10px;
+                    flex-wrap: wrap;
+                ">
+
+                    <strong>
+                        🟢 OMs concluídas de hoje:
+                        ${concluidas.length}
+                    </strong>
+
+                    <button
+                        type="button"
+                        class="btn btn-gray"
+                        onclick="
+                            selecionarTodasOMsRelatorio()
+                        "
+                    >
+                        ☑️ Selecionar todas
+                    </button>
+
+                </div>
+
+                <div
+                    class="report-select-list"
+                >
+            `;
+
+
+            // =================================
+            // LISTA DAS OMs
+            // =================================
+
+            concluidas.forEach(
+                function(om) {
+
+                    const descricao =
+                        om.modelo_relatorio ||
+                        om.descricao ||
+                        "-";
+
+
+                    const horaInicial =
+                        om.horario_inicial ||
+                        extrairHoraTexto(
+                            om.data
+                        );
+
+
+                    const horaFinal =
+                        om.horario_final ||
+                        "--:--";
+
+
+                    html += `
+
+                        <label
+                            class="report-select-item"
+                        >
+
+                            <input
+                                type="checkbox"
+                                class="omRelatorio"
+                                value="${om.id}"
+                                checked
+                            >
+
+                            <div>
+
+                                <strong>
+                                    📁 OM ${om.om || "-"}
+                                </strong>
+
+                                <br>
+
+                                🚜
+                                ${om.equipamento || "-"}
+
+                                <br>
+
+                                📄
+                                ${descricao}
+
+                                <br>
+
+                                ⏰
+                                ${horaInicial}
+                                →
+                                ${horaFinal}
+
+                            </div>
+
+                        </label>
+
+                    `;
+
+                }
+            );
+
+
+            html += `
+                </div>
+            `;
+
+
+            lista.innerHTML = html;
+
+        })
+
+        .catch(function(error) {
+
+            console.error(
+                "❌ Erro ao carregar OMs concluídas:",
+                error
+            );
+
+
+            // Só mostra erro se não for
+            // uma atualização silenciosa
+            if (!silencioso) {
+
+                lista.innerHTML = `
+                    <div style="
+                        padding: 12px;
+                        color: #ff8b90;
+                    ">
+                        ❌ Erro ao carregar
+                        OMs concluídas.
+                    </div>
+                `;
+
+            }
+
+        });
+
+}
+
+
+// =====================================
+// SELECIONAR TODAS
+// =====================================
+
+function selecionarTodasOMsRelatorio() {
+
+    document
+        .querySelectorAll(
+            ".omRelatorio"
+        )
+        .forEach(function(checkbox) {
+
+            checkbox.checked = true;
+
+        });
+
+}
+
+/// =====================================
+// GERAR RELATÓRIO DE FIM DE TURNO
 // =====================================
 
 function gerarRelatorioTurno() {
+
     fetch("/atribuicoes")
-        .then(function(response){ if(!response.ok) throw new Error("Erro HTTP: "+response.status); return response.json(); })
-        .then(function(oms){
-            const checks = Array.from(document.querySelectorAll(".omRelatorio:checked"));
-            const ids = checks.map(function(c){ return Number(c.value); });
-            const hoje = new Date().toLocaleDateString("pt-BR");
-            let selecionadas = (Array.isArray(oms)?oms:[]).filter(function(om){ return ids.includes(Number(om.id)); });
-            if (!checks.length) {
-                selecionadas = (Array.isArray(oms)?oms:[]).filter(function(om){ return String(om.status||"").trim().toLowerCase()==="concluída" && normalizarDataTexto(om.data)===hoje; });
+
+        .then(function(response) {
+
+            if (!response.ok) {
+                throw new Error(
+                    "Erro HTTP: " + response.status
+                );
             }
 
-            let relatorio = "📈 RELATÓRIO DE FIM DE TURNO – TURNO C SOTREQ\n\n";
-            relatorio += "🗓 DATA: " + hoje + "\n\n";
-            relatorio += "🚨IAMO 🚨\n";
-            relatorio += "CAPACIDADE: 8.8\n";
-            relatorio += "HH UTILIZADO: N/A\n";
-            relatorio += "Desvio: N/A\n\n";
+            return response.json();
 
-            relatorio += "📋 OMs CONCLUÍDAS\n\n";
-            if (!selecionadas.length) {
-                relatorio += "Nenhuma OM concluída hoje.\n\n";
-            } else {
-                selecionadas.forEach(function(om){
-                    relatorio += "OM: " + (om.om||"-") + "\n";
-                    relatorio += "Equipamento: " + (om.equipamento||"-") + "\n";
-                    relatorio += "Modelo: " + (om.modelo_relatorio||om.descricao||"-") + "\n";
-                    relatorio += "Horário: " + (om.horario_inicial||extrairHoraTexto(om.data)||"--:--") + " → " + (om.horario_final||"--:--") + "\n";
-                    relatorio += "Pendências: " + (om.motivo_pendencia ? "SIM" : "NÃO") + "\n\n";
-                });
-            }
-
-            relatorio += "🛺 ATIVIDADES EXTRA SAP: \n\n";
-            relatorio += "🚜 APONTAMENTOS GPV: \n\n";
-            relatorio += "⚠️ PENDÊNCIAS\n\n";
-            const pendentes = (Array.isArray(oms)?oms:[]).filter(function(om){ return String(om.status||"").trim().toLowerCase()==="pendente"; });
-            if (!pendentes.length) relatorio += "Nenhuma OM pendente.\n";
-            else pendentes.forEach(function(om){ relatorio += "* " + (om.equipamento||"-") + " – OM " + (om.om||"-") + (om.descricao ? " – " + om.descricao : "") + (om.motivo_pendencia ? " – Motivo: " + om.motivo_pendencia : "") + "\n"; });
-            relatorio += "\n🧑🏾‍🔧 EXECUTANTES\n\n👨🏻‍🔧 JOÃO LENO\n👨🏻‍🔧 RAFAEL MOTA\n👨🏻‍🔧 JOÃO ARAÚJO\n👨🏻‍🔧 LUCAS BRAGA";
-
-            const resultado = document.getElementById("resultadoRelatorioTurno");
-            resultado.innerHTML = `<div class="turno-report-preview"><div class="report-name">🚨IAMO 🚨</div>${relatorio.replace(/\n/g,"<br>").replace(/(JOÃO LENO|RAFAEL MOTA|JOÃO ARAÚJO|LUCAS BRAGA)/g,"<strong>$1</strong>")}</div><textarea id="textoRelatorioTurno" class="turno-report" rows="30" style="width:100%;margin-top:10px;padding:15px;border-radius:8px;resize:vertical;font-family:monospace;font-size:14px;box-sizing:border-box"></textarea><button type="button" class="btn btn-red" style="width:100%;margin-top:10px" onclick="copiarRelatorioTurno()">📋 Copiar Relatório</button>`;
-            document.getElementById("textoRelatorioTurno").value = relatorio;
         })
-        .catch(function(error){ console.error("Erro ao gerar relatório:",error); alert("❌ Erro ao gerar o relatório."); });
+
+        .then(function(oms) {
+
+            const listaOMs =
+                Array.isArray(oms)
+                    ? oms
+                    : [];
+
+            // =====================================
+            // DATA DE HOJE
+            // =====================================
+
+            const hoje =
+                new Date()
+                    .toLocaleDateString("pt-BR");
+
+
+            // =====================================
+            // NORMALIZAR TEXTO
+            // =====================================
+
+            function normalizarStatus(valor) {
+
+                return String(valor || "")
+                    .trim()
+                    .toLowerCase()
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "");
+
+            }
+
+
+            // =====================================
+            // OMs SELECIONADAS
+            // =====================================
+
+            const checks =
+                Array.from(
+                    document.querySelectorAll(
+                        ".omRelatorio:checked"
+                    )
+                );
+
+            const idsSelecionados =
+                checks.map(function(check) {
+
+                    return Number(
+                        check.value
+                    );
+
+                });
+
+
+            // =====================================
+            // BUSCAR OMs CONCLUÍDAS
+            // =====================================
+
+            let concluidasHoje =
+                listaOMs.filter(function(om) {
+
+                    const status =
+                        normalizarStatus(
+                            om.status
+                        );
+
+                    const data =
+                        normalizarDataTexto(
+                            om.data
+                        );
+
+                    return (
+                        status === "concluida" &&
+                        data === hoje
+                    );
+
+                });
+
+
+            // =====================================
+            // SE EXISTIREM CHECKBOXES,
+            // RESPEITAR A SELEÇÃO
+            // =====================================
+
+            if (idsSelecionados.length) {
+
+                concluidasHoje =
+                    concluidasHoje.filter(
+                        function(om) {
+
+                            return idsSelecionados
+                                .includes(
+                                    Number(om.id)
+                                );
+
+                        }
+                    );
+
+            }
+
+
+            console.log(
+                "📋 OMs concluídas encontradas:",
+                concluidasHoje
+            );
+
+
+            // =====================================
+            // MONTAR RELATÓRIO
+            // =====================================
+
+            let relatorio = "";
+
+            relatorio +=
+                "📈 RELATÓRIO DE FIM DE TURNO – TURNO C SOTREQ\n\n";
+
+            relatorio +=
+                "🗓 DATA: " +
+                hoje +
+                "\n\n";
+
+
+            // =====================================
+            // IAMO
+            // =====================================
+
+            relatorio +=
+                "🚨IAMO 🚨\n";
+
+            relatorio +=
+                "CAPACIDADE: 8.8\n";
+
+            relatorio +=
+                "HH UTILIZADO: N/A\n";
+
+            relatorio +=
+                "Desvio: N/A\n\n";
+
+
+            // =====================================
+            // OMS CONCLUÍDAS
+            // =====================================
+
+            relatorio +=
+                "📋 OMs CONCLUÍDAS\n\n";
+
+
+            if (!concluidasHoje.length) {
+
+                relatorio +=
+                    "Nenhuma OM concluída hoje.\n\n";
+
+            } else {
+
+                concluidasHoje.forEach(
+                    function(om) {
+
+                        relatorio +=
+                            "🚜 Equipamento: " +
+                            (om.equipamento || "-") +
+                            "\n";
+
+                        relatorio +=
+                            "📁 OM: " +
+                            (om.om || "-") +
+                            "\n";
+
+                        relatorio +=
+                            "📄 Relatório: " +
+                            (
+                                om.modelo_relatorio ||
+                                om.descricao ||
+                                "-"
+                            ) +
+                            "\n";
+
+                        relatorio +=
+                            "⏰ Horário: " +
+                            (
+                                om.horario_inicial ||
+                                extrairHoraTexto(om.data) ||
+                                "--:--"
+                            ) +
+                            " → " +
+                            (
+                                om.horario_final ||
+                                "--:--"
+                            ) +
+                            "\n";
+
+                        relatorio +=
+                            "⚠️ Pendência: " +
+                            (
+                                om.motivo_pendencia
+                                    ? "SIM - " +
+                                      om.motivo_pendencia
+                                    : "NÃO"
+                            ) +
+                            "\n\n";
+
+                    }
+                );
+
+            }
+
+
+            // =====================================
+            // ATIVIDADES EXTRA SAP
+            // =====================================
+
+            relatorio +=
+                "🛺 ATIVIDADES EXTRA SAP:\n\n";
+
+
+            // =====================================
+            // APONTAMENTOS GPV
+            // =====================================
+
+            relatorio +=
+                "🚜 APONTAMENTOS GPV:\n\n";
+
+
+            // =====================================
+            // PENDÊNCIAS
+            // =====================================
+
+            relatorio +=
+                "⚠️ PENDÊNCIAS\n\n";
+
+
+            const pendentes =
+                listaOMs.filter(
+                    function(om) {
+
+                        return (
+                            normalizarStatus(
+                                om.status
+                            ) === "pendente"
+                        );
+
+                    }
+                );
+
+
+            if (!pendentes.length) {
+
+                relatorio +=
+                    "Nenhuma OM pendente.\n\n";
+
+            } else {
+
+                pendentes.forEach(
+                    function(om) {
+
+                        relatorio +=
+                            "* " +
+                            (
+                                om.equipamento ||
+                                "-"
+                            ) +
+                            " – OM " +
+                            (
+                                om.om ||
+                                "-"
+                            );
+
+                        if (om.descricao) {
+
+                            relatorio +=
+                                " – " +
+                                om.descricao;
+
+                        }
+
+                        if (om.motivo_pendencia) {
+
+                            relatorio +=
+                                " – Motivo: " +
+                                om.motivo_pendencia;
+
+                        }
+
+                        relatorio +=
+                            "\n";
+
+                    }
+                );
+
+                relatorio +=
+                    "\n";
+
+            }
+
+
+            // =====================================
+            // EXECUTANTES
+            // =====================================
+
+            relatorio +=
+                "🧑🏾‍🔧 EXECUTANTES\n\n";
+
+            relatorio +=
+                "👨🏻‍🔧 JOÃO LENO\n";
+
+            relatorio +=
+                "👨🏻‍🔧 RAFAEL MOTA\n";
+
+            relatorio +=
+                "👨🏻‍🔧 JOÃO ARAÚJO\n";
+
+            relatorio +=
+                "👨🏻‍🔧 LUCAS BRAGA";
+
+
+            // =====================================
+            // MOSTRAR SOMENTE UM RELATÓRIO
+            // =====================================
+
+            const resultado =
+                document.getElementById(
+                    "resultadoRelatorioTurno"
+                );
+
+            if (!resultado) {
+
+                console.error(
+                    "❌ resultadoRelatorioTurno não encontrado."
+                );
+
+                return;
+
+            }
+
+
+            resultado.innerHTML = `
+
+                <div style="
+                    margin-top: 15px;
+                ">
+
+                    <textarea
+                        id="textoRelatorioTurno"
+                        readonly
+                        style="
+                            width: 100%;
+                            min-height: 650px;
+                            padding: 18px;
+                            box-sizing: border-box;
+                            resize: vertical;
+
+                            background: #05080c;
+                            color: #ffffff;
+
+                            border: 1px solid #38434f;
+                            border-radius: 8px;
+
+                            font-family:
+                                Arial,
+                                Helvetica,
+                                sans-serif;
+
+                            font-size: 14px;
+                            line-height: 1.6;
+
+                            white-space: pre-wrap;
+                        "
+                    ></textarea>
+
+                    <button
+                        type="button"
+                        class="btn btn-red"
+                        style="
+                            width: 100%;
+                            margin-top: 10px;
+                            padding: 13px;
+                            font-size: 14px;
+                        "
+                        onclick="
+                            copiarRelatorioTurno()
+                        "
+                    >
+                        📋 Copiar Relatório
+                    </button>
+
+                </div>
+
+            `;
+
+
+            const campo =
+                document.getElementById(
+                    "textoRelatorioTurno"
+                );
+
+
+            campo.value =
+                relatorio;
+
+
+            // =====================================
+            // MOSTRAR NO CONSOLE
+            // =====================================
+
+            console.log(
+                "📄 RELATÓRIO GERADO:"
+            );
+
+            console.log(
+                relatorio
+            );
+
+        })
+
+        .catch(function(error) {
+
+            console.error(
+                "❌ Erro ao gerar relatório:",
+                error
+            );
+
+            alert(
+                "❌ Erro ao gerar o relatório."
+            );
+
+        });
+
 }
-
-
 // =====================================
 // COPIAR RELATÓRIO DE TURNO
 // =====================================
