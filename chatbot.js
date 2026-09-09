@@ -1554,12 +1554,12 @@ app.post("/om/:id/atribuir", function(req, res) {
 });
 // ===============================
 // LISTA TODAS AS ATRIBUIÇÕES
-// ===============================
-// ===============================
-// LISTA TODAS AS ATRIBUIÇÕES
 // INCLUI OMs SEM RESPONSÁVEL
+// HORÁRIO CORRIGIDO PARA BRASÍLIA
 // ===============================
+
 app.get("/atribuicoes", function(req, res) {
+
     const sql = `
         SELECT
             ordens.id AS id,
@@ -1592,7 +1592,22 @@ app.get("/atribuicoes", function(req, res) {
                 ELSE NULL
             END AS tipo,
 
-            ordens.data
+            CASE
+                WHEN ordens.data LIKE '__/__/____, __:__:__'
+                THEN
+                    strftime(
+                        '%d/%m/%Y, %H:%M:%S',
+                        datetime(
+                            substr(ordens.data, 7, 4) || '-' ||
+                            substr(ordens.data, 4, 2) || '-' ||
+                            substr(ordens.data, 1, 2) || ' ' ||
+                            substr(ordens.data, 13, 8),
+                            '-3 hours'
+                        )
+                    )
+
+                ELSE ordens.data
+            END AS data
 
         FROM ordens
 
@@ -1620,6 +1635,7 @@ app.get("/atribuicoes", function(req, res) {
         function(err, rows) {
 
             if (err) {
+
                 console.error(
                     "Erro ao consultar atribuições:",
                     err.message
@@ -1631,9 +1647,16 @@ app.get("/atribuicoes", function(req, res) {
                 });
             }
 
+            console.log(
+                "📋 Atribuições carregadas:",
+                rows.length
+            );
+
             res.json(rows);
+
         }
     );
+
 });
 // ===============================
 // LISTA AS OMs DE UMA PESSOA
