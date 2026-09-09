@@ -11,11 +11,11 @@
 html{scroll-behavior:smooth} body{background:var(--bg);color:var(--text);min-height:100vh}
 button,input,select,textarea{font:inherit} button{cursor:pointer}
 .app{display:flex;min-height:100vh}.sidebar{width:215px;flex:0 0 215px;background:#080d12;border-right:1px solid #202731;position:fixed;inset:0 auto 0 0;z-index:100;display:flex;flex-direction:column}
-.brand{height:72px;border-bottom:1px solid #222a33;display:flex;align-items:center;gap:10px;padding:12px 16px}.brand-sotreq{background:#f8c51c;color:#111;padding:9px 13px;font-size:20px;font-weight:900}.brand-cat{color:#fff;font-weight:900;font-size:18px}.brand-name{font-size:16px;font-weight:700;line-height:1.05}.brand-sub{font-size:10px;color:#8793a0;margin-top:4px}
+.brand{height:86px;border-bottom:1px solid #222a33;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:6px;padding:10px 16px}.brand-sotreq{background:#f8c51c;color:#111;padding:7px 11px;font-size:18px;font-weight:900}.brand-cat{color:#fff;font-weight:900;font-size:16px;position:absolute;left:86px;top:17px}.brand-name{font-size:15px;font-weight:700;line-height:1.05;text-align:left}.brand-sub{font-size:9px;color:#8793a0;margin-top:3px;text-align:left}
 .nav{padding:18px 10px;display:flex;flex-direction:column;gap:5px}.nav button{width:100%;border:0;background:transparent;color:#cbd3dc;text-align:left;padding:12px 13px;border-radius:8px;display:flex;align-items:center;gap:12px;font-size:13px}.nav button:hover,.nav button.active{background:linear-gradient(90deg,#f02027,#c70d16);color:#fff}.nav .ico{width:20px;text-align:center;font-size:17px}.side-bottom{margin-top:auto;padding:14px}.side-note{border:1px solid #28333f;border-left:3px solid var(--red);border-radius:8px;padding:14px;color:#dbe2ea;font-size:12px;line-height:1.5;background:#0c1218}
 .main{margin-left:215px;min-width:0;width:calc(100% - 215px)}.topbar{height:72px;background:#090e14;border-bottom:1px solid #202731;display:flex;align-items:center;justify-content:flex-end;padding:0 28px;gap:24px}.server{font-size:11px;color:#9ba6b3}.server b{color:#23c77e}.user{display:flex;align-items:center;gap:10px;font-size:12px}.avatar{width:32px;height:32px;border-radius:50%;background:#293441;display:grid;place-items:center}.content{padding:20px 18px 28px;max-width:1450px;margin:auto}.hero{position:relative;overflow:hidden;border:1px solid #26313d;background:linear-gradient(100deg,#101720,#0d131a);border-radius:8px;padding:22px 24px;margin-bottom:16px;box-shadow:var(--shadow)}.hero:before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--red)}.hero h1{font-size:22px;margin-bottom:7px}.hero p{color:#9ca8b5;font-size:13px}.hero-mark{position:absolute;right:25px;top:18px;text-align:right;color:#f7c51c;font-weight:900;font-size:18px}.hero-mark small{display:block;color:#aeb7c1;font-size:9px;letter-spacing:.5px}
 .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}.metric{background:linear-gradient(145deg,#101820,#0c1218);border:1px solid #26313c;border-radius:8px;padding:16px;min-height:108px;box-shadow:var(--shadow)}.metric-top{display:flex;align-items:center;gap:12px}.metric-icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:20px}.metric.blue .metric-icon{background:#0d55a8}.metric.yellow .metric-icon{background:#6f5711}.metric.green .metric-icon{background:#0a7047}.metric.red .metric-icon{background:#7c1218}.metric-label{font-size:12px;color:#aeb7c1}.metric-number{font-size:28px;font-weight:700;margin-top:3px}.metric-foot{font-size:10px;margin-top:8px}.metric.blue .metric-foot{color:#3e9cff}.metric.yellow .metric-foot{color:#e7bb2f}.metric.green .metric-foot{color:#24c77d}.metric.red .metric-foot{color:#ff4b52}
-.panel{background:linear-gradient(145deg,#0e151c,#0b1117);border:1px solid #242f3a;border-radius:8px;box-shadow:var(--shadow);overflow:hidden}.panel-head{padding:14px 16px;border-bottom:1px solid #222c36;display:flex;align-items:center;justify-content:space-between;gap:12px}.panel-title{font-size:16px;font-weight:700}.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.search,.select-dark{background:#111922;color:#d9e0e8;border:1px solid #34404d;border-radius:6px;padding:9px 11px;font-size:11px;outline:none}.search{min-width:240px}.select-dark{min-width:130px}.search:focus,.select-dark:focus{border-color:#64748b}.table-wrap{overflow:auto}.om-table{width:100%;border-collapse:collapse;min-width:1050px}.om-table th{background:#151e28;color:#9eabb8;text-align:left;font-size:10px;padding:11px 12px;white-space:nowrap}.om-table td{border-top:1px solid #1e2832;padding:11px 12px;color:#d6dde5;font-size:11px;vertical-align:middle}.om-table tr:hover td{background:#111a23}.om-table td:first-child{color:#fff;font-weight:700}.status-pill{display:inline-block;border-radius:20px;padding:5px 10px;font-size:10px;font-weight:700;white-space:nowrap}.status-green{background:#0b9f5c;color:#07150f}.status-blue{background:#2583f7;color:#06152b}.status-yellow{background:#f2bd28;color:#1c1703}.actions button{border:0;background:#18222d;color:#d9e1e9;border-radius:5px;padding:5px 7px;margin:1px;font-size:11px}.actions button:hover{background:#2a3745}.actions .danger{color:#ff5960}
+.panel{background:linear-gradient(145deg,#0e151c,#0b1117);border:1px solid #242f3a;border-radius:8px;box-shadow:var(--shadow);overflow:hidden}.panel-head{padding:14px 16px;border-bottom:1px solid #222c36;display:flex;align-items:center;justify-content:space-between;gap:12px}.panel-title{font-size:16px;font-weight:700}.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.search,.select-dark{background:#111922;color:#d9e0e8;border:1px solid #34404d;border-radius:6px;padding:9px 11px;font-size:11px;outline:none}.search{min-width:240px}.select-dark{min-width:130px}.search:focus,.select-dark:focus{border-color:#64748b}.table-wrap{overflow:auto}.om-table{width:100%;border-collapse:collapse;min-width:1050px}.om-table th{background:#151e28;color:#9eabb8;text-align:left;font-size:10px;padding:11px 12px;white-space:nowrap}.om-table td{border-top:1px solid #1e2832;padding:11px 12px;color:#d6dde5;font-size:11px;vertical-align:middle}.om-table tr:hover td{background:#111a23}.om-table td:first-child{color:#fff;font-weight:700}.status-pill{display:inline-block;border-radius:20px;padding:5px 10px;font-size:10px;font-weight:700;white-space:nowrap}.status-green{background:#0b9f5c;color:#07150f}.status-blue{background:#2583f7;color:#06152b}.status-yellow{background:#f2bd28;color:#1c1703}.actions{display:flex;gap:5px;flex-wrap:wrap;align-items:center;justify-content:center}.actions button{border:1px solid #33404d!important;background:#151e28!important;color:#f1f5f9!important;border-radius:7px!important;padding:7px 9px!important;margin:0!important;font-size:12px!important;min-width:34px;box-shadow:0 2px 5px rgba(0,0,0,.18)}.actions button:hover{background:#263444!important;transform:translateY(-1px)}.actions .action-yellow{border-color:#8a6b12!important;background:#2b2410!important}.actions .action-blue{border-color:#1d64b8!important;background:#10253d!important}.actions .action-green{border-color:#168653!important;background:#0d2b20!important}.actions .action-red{border-color:#8b252b!important;background:#321216!important}.actions .action-edit{border-color:#315d93!important;background:#132238!important}.actions .action-neutral{border-color:#45515e!important;background:#1a232d!important}.actions button span{font-size:11px}.report-select-list{display:grid;gap:7px;max-height:300px;overflow:auto}.report-select-item{display:flex;align-items:flex-start;gap:10px;padding:11px 12px;border:1px solid #303b47;border-radius:7px;background:#111922;color:#e9edf2;cursor:pointer}.report-select-item:hover{border-color:#657487;background:#151f29}.report-select-item input{margin-top:3px;accent-color:#fff}.report-select-item strong{color:#fff}.turno-report{background:#05080c!important;color:#fff!important;border:1px solid #38434f!important}.turno-report-preview{background:#fff;color:#111;border-radius:8px;padding:16px;line-height:1.55;white-space:pre-wrap;font-family:Arial,Helvetica,sans-serif}.turno-report-preview .report-name{font-weight:900;font-size:15px}.historico-note{font-size:10px;color:#7f8b98;margin-left:auto}
 .grid-bottom{display:grid;grid-template-columns:1.05fr .95fr 1.15fr;gap:14px;margin-top:16px}.mini{padding:15px}.mini-list{max-height:280px;overflow:auto}.recent-item,.pending-item{padding:11px 0;border-bottom:1px solid #202a34;font-size:11px}.recent-item:last-child,.pending-item:last-child{border-bottom:0}.recent-line{display:flex;justify-content:space-between;gap:10px}.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:7px}.dot.green{background:#16c784}.dot.blue{background:#2583f7}.dot.yellow{background:#f2bd28}.muted{color:#7f8b98}.report-box{display:flex;flex-direction:column;gap:10px}.report-box label{font-size:10px;color:#9ca8b5}.report-box select,.report-box button{width:100%;padding:10px;border-radius:6px;border:1px solid #34404d;background:#111922;color:#e6ebf0}.btn-red{background:#e3131b!important;border-color:#e3131b!important;color:#fff!important;font-weight:700}.btn-dark{background:#141d26!important}.summary-row{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}.summary-chip{border:1px solid #26313c;border-radius:6px;padding:9px;text-align:center}.summary-chip b{display:block;font-size:16px}.summary-chip small{font-size:9px;color:#85919f}.pending-item b{color:#f0f3f7}.pending-item span{display:block;color:#7f8b98;margin-top:4px}
 .section{margin-top:16px}.section .panel{padding:0}.section-body{padding:16px}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:10px;color:#9da9b6}.field input,.field select,.field textarea{background:#111922;border:1px solid #34404d;color:#e6ebf0;border-radius:6px;padding:10px;outline:none}.field textarea{min-height:120px;resize:vertical}.button-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.btn{border:0;border-radius:6px;padding:10px 14px;font-size:11px;font-weight:700}.btn-primary{background:#e3131b;color:#fff}.btn-blue{background:#2583f7;color:#fff}.btn-yellow{background:#b98505;color:#fff}.btn-green{background:#16a05f;color:#fff}.btn-gray{background:#202b36;color:#dbe2e9}.danger-zone{border:1px solid #6c1b20;background:#1b0d10;padding:12px;border-radius:7px;display:flex;align-items:center;justify-content:space-between;gap:10px}.danger-zone span{font-size:11px;color:#e6aeb2}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:1000;align-items:center;justify-content:center;padding:20px}.modal-card{width:min(680px,96vw);max-height:92vh;overflow:auto;background:#101820;border:1px solid #34404d;border-radius:10px;box-shadow:0 20px 70px #000;padding:20px}.modal-card h2{font-size:17px;margin-bottom:15px}.modal-card input,.modal-card select,.modal-card textarea{width:100%;background:#0d141b;border:1px solid #34404d;color:#fff;border-radius:6px;padding:10px;margin:6px 0 12px}.modal-actions{display:flex;gap:8px}.modal-actions button{flex:1;border:0;border-radius:6px;padding:10px;font-weight:700}.compat{display:none!important}
@@ -34,8 +34,8 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
     <button class="active" onclick="irPara('dashboard',this)"><span class="ico">⌂</span><span>Dashboard</span></button>
     <button onclick="irPara('ordens',this)"><span class="ico">▣</span><span>Ordens de Manutenção</span></button>
     <button onclick="irPara('ferramentas',this)"><span class="ico">🚜</span><span>Equipamentos</span></button>
-    <button onclick="abrirModal('modalNovaOM')"><span class="ico">♙</span><span>Pessoas</span></button>
-    <button onclick="irPara('atribuicoes',this)"><span class="ico">🔗</span><span>Atribuições</span></button>
+    <button onclick="abrirModal('modalNovaOM')"><span class="ico">＋</span><span>Cadastrar OM</span></button>
+    
     <button onclick="irPara('relatorios',this)"><span class="ico">▤</span><span>Relatórios</span></button>
     <button onclick="irPara('fimTurno',this)"><span class="ico">▣</span><span>Relatório de Fim de Turno</span></button>
     <button onclick="irPara('configuracoes',this)"><span class="ico">⚙</span><span>Configurações</span></button>
@@ -43,10 +43,10 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
   <div class="side-bottom"><div class="side-note">♧<br><strong>Juntos por uma operação mais eficiente!</strong></div></div>
 </aside>
 <main class="main">
-<header class="topbar"><div class="server">● <b>Servidor Online</b><br><span>Atualização automática</span></div><div>🔔</div><div class="user"><span class="avatar">👤</span><span><strong>TURNO</strong><br><small class="muted">Técnicos</small></span></div></header>
+<header class="topbar"><div class="server">● <b>Servidor Online</b><br><span>Atualização automática</span></div><div>🔔</div><div class="user"><span class="avatar">👤</span><span><strong>Rafael Mota</strong><br><small class="muted">Técnico</small></span></div></header>
 <div class="content" id="dashboard">
 <div id="erro"></div>
-<section class="hero"><div><h1>Olá, Turno "C"!</h1><p>Aqui está o resumo das ordens de manutenção de hoje.</p></div><div class="hero-mark">SOTREQ<small>SOLUÇÕES PARA<br>UM MUNDO MELHOR</small></div></section>
+<section class="hero"><div><h1>Olá, Rafael!</h1><p>Aqui está o resumo das ordens de manutenção de hoje.</p></div><div class="hero-mark">SOTREQ<small>SOLUÇÕES PARA<br>UM MUNDO MELHOR</small></div></section>
 <section class="cards">
   <div class="metric blue"><div class="metric-top"><div class="metric-icon">▣</div><div><div class="metric-label">Total de OMs</div><div class="metric-number" id="total">0</div></div></div><div class="metric-foot">↟ Atualizado automaticamente</div></div>
   <div class="metric yellow"><div class="metric-top"><div class="metric-icon">▶</div><div><div class="metric-label">Em Execução</div><div class="metric-number" id="execucao">0</div></div></div><div class="metric-foot">↘ Em andamento</div></div>
@@ -61,7 +61,7 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
 
 <div class="grid-bottom">
  <section class="panel mini"><div class="panel-head"><div class="panel-title">◷ Últimas OMs Atualizadas</div></div><div class="mini-list" id="ultimasOMs"><div class="muted" style="padding:15px">Carregando...</div></div></section>
- <section class="panel mini" id="relatorios"><div class="panel-head"><div class="panel-title">▤ Gerar Relatório</div></div><div class="report-box"><label>Selecione as OMs concluídas do dia</label><div id="listaOMsRelatorio">Carregando OMs concluídas...</div><button class="btn-red" type="button" onclick="gerarRelatorioTurno()">▣ Gerar Relatório de Turno</button><div id="resultadoRelatorioTurno"></div></div></section>
+ <section class="panel mini" id="relatorios"><div class="panel-head"><div class="panel-title">▤ Gerar Relatório</div></div><div class="report-box"><label>Selecione as OMs concluídas do dia <span class="historico-note">Atualização automática</span></label><div id="listaOMsRelatorio">Carregando OMs concluídas...</div><button class="btn-red" type="button" onclick="gerarRelatorioTurno()">▣ Gerar Relatório de Turno</button><div id="resultadoRelatorioTurno"></div></div></section>
  <section class="panel mini" id="fimTurno"><div class="panel-head"><div class="panel-title">▣ Relatório de Fim de Turno</div><button class="btn btn-gray" type="button" onclick="gerarRelatorioTurno()">Ver relatório</button></div><div id="resumoFimTurno" class="mini-list"><div class="pending-item">Carregando resumo...</div></div></section>
 </div>
 
@@ -72,7 +72,6 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
  <div class="field full"><div class="button-row"><button class="btn btn-yellow" type="button" onclick="cruzarPendencias()">⚠ Cruzar pendências com equipamentos</button></div><div id="resultadoPendencias"></div></div>
 </div></div></div></section>
 
-<section class="section" id="atribuicoes"><div class="panel"><div class="panel-head"><div class="panel-title">👥 Desempenho da equipe</div></div><div class="section-body"><div id="equipe" class="cards" style="grid-template-columns:repeat(auto-fit,minmax(190px,1fr));margin:0"></div></div></div></section>
 
 <section class="section" id="historico"><div class="panel"><div class="panel-head"><div class="panel-title">📚 Histórico de OMs</div><div class="tools"><input id="pesquisaHistoricoOM" class="search" placeholder="Pesquisar no histórico..." oninput="filtrarHistoricoOMs()"><button class="btn btn-gray" onclick="filtrarHistoricoStatus('todos')">Todos</button><button class="btn btn-yellow" onclick="filtrarHistoricoStatus('pendente')">Pendentes</button><button class="btn btn-blue" onclick="filtrarHistoricoStatus('em execução')">Em execução</button><button class="btn btn-green" onclick="filtrarHistoricoStatus('concluída')">Concluídas</button></div></div><div class="section-body" id="listaHistoricoOMs">⏳ Carregando histórico...</div></div></section>
 
@@ -109,106 +108,9 @@ let equipamentosCache = [];
 // =====================================
 
 function carregarPainel() {
-
-    fetch("/painel")
-
-        .then(function(response) {
-
-            if (!response.ok) {
-                throw new Error(
-                    "Erro ao consultar o painel."
-                );
-            }
-
-            return response.json();
-        })
-
-        .then(function(dados) {
-
-            const equipe =
-                document.getElementById("equipe");
-
-            equipe.innerHTML = "";
-
-            dados.forEach(function(pessoa) {
-
-                const funcionario =
-                    document.createElement("div");
-
-                funcionario.className =
-                    "funcionario";
-
-                funcionario.innerHTML = `
-                    <h2>
-                        👤 ${pessoa.nome}
-                    </h2>
-
-                    <div class="estatisticas">
-
-                        <div class="estatistica">
-                            <span>
-                                ${pessoa.total || 0}
-                            </span>
-
-                            <small>
-                                Total
-                            </small>
-                        </div>
-
-                        <div class="estatistica">
-                            <span>
-                                ${pessoa.pendentes || 0}
-                            </span>
-
-                            <small>
-                                Pendentes
-                            </small>
-                        </div>
-
-                        <div class="estatistica">
-                            <span>
-                                ${pessoa.em_execucao || 0}
-                            </span>
-
-                            <small>
-                                Em execução
-                            </small>
-                        </div>
-
-                        <div class="estatistica">
-                            <span>
-                                ${pessoa.concluidas || 0}
-                            </span>
-
-                            <small>
-                                Concluídas
-                            </small>
-                        </div>
-
-                    </div>
-                `;
-
-                equipe.appendChild(funcionario);
-
-            });
-
-            carregarResumoReal();
-
-        })
-
-        .catch(function(error) {
-
-            console.error(error);
-
-            const erro =
-                document.getElementById("erro");
-
-            erro.textContent =
-                "❌ Não foi possível carregar o painel.";
-
-            erro.style.display = "block";
-
-        });
+    // O bloco de desempenho da equipe foi removido do painel.
+    // Mantemos esta função para compatibilidade com as demais rotinas.
+    carregarResumoReal();
 }
 
 
@@ -693,942 +595,181 @@ document
 // =====================================
 
 function carregarOMs() {
-
-    const lista =
-        document.getElementById("listaOMs");
+    const lista = document.getElementById("listaOMs");
+    if (!lista) return;
 
     fetch("/atribuicoes")
-
         .then(function(response) {
-
-            if (!response.ok) {
-
-                throw new Error(
-                    "Erro HTTP: " +
-                    response.status
-                );
-
-            }
-
+            if (!response.ok) throw new Error("Erro HTTP: " + response.status);
             return response.json();
-
         })
-
         .then(function(oms) {
+            const pesquisaEl = document.getElementById("pesquisaOM");
+            const filtroEl = document.getElementById("filtroStatusVisual");
+            const pesquisa = pesquisaEl ? pesquisaEl.value.toLowerCase().trim() : "";
+            const filtro = filtroEl ? filtroEl.value : "";
 
-            lista.innerHTML = "";
+            const filtradas = (Array.isArray(oms) ? oms : []).filter(function(om) {
+                const texto = [om.om, om.equipamento, om.descricao, om.responsaveis, om.modelo_relatorio]
+                    .filter(Boolean).join(" ").toLowerCase();
+                return (!pesquisa || texto.includes(pesquisa)) && (!filtro || om.status === filtro);
+            });
 
-            const pesquisa =
-                document.getElementById(
-                    "pesquisaOM"
-                ).value
-                    .toLowerCase()
-                    .trim();
-
-            const omsFiltradas =
-                oms.filter(function(om) {
-
-                    return (
-
-                        (om.om || "")
-                            .toLowerCase()
-                            .includes(pesquisa)
-
-                        ||
-
-                        (om.equipamento || "")
-                            .toLowerCase()
-                            .includes(pesquisa)
-
-                        ||
-
-                        (om.descricao || "")
-                            .toLowerCase()
-                            .includes(pesquisa)
-
-                        ||
-
-                        (om.responsaveis || "")
-                            .toLowerCase()
-                            .includes(pesquisa)
-
-                        ||
-
-                        (om.modelo_relatorio || "")
-                            .toLowerCase()
-                            .includes(pesquisa)
-
-                    );
-
-                });
-
-            if (
-                !Array.isArray(omsFiltradas) ||
-                omsFiltradas.length === 0
-            ) {
-
-                lista.innerHTML = `
-
-                    <tr>
-
-                        <td
-                            colspan="8"
-                            style="
-                                padding: 20px;
-                                text-align: center;
-                            "
-                        >
-                            Nenhuma OM cadastrada.
-                        </td>
-
-                    </tr>
-
-                `;
-
+            if (!filtradas.length) {
+                lista.innerHTML = '<tr><td colspan="9" style="padding:25px;text-align:center;color:#7f8b98">📭 Nenhuma OM encontrada.</td></tr>';
                 return;
             }
 
-            omsFiltradas.forEach(function(om) {
+            lista.innerHTML = filtradas.map(function(om) {
+                let statusHTML = om.status === "Concluída"
+                    ? '<span class="status-pill status-green">🟢 Concluída</span>'
+                    : om.status === "Em execução"
+                        ? '<span class="status-pill status-blue">🔵 Em execução</span>'
+                        : '<span class="status-pill status-yellow">🟡 Pendente</span>';
 
-                let statusHTML = "";
+                const motivo = om.status === "Pendente" ? (om.motivo_pendencia || "⚠️ Não informado") : "-";
+                const motivoSeguro = String(om.motivo_pendencia || "").replace(/'/g, "\\'");
 
-                if (om.status === "Pendente") {
-
-                    statusHTML = `
-
-                        <span
-                            style="
-                                background: #fef3c7;
-                                color: #92400e;
-                                padding: 6px 10px;
-                                border-radius: 20px;
-                                font-weight: bold;
-                            "
-                        >
-                            🟡 Pendente
-                        </span>
-
-                    `;
-
-                }
-
-                else if (
-                    om.status === "Em execução"
-                ) {
-
-                    statusHTML = `
-
-                        <span
-                            style="
-                                background: #dbeafe;
-                                color: #1e40af;
-                                padding: 6px 10px;
-                                border-radius: 20px;
-                                font-weight: bold;
-                            "
-                        >
-                            🔵 Em execução
-                        </span>
-
-                    `;
-
-                }
-
-                else if (
-                    om.status === "Concluída"
-                ) {
-
-                    statusHTML = `
-
-                        <span
-                            style="
-                                background: #dcfce7;
-                                color: #166534;
-                                padding: 6px 10px;
-                                border-radius: 20px;
-                                font-weight: bold;
-                            "
-                        >
-                            🟢 Concluída
-                        </span>
-
-                    `;
-
-                }
-
-                else {
-
-                    statusHTML =
-                        om.status || "Sem status";
-
-                }
-
-                lista.innerHTML += `
-
-                    <tr
-                        style="
-                            border-bottom:
-                                1px solid #e5e7eb;
-                        "
-                    >
-
-                        <td style="padding: 12px;">
-                            <strong>
-                                ${om.om || "-"}
-                            </strong>
+                return `
+                    <tr>
+                        <td><strong>${om.om || "-"}</strong></td>
+                        <td>${om.equipamento || "-"}</td>
+                        <td><strong>📄 ${om.modelo_relatorio || "-"}</strong></td>
+                        <td>${om.descricao || "-"}</td>
+                        <td style="white-space:nowrap">${om.horario_inicial || om.horario_final ? `🕘 ${om.horario_inicial || "--:--"} → ${om.horario_final || "--:--"}` : "-"}</td>
+                        <td>${motivo}</td>
+                        <td>${om.responsaveis || "TURNO C"}</td>
+                        <td>${statusHTML}</td>
+                        <td>
+                            <div class="actions">
+                                ${om.status === "Pendente" ? `<button class="action-yellow" onclick="alterarMotivoPendencia(${om.id}, '${motivoSeguro}')" title="Informar motivo">⚠️</button>` : ""}
+                                <button class="action-yellow" onclick="alterarStatus(${om.id}, 'Pendente')" title="Marcar como Pendente">🟡</button>
+                                <button class="action-blue" onclick="alterarStatus(${om.id}, 'Em execução')" title="Marcar Em execução">🔵</button>
+                                <button class="action-green" onclick="alterarStatus(${om.id}, 'Concluída')" title="Marcar Concluída">🟢</button>
+                                <button class="action-neutral" onclick="abrirAlterarResponsavel(${om.id})" title="Alterar responsável">🔄</button>
+                                <button class="action-neutral" onclick="abrirDetalhesOM(${om.id})" title="Ver detalhes">👁️</button>
+                                <button class="action-neutral" onclick="gerarRelatorio(${om.id})" title="Gerar relatório">📄</button>
+                                <button class="action-red" onclick="excluirOM(${om.id})" title="Excluir OM">🗑️</button>
+                                <button class="action-edit" onclick="editarOM(${om.id})" title="Editar OM">✏️</button>
+                            </div>
                         </td>
-
-                        <td style="padding: 12px;">
-                            ${om.equipamento || "-"}
-                        </td>
-
-                        <td style="padding: 12px;">
-                            <strong>
-                                📄 ${om.modelo_relatorio || "-"}
-                            </strong>
-                        </td>
-
-                        <td style="padding: 12px;">
-    ${om.descricao || "-"}
-</td>
-
-<td style="padding: 12px; white-space: nowrap;">
-    ${
-        om.horario_inicial || om.horario_final
-            ? `
-                🕘 ${om.horario_inicial || "--:--"}
-                →
-                ${om.horario_final || "--:--"}
-              `
-            : "-"
-    }
-</td>
-
-<td style="padding: 12px;">
-    ${
-        om.status === "Pendente"
-            ? (om.motivo_pendencia || "⚠️ Não informado")
-            : "-"
-    }
-</td>
-
-<td style="padding: 12px;">
-    ${om.responsaveis || "TURNO C"}
-</td>
-
-                        <td style="padding: 12px;">
-                            ${statusHTML}
-                        </td>
-
-                        <td
-                            style="
-                                padding: 12px;
-                                text-align: center;
-                            "
-                        >
-${
-    om.status === "Pendente"
-        ? `
-            <button
-                onclick="
-                    alterarMotivoPendencia(
-                        ${om.id},
-                        '${(om.motivo_pendencia || "").replace(/'/g, "\\'")}'
-                    )
-                "
-                style="
-                    border: none;
-                    padding: 7px;
-                    border-radius: 6px;
-                    cursor: pointer;
-                    margin: 2px;
-                    background: #fef3c7;
-                "
-                title="Informar motivo da pendência"
-            >
-                ⚠️
-            </button>
-        `
-        : ""
-}
-                            <button
-                                onclick="
-                                    alterarStatus(
-                                        ${om.id},
-                                        'Pendente'
-                                    )
-                                "
-                                style="
-                                    border: none;
-                                    padding: 7px;
-                                    border-radius: 6px;
-                                    cursor: pointer;
-                                    margin: 2px;
-                                "
-                                title="Pendente"
-                            >
-                                🟡
-                            </button>
-
-                            <button
-                                onclick="
-                                    alterarStatus(
-                                        ${om.id},
-                                        'Em execução'
-                                    )
-                                "
-                                style="
-                                    border: none;
-                                    padding: 7px;
-                                    border-radius: 6px;
-                                    cursor: pointer;
-                                    margin: 2px;
-                                "
-                                title="Em execução"
-                            >
-                                🔵
-                            </button>
-
-                            <button
-                                onclick="
-                                    alterarStatus(
-                                        ${om.id},
-                                        'Concluída'
-                                    )
-                                "
-                                style="
-                                    border: none;
-                                    padding: 7px;
-                                    border-radius: 6px;
-                                    cursor: pointer;
-                                    margin: 2px;
-                                "
-                                title="Concluída"
-                            >
-                                🟢
-                            </button>
-
-                            <button
-                                onclick="
-                                    abrirAlterarResponsavel(
-                                        ${om.id}
-                                    )
-                                "
-                                style="
-                                    border: none;
-                                    padding: 7px;
-                                    border-radius: 6px;
-                                    cursor: pointer;
-                                    margin: 2px;
-                                "
-                                title="Alterar responsável"
-                            >
-                                🔄
-                            </button>
-
-                            <button
-                                onclick="
-                                    abrirDetalhesOM(
-                                        ${om.id}
-                                    )
-                                "
-                                style="
-                                    border: none;
-                                    padding: 7px;
-                                    border-radius: 6px;
-                                    cursor: pointer;
-                                    margin: 2px;
-                                "
-                                title="Ver detalhes da OM"
-                            >
-                                👁️
-                            </button>
-
-                            <button
-    onclick="
-        gerarRelatorio(
-            ${om.id}
-        )
-    "
-    style="
-        border: none;
-        padding: 7px;
-        border-radius: 6px;
-        cursor: pointer;
-        margin: 2px;
-        background: #dcfce7;
-    "
-    title="Gerar relatório"
->
-    📄
-</button>
-
-                            <button
-                                onclick="
-                                    excluirOM(
-                                        ${om.id}
-                                    )
-                                "
-                                style="
-                                    border: none;
-                                    padding: 7px;
-                                    border-radius: 6px;
-                                    cursor: pointer;
-                                    margin: 2px;
-                                    background: #fee2e2;
-                                "
-                                title="Excluir OM"
-                            >
-                                🗑️
-                            </button>
-
-                            <button
-                                onclick="
-                                    editarOM(
-                                        ${om.id}
-                                    )
-                                "
-                                style="
-                                    border: none;
-                                    padding: 7px;
-                                    border-radius: 6px;
-                                    cursor: pointer;
-                                    margin: 2px;
-                                    background: #dbeafe;
-                                "
-                                title="Editar OM"
-                            >
-                                ✏️
-                            </button>
-
-                        </td>
-
-                    </tr>
-
-                `;
-
-            });
-
+                    </tr>`;
+            }).join("");
         })
-
         .catch(function(error) {
-
-            console.error(
-                "Erro ao carregar OMs:",
-                error
-            );
-
-            lista.innerHTML = `
-
-                <tr>
-
-                    <td
-                        colspan="8"
-                        style="
-                            padding: 20px;
-                            text-align: center;
-                            color: #b91c1c;
-                        "
-                    >
-                        ❌ Erro ao carregar as OMs.
-                    </td>
-
-                </tr>
-
-            `;
-
+            console.error("Erro ao carregar OMs:", error);
+            lista.innerHTML = '<tr><td colspan="9" style="padding:20px;text-align:center;color:#ff8b90">❌ Erro ao carregar as OMs.</td></tr>';
         });
-
 }
+
+
 // =====================================
 // CARREGAR OMs CONCLUÍDAS DO DIA
 // =====================================
 
-function carregarOMsRelatorio() {
+function normalizarDataTexto(data) {
+    if (!data) return "";
+    const texto = String(data).trim();
+    const m = texto.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:,\s*(\d{1,2}):(\d{2})(?::(\d{2}))?)?/);
+    if (m) return String(m[1]).padStart(2,"0") + "/" + String(m[2]).padStart(2,"0") + "/" + m[3];
+    const d = new Date(texto);
+    return isNaN(d.getTime()) ? texto.split(",")[0].trim() : d.toLocaleDateString("pt-BR");
+}
 
-    const lista =
-        document.getElementById(
-            "listaOMsRelatorio"
-        );
+function extrairHoraTexto(data) {
+    if (!data) return "--:--";
+    const m = String(data).match(/(?:,\s*|T)(\d{1,2}):(\d{2})/);
+    return m ? String(m[1]).padStart(2,"0") + ":" + m[2] : "--:--";
+}
 
-    if (!lista) {
-
-        console.error(
-            "❌ listaOMsRelatorio não encontrada."
-        );
-
-        return;
-    }
-
-    lista.innerHTML =
-        "🔄 Carregando OMs concluídas...";
+function carregarOMsRelatorio(silencioso) {
+    const lista = document.getElementById("listaOMsRelatorio");
+    if (!lista) return;
+    if (!silencioso) lista.innerHTML = "🔄 Carregando OMs concluídas...";
 
     fetch("/atribuicoes")
-
         .then(function(response) {
-
-            if (!response.ok) {
-
-                throw new Error(
-                    "Erro HTTP: " +
-                    response.status
-                );
-
-            }
-
+            if (!response.ok) throw new Error("Erro HTTP: " + response.status);
             return response.json();
-
         })
-
         .then(function(oms) {
+            const hoje = new Date().toLocaleDateString("pt-BR");
+            const concluidas = (Array.isArray(oms) ? oms : []).filter(function(om) {
+                return String(om.status || "").trim().toLowerCase() === "concluída" && normalizarDataTexto(om.data) === hoje;
+            });
 
-            console.log(
-                "📥 OMs recebidas:",
-                oms.length
-            );
-
-            const hoje =
-                new Date()
-                    .toLocaleDateString(
-                        "pt-BR"
-                    );
-
-            console.log(
-                "📅 Data de hoje:",
-                hoje
-            );
-
-            const concluidas =
-                oms.filter(function(om) {
-
-                    const status =
-                        String(
-                            om.status || ""
-                        )
-                        .trim()
-                        .toLowerCase();
-
-                    if (
-                        status !==
-                        "concluída"
-                    ) {
-
-                        return false;
-
-                    }
-
-                    if (!om.data) {
-
-                        return false;
-
-                    }
-
-                    const dataOM =
-                        String(
-                            om.data
-                        )
-                        .split(",")[0]
-                        .trim();
-
-                    return dataOM === hoje;
-
-                });
-
-            console.log(
-                "✅ OMs concluídas encontradas:",
-                concluidas.length
-            );
-
-            console.table(
-                concluidas.map(
-                    function(om) {
-
-                        return {
-
-                            id: om.id,
-
-                            om: om.om,
-
-                            equipamento:
-                                om.equipamento,
-
-                            status:
-                                om.status,
-
-                            data:
-                                om.data
-
-                        };
-
-                    }
-                )
-            );
-
-            if (
-                concluidas.length === 0
-            ) {
-
-                lista.innerHTML = `
-                    <div
-                        style="
-                            padding: 15px;
-                            background: #f8fafc;
-                            border-radius: 8px;
-                            color: #64748b;
-                        "
-                    >
-                        📭 Nenhuma OM concluída hoje.
-                    </div>
-                `;
-
+            if (!concluidas.length) {
+                lista.innerHTML = '<div class="muted" style="padding:12px">📭 Nenhuma OM concluída hoje.</div>';
                 return;
-
             }
 
-            lista.innerHTML =
-                concluidas
-                    .map(function(om) {
-
-                        return `
-                            <label
-                                style="
-                                    display: flex;
-                                    align-items: center;
-                                    gap: 12px;
-                                    padding: 12px;
-                                    border: 1px solid #e2e8f0;
-                                    border-radius: 8px;
-                                    cursor: pointer;
-                                    background: white;
-                                "
-                            >
-
-                                <input
-                                    type="checkbox"
-                                    class="omRelatorio"
-                                    value="${om.id}"
-                                >
-
-                                <div>
-
-                                    <strong>
-                                        OM ${om.om}
-                                    </strong>
-
-                                    <br>
-
-                                    🚜
-                                    ${om.equipamento || "-"}
-
-                                    <br>
-
-                                    ⏰
-                                    ${om.horario_inicial || "--:--"}
-                                    →
-                                    ${om.horario_final || "--:--"}
-
-                                    <br>
-
-                                    📄
-                                    ${
-                                        om.modelo_relatorio ||
-                                        om.descricao ||
-                                        "-"
-                                    }
-
-                                </div>
-
-                            </label>
-                        `;
-
-                    })
-                    .join("");
-
+            lista.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><strong style="color:#fff">OMs concluídas de hoje</strong><button type="button" class="btn btn-gray" onclick="selecionarTodasOMsRelatorio()">Selecionar todas</button></div><div class="report-select-list">' + concluidas.map(function(om){
+                return `<label class="report-select-item"><input type="checkbox" class="omRelatorio" value="${om.id}" checked><div><strong>📁 OM ${om.om || "-"}</strong><br>🚜 ${om.equipamento || "-"}<br>📄 ${om.modelo_relatorio || om.descricao || "-"}<br>⏰ ${om.horario_inicial || extrairHoraTexto(om.data)} → ${om.horario_final || "--:--"}</div></label>`;
+            }).join("") + '</div>';
         })
-
         .catch(function(error) {
-
-            console.error(
-                "❌ Erro ao carregar OMs concluídas:",
-                error
-            );
-
-            lista.innerHTML = `
-                <div
-                    style="
-                        padding: 15px;
-                        color: #b91c1c;
-                        background: #fef2f2;
-                        border-radius: 8px;
-                    "
-                >
-                    ❌ Erro ao carregar OMs concluídas.
-                    <br>
-                    <small>
-                        ${error.message}
-                    </small>
-                </div>
-            `;
-
+            console.error("Erro ao carregar OMs concluídas:", error);
+            if (!silencioso) lista.innerHTML = '<div style="padding:12px;color:#ff8b90">❌ Erro ao carregar OMs concluídas.</div>';
         });
-
 }
+
+function selecionarTodasOMsRelatorio(){
+    document.querySelectorAll(".omRelatorio").forEach(function(c){ c.checked = true; });
+}
+
 
 // =====================================
 // GERAR RELATÓRIO DE TURNO
 // =====================================
 
 function gerarRelatorioTurno() {
-
-    const selecionadas =
-        document.querySelectorAll(
-            ".omRelatorio:checked"
-        );
-
-    if (!selecionadas.length) {
-    console.log("Nenhuma OM concluída selecionada. Gerando relatório apenas com as pendências.");
-}
-
     fetch("/atribuicoes")
+        .then(function(response){ if(!response.ok) throw new Error("Erro HTTP: "+response.status); return response.json(); })
+        .then(function(oms){
+            const checks = Array.from(document.querySelectorAll(".omRelatorio:checked"));
+            const ids = checks.map(function(c){ return Number(c.value); });
+            const hoje = new Date().toLocaleDateString("pt-BR");
+            let selecionadas = (Array.isArray(oms)?oms:[]).filter(function(om){ return ids.includes(Number(om.id)); });
+            if (!checks.length) {
+                selecionadas = (Array.isArray(oms)?oms:[]).filter(function(om){ return String(om.status||"").trim().toLowerCase()==="concluída" && normalizarDataTexto(om.data)===hoje; });
+            }
 
-        .then(function(response) {
+            let relatorio = "📈 RELATÓRIO DE FIM DE TURNO – TURNO C SOTREQ\n\n";
+            relatorio += "🗓 DATA: " + hoje + "\n\n";
+            relatorio += "🚨IAMO 🚨\n";
+            relatorio += "CAPACIDADE: 8.8\n";
+            relatorio += "HH UTILIZADO: N/A\n";
+            relatorio += "Desvio: N/A\n\n";
 
-            return response.json();
-
-        })
-
-        .then(function(oms) {
-
-            const idsSelecionados =
-                Array.from(selecionadas)
-                    .map(function(checkbox) {
-                        return Number(
-                            checkbox.value
-                        );
-                    });
-
-            const omsSelecionadas =
-                oms.filter(function(om) {
-
-                    return idsSelecionados.includes(
-                        Number(om.id)
-                    );
-
+            relatorio += "📋 OMs CONCLUÍDAS\n\n";
+            if (!selecionadas.length) {
+                relatorio += "Nenhuma OM concluída hoje.\n\n";
+            } else {
+                selecionadas.forEach(function(om){
+                    relatorio += "OM: " + (om.om||"-") + "\n";
+                    relatorio += "Equipamento: " + (om.equipamento||"-") + "\n";
+                    relatorio += "Modelo: " + (om.modelo_relatorio||om.descricao||"-") + "\n";
+                    relatorio += "Horário: " + (om.horario_inicial||extrairHoraTexto(om.data)||"--:--") + " → " + (om.horario_final||"--:--") + "\n";
+                    relatorio += "Pendências: " + (om.motivo_pendencia ? "SIM" : "NÃO") + "\n\n";
                 });
+            }
 
-            const dataHoje =
-                new Date().toLocaleDateString(
-                    "pt-BR"
-                );
+            relatorio += "🛺 ATIVIDADES EXTRA SAP: \n\n";
+            relatorio += "🚜 APONTAMENTOS GPV: \n\n";
+            relatorio += "⚠️ PENDÊNCIAS\n\n";
+            const pendentes = (Array.isArray(oms)?oms:[]).filter(function(om){ return String(om.status||"").trim().toLowerCase()==="pendente"; });
+            if (!pendentes.length) relatorio += "Nenhuma OM pendente.\n";
+            else pendentes.forEach(function(om){ relatorio += "* " + (om.equipamento||"-") + " – OM " + (om.om||"-") + (om.descricao ? " – " + om.descricao : "") + (om.motivo_pendencia ? " – Motivo: " + om.motivo_pendencia : "") + "\n"; });
+            relatorio += "\n🧑🏾‍🔧 EXECUTANTES\n\n👨🏻‍🔧 JOÃO LENO\n👨🏻‍🔧 RAFAEL MOTA\n👨🏻‍🔧 JOÃO ARAÚJO\n👨🏻‍🔧 LUCAS BRAGA";
 
-            let relatorio =
-                "📈 Relatório Turno C SOTREQ\n\n";
-
-            relatorio +=
-                "🗓 " + dataHoje + "\n\n";
-
-            omsSelecionadas.forEach(
-                function(om) {
-
-                    const modelo =
-                        om.modelo_relatorio ||
-                        om.descricao ||
-                        "MP MINESTAR";
-
-                    const horarioInicial =
-                        om.horario_inicial ||
-                        "--:--";
-
-                    const horarioFinal =
-                        om.horario_final ||
-                        "--:--";
-
-                    const pendencia =
-                        om.motivo_pendencia
-                            ? "SIM."
-                            : "NÃO.";
-
-                    relatorio +=
-                        "📁 N° OM: " +
-                        om.om +
-                        "\n";
-
-                    relatorio +=
-                        "Descrição resumida: " +
-                        modelo +
-                        "\n";
-
-                    relatorio +=
-                        "⏰ Horário inicial: " +
-                        horarioInicial +
-                        "\n";
-
-                    relatorio +=
-                        "⏰ Horário final: " +
-                        horarioFinal +
-                        "\n";
-
-                    relatorio +=
-                        "🚜 Equipamento: " +
-                        (om.equipamento || "-") +
-                        "\n";
-
-                    relatorio +=
-                        "🚨Pendências: " +
-                        pendencia +
-                        "\n\n";
-
-                }
-            );
-
-            relatorio +=
-                "📢 Acionamentos e Resoluções Remoto. 📢\n\n";
-
-            relatorio +=
-                "🚨IAMO🚨\n" +
-                "Capacidade:" +
-                "HH utilizado:" +
-                "Desvio: N/A";
-
-            relatorio +=
-                "🛺▪Atividades extra SAP: \n\n";
-
-            relatorio +=
-                "🚜Apontamentos GPV:\n\n";
-
-         relatorio +=
-    "⚠️Pendências:⚠️\n\n";
-
-const pendentesRelatorio = oms.filter(function(om) {
-
-    return String(om.status || "")
-        .trim()
-        .toLowerCase() === "pendente";
-
-});
-
-pendentesRelatorio.forEach(function(om) {
-
-    const equipamento =
-        String(om.equipamento || "-").trim();
-
-    const numeroOM =
-        String(om.om || "-").trim();
-
-    const descricao =
-        String(
-            om.descricao ||
-            om.modelo_relatorio ||
-            ""
-        ).trim();
-
-    const motivo =
-        String(
-            om.motivo_pendencia || ""
-        ).trim();
-
-    let linha =
-        "* " +
-        equipamento +
-        " – OM " +
-        numeroOM;
-
-    if (descricao) {
-        linha +=
-            " – " +
-            descricao;
-    }
-
-    if (motivo) {
-        linha +=
-            " – Motivo: " +
-            motivo;
-    }
-
-    relatorio +=
-        linha + "\n";
-
-});
-
-if (pendentesRelatorio.length === 0) {
-
-    relatorio +=
-        "Nenhuma OM pendente.\n";
-
-}
-
-relatorio += "\n";
-
-            relatorio +=
-    "🧑🏾‍🔧 Executantes:\n\n";
-
-relatorio +=
-    "👨🏻‍🔧 JOÃO LENO\n" +
-    "👨🏻‍🔧 RAFAEL MOTA\n" +
-    "👨🏻‍🔧 JOÃO ARAÚJO\n" +
-    "👨🏻‍🔧 LUCAS BRAGA";
-
-            const resultado =
-                document.getElementById(
-                    "resultadoRelatorioTurno"
-                );
-
-            resultado.innerHTML = `
-                <textarea
-                    id="textoRelatorioTurno"
-                    rows="30"
-                    style="
-                        width: 100%;
-                        padding: 15px;
-                        border: 1px solid #cbd5e1;
-                        border-radius: 8px;
-                        resize: vertical;
-                        font-family: monospace;
-                        font-size: 14px;
-                        box-sizing: border-box;
-                    "
-                ></textarea>
-
-                <button
-                    type="button"
-                    onclick="copiarRelatorioTurno()"
-                    style="
-                        width: 100%;
-                        margin-top: 10px;
-                        padding: 14px;
-                        border: none;
-                        border-radius: 8px;
-                        background: #2563eb;
-                        color: white;
-                        font-size: 16px;
-                        font-weight: bold;
-                        cursor: pointer;
-                    "
-                >
-                    📋 Copiar Relatório
-                </button>
-            `;
-
-            document.getElementById(
-                "textoRelatorioTurno"
-            ).value = relatorio;
-
+            const resultado = document.getElementById("resultadoRelatorioTurno");
+            resultado.innerHTML = `<div class="turno-report-preview"><div class="report-name">🚨IAMO 🚨</div>${relatorio.replace(/\n/g,"<br>").replace(/(JOÃO LENO|RAFAEL MOTA|JOÃO ARAÚJO|LUCAS BRAGA)/g,"<strong>$1</strong>")}</div><textarea id="textoRelatorioTurno" class="turno-report" rows="30" style="width:100%;margin-top:10px;padding:15px;border-radius:8px;resize:vertical;font-family:monospace;font-size:14px;box-sizing:border-box"></textarea><button type="button" class="btn btn-red" style="width:100%;margin-top:10px" onclick="copiarRelatorioTurno()">📋 Copiar Relatório</button>`;
+            document.getElementById("textoRelatorioTurno").value = relatorio;
         })
-
-        .catch(function(error) {
-
-            console.error(
-                "Erro ao gerar relatório:",
-                error
-            );
-
-            alert(
-                "❌ Erro ao gerar o relatório."
-            );
-
-        });
-
+        .catch(function(error){ console.error("Erro ao gerar relatório:",error); alert("❌ Erro ao gerar o relatório."); });
 }
+
+
 // =====================================
 // COPIAR RELATÓRIO DE TURNO
 // =====================================
@@ -6451,16 +5592,18 @@ carregarOMsRelatorio();
 // ATUALIZA AUTOMATICAMENTE
 // =====================================
 
-setInterval(function() {
+setInterval(
 
-    // Atualiza as OMs normalmente
-    carregarOMs();
+    function() {
 
-    // Atualiza o histórico silenciosamente
-    carregarHistoricoOMs();
+        carregarOMs();
 
-}, 5000);
 
+    },
+
+    5000
+
+);
 // =====================================
 // COPIAR RELATÓRIO HEALTH
 // =====================================
@@ -9801,14 +8944,79 @@ mostrarBotaoCadastroPendencias();
 </script>
 
 <script>
-let historicoOMs=[]; let filtroHistoricoStatus="todos";
-function carregarHistoricoOMs(){const lista=document.getElementById("listaHistoricoOMs");if(!lista)return;lista.innerHTML='<div class="muted">⏳ Carregando histórico...</div>';fetch('/atribuicoes').then(r=>{if(!r.ok)throw new Error('Erro HTTP '+r.status);return r.json()}).then(oms=>{historicoOMs=Array.isArray(oms)?oms:[];renderizarHistoricoOMs()}).catch(e=>{console.error('Histórico:',e);lista.innerHTML='<div style="color:#ff8b90">❌ Erro ao carregar histórico.</div>'})}
-function renderizarHistoricoOMs(){const lista=document.getElementById('listaHistoricoOMs');if(!lista)return;const campo=document.getElementById('pesquisaHistoricoOM');const pesquisa=campo?campo.value.trim().toLowerCase():'';const resultado=historicoOMs.filter(om=>{const status=String(om.status||'').trim().toLowerCase();if(filtroHistoricoStatus!=='todos'&&status!==filtroHistoricoStatus)return false;if(!pesquisa)return true;return [om.om,om.equipamento,om.descricao,om.modelo_relatorio,om.motivo_pendencia,om.data].filter(Boolean).join(' ').toLowerCase().includes(pesquisa)});if(!resultado.length){lista.innerHTML='<div class="muted" style="padding:15px;text-align:center">📭 Nenhuma OM encontrada.</div>';return}lista.innerHTML=resultado.map(om=>{const s=String(om.status||'').trim();let cls=s==='Concluída'?'status-green':s==='Em execução'?'status-blue':'status-yellow';return `<div class="recent-item"><div class="recent-line"><b>📁 OM ${om.om||'-'}</b><span class="status-pill ${cls}">${s||'Pendente'}</span></div><div class="muted" style="margin-top:5px">🚜 ${om.equipamento||'-'} &nbsp; • &nbsp; 📄 ${om.modelo_relatorio||om.descricao||'-'}</div><div class="muted" style="margin-top:4px">📅 ${om.data||'-'}</div>${om.motivo_pendencia?`<div style="margin-top:5px;color:#f2bd28">⚠ ${om.motivo_pendencia}</div>`:''}</div>`}).join('')}
-function filtrarHistoricoOMs(){renderizarHistoricoOMs()} function filtrarHistoricoStatus(status){filtroHistoricoStatus=status;renderizarHistoricoOMs()}
-function irPara(id,btn){document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));btn?.classList.add('active')}
-function abrirModal(id){const m=document.getElementById(id);if(m)m.style.display='flex'} function fecharModal(id){const m=document.getElementById(id);if(m)m.style.display='none'}
-document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.style.display='none'}));
-function atualizarUltimasOMs(){const el=document.getElementById('ultimasOMs');const resumo=document.getElementById('resumoFimTurno');if(!el)return;fetch('/atribuicoes').then(r=>r.json()).then(oms=>{const arr=Array.isArray(oms)?oms:[];const ult=arr.slice().sort((a,b)=>new Date(b.data||0)-new Date(a.data||0)).slice(0,5);el.innerHTML=ult.length?ult.map(o=>`<div class="recent-item"><div class="recent-line"><span><i class="dot ${o.status==='Concluída'?'green':o.status==='Em execução'?'blue':'yellow'}"></i>OM ${o.om||'-'} - ${o.equipamento||'-'}</span><span class="muted">${o.data||''}</span></div><div class="muted" style="margin-left:15px;margin-top:4px">${o.status||'Pendente'}</div></div>`).join(''):'<div class="muted" style="padding:15px">Nenhuma OM.</div>';const c=arr.filter(o=>o.status==='Concluída').length,e=arr.filter(o=>o.status==='Em execução').length,p=arr.filter(o=>o.status==='Pendente').length;resumo.innerHTML=`<div class="pending-item"><b>⚠ Pendências do turno <span style="float:right;color:#ff5960">${p}</span></b><span>${p?`Existem ${p} OMs pendentes aguardando ação.`:'Nenhuma OM pendente.'}</span></div><div class="summary-row"><div class="summary-chip"><b style="color:#16c784">${c}</b><small>Concluídas</small></div><div class="summary-chip"><b style="color:#2583f7">${e}</b><small>Em execução</small></div><div class="summary-chip"><b style="color:#f2bd28">${p}</b><small>Pendentes</small></div></div>`}).catch(()=>{})}
-document.addEventListener('DOMContentLoaded',()=>{carregarHistoricoOMs();atualizarUltimasOMs();const filtro=document.getElementById('filtroStatusVisual');filtro?.addEventListener('change',()=>{const input=document.getElementById('pesquisaOM');const val=filtro.value.toLowerCase();if(input)input.value=val?val:'';carregarOMs()});setInterval(()=>{atualizarUltimasOMs();carregarHistoricoOMs()},5000)});
+let historicoOMs = [];
+let filtroHistoricoStatus = "todos";
+const HISTORICO_KEY = "oficina_historico_oms_v2";
+const HISTORICO_DIAS = 7;
+
+function dataHistoricoValida(om){
+    const base = om && om.data ? normalizarDataTexto(om.data) : "";
+    if(!base) return new Date();
+    const p=base.split("/");
+    const d=new Date(Number(p[2]),Number(p[1])-1,Number(p[0]));
+    return isNaN(d.getTime()) ? new Date() : d;
+}
+function limparHistoricoAntigo(){
+    const limite=Date.now()-HISTORICO_DIAS*24*60*60*1000;
+    historicoOMs=historicoOMs.filter(function(om){ return dataHistoricoValida(om).getTime()>=limite; });
+}
+function salvarHistoricoLocal(){
+    limparHistoricoAntigo();
+    try{ localStorage.setItem(HISTORICO_KEY,JSON.stringify(historicoOMs)); }catch(e){ console.warn("Não foi possível salvar o histórico local.",e); }
+}
+function carregarHistoricoLocal(){
+    try{ const salvo=JSON.parse(localStorage.getItem(HISTORICO_KEY)||"[]"); historicoOMs=Array.isArray(salvo)?salvo:[]; }catch(e){ historicoOMs=[]; }
+    limparHistoricoAntigo();
+}
+function mesclarHistorico(oms){
+    const mapa=new Map();
+    historicoOMs.forEach(function(om){ if(om&&om.id!=null) mapa.set(String(om.id),om); });
+    (Array.isArray(oms)?oms:[]).forEach(function(om){ if(om&&om.id!=null) mapa.set(String(om.id),om); });
+    historicoOMs=Array.from(mapa.values()).sort(function(a,b){ return dataHistoricoValida(b)-dataHistoricoValida(a); });
+    salvarHistoricoLocal();
+}
+function carregarHistoricoOMs(silencioso){
+    const lista=document.getElementById("listaHistoricoOMs"); if(!lista)return;
+    if(!historicoOMs.length) carregarHistoricoLocal();
+    fetch("/atribuicoes").then(function(r){if(!r.ok)throw new Error("Erro HTTP "+r.status);return r.json()}).then(function(oms){
+        mesclarHistorico(oms);
+        renderizarHistoricoOMs();
+    }).catch(function(e){ console.error("Histórico:",e); if(!historicoOMs.length&&!silencioso) lista.innerHTML='<div class="muted">❌ Erro ao carregar histórico.</div>'; });
+}
+function renderizarHistoricoOMs(){
+    const lista=document.getElementById("listaHistoricoOMs"); if(!lista)return;
+    const campo=document.getElementById("pesquisaHistoricoOM"); const pesquisa=campo?campo.value.trim().toLowerCase():"";
+    const resultado=historicoOMs.filter(function(om){
+        const status=String(om.status||"").trim().toLowerCase();
+        if(filtroHistoricoStatus!=="todos"&&status!==filtroHistoricoStatus)return false;
+        if(!pesquisa)return true;
+        return [om.om,om.equipamento,om.descricao,om.modelo_relatorio,om.motivo_pendencia,om.data].filter(Boolean).join(" ").toLowerCase().includes(pesquisa);
+    });
+    if(!resultado.length){lista.innerHTML='<div class="muted" style="padding:15px;text-align:center">📭 Nenhuma OM encontrada nos últimos 7 dias.</div>';return;}
+    lista.innerHTML=resultado.map(function(om){
+        const s=String(om.status||"").trim(); const cls=s==="Concluída"?"status-green":s==="Em execução"?"status-blue":"status-yellow";
+        return `<div class="recent-item"><div class="recent-line"><b style="color:#fff">📁 OM ${om.om||"-"}</b><span class="status-pill ${cls}">${s||"Pendente"}</span></div><div class="muted" style="margin-top:5px">🚜 ${om.equipamento||"-"} &nbsp; • &nbsp; 📄 ${om.modelo_relatorio||om.descricao||"-"}</div><div class="muted" style="margin-top:4px">📅 ${om.data||"-"}</div>${om.motivo_pendencia?`<div style="margin-top:5px;color:#f2bd28">⚠ ${om.motivo_pendencia}</div>`:""}</div>`;
+    }).join("");
+}
+function filtrarHistoricoOMs(){renderizarHistoricoOMs();}
+function filtrarHistoricoStatus(status){filtroHistoricoStatus=status;renderizarHistoricoOMs();}
+function irPara(id,btn){document.getElementById(id)?.scrollIntoView({behavior:"smooth",block:"start"});document.querySelectorAll(".nav button").forEach(function(b){b.classList.remove("active")});btn?.classList.add("active");}
+function abrirModal(id){const m=document.getElementById(id);if(m)m.style.display="flex";} function fecharModal(id){const m=document.getElementById(id);if(m)m.style.display="none";}
+document.querySelectorAll(".modal").forEach(function(m){m.addEventListener("click",function(e){if(e.target===m)m.style.display="none"})});
+function atualizarUltimasOMs(){
+    const el=document.getElementById("ultimasOMs"); const resumo=document.getElementById("resumoFimTurno"); if(!el)return;
+    fetch("/atribuicoes").then(function(r){if(!r.ok)throw new Error();return r.json()}).then(function(oms){
+        const arr=Array.isArray(oms)?oms:[];
+        const ult=arr.slice().sort(function(a,b){return dataHistoricoValida(b)-dataHistoricoValida(a);}).slice(0,5);
+        el.innerHTML=ult.length?ult.map(function(o){const hora=extrairHoraTexto(o.data);return `<div class="recent-item"><div class="recent-line"><span><i class="dot ${o.status==="Concluída"?"green":o.status==="Em execução"?"blue":"yellow"}"></i><b style="color:#fff">OM ${o.om||"-"} - ${o.equipamento||"-"}</b></span><span class="muted">${normalizarDataTexto(o.data)} ${hora}</span></div><div class="muted" style="margin-left:15px;margin-top:4px">${o.status||"Pendente"}</div></div>`}).join(""):'<div class="muted" style="padding:15px">Nenhuma OM.</div>';
+        const c=arr.filter(function(o){return o.status==="Concluída"}).length,e=arr.filter(function(o){return o.status==="Em execução"}).length,p=arr.filter(function(o){return o.status==="Pendente"}).length;
+        if(resumo) resumo.innerHTML=`<div class="pending-item"><b>⚠ Pendências do turno <span style="float:right;color:#ff5960">${p}</span></b><span>${p?`Existem ${p} OMs pendentes aguardando ação.`:"Nenhuma OM pendente."}</span></div><div class="summary-row"><div class="summary-chip"><b style="color:#16c784">${c}</b><small>Concluídas</small></div><div class="summary-chip"><b style="color:#2583f7">${e}</b><small>Em execução</small></div><div class="summary-chip"><b style="color:#f2bd28">${p}</b><small>Pendentes</small></div></div>`;
+    }).catch(function(){});
+}
+document.addEventListener("DOMContentLoaded",function(){
+    carregarHistoricoLocal(); carregarHistoricoOMs(true); atualizarUltimasOMs();
+    const filtro=document.getElementById("filtroStatusVisual"); filtro?.addEventListener("change",function(){carregarOMs()});
+    setInterval(function(){ carregarOMs(); atualizarUltimasOMs(); carregarHistoricoOMs(true); carregarOMsRelatorio(true); },10000);
+});
 </script>
 </body></html>
