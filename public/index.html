@@ -7732,22 +7732,96 @@ window.cruzarPendencias = function () {
         </div>`;
     });
 
-    resultado.style.display = "block";
-    resultado.innerHTML = `<div style="padding:15px;border-radius:8px;background:#eff6ff;border:1px solid #bfdbfe;color:#111827">
-        <h3 style="margin-top:0">🔎 Resultado do cruzamento</h3>
-        <div style="display:grid;gap:7px;margin-bottom:15px">
-            <div>📋 <strong>Pendências encontradas:</strong> ${total}</div>
-            <div>🟢 <strong>Equipamentos na oficina:</strong> ${cadastrar}</div>
-            <div>⚪ <strong>Fora da oficina:</strong> ${foraOficina}</div>
-            <div>🟡 <strong>Precisam revisão:</strong> ${revisar}</div>
-        </div>
-        <hr>
-        <h3>📋 Pendências encontradas</h3>
-        ${tabela || '<div style="padding:12px 0">📭 Nenhuma OM encontrada nas pendências.</div>'}
-    </div>`;
+   resultado.style.display = "block";
 
-    console.log("📋 Pendências cruzadas:", pendenciasFinais);
-    mostrarBotaoCadastroPendencias();
+resultado.innerHTML = `
+    <div style="
+        padding:15px;
+        border-radius:8px;
+        background:#eff6ff;
+        border:1px solid #bfdbfe;
+        color:#111827;
+    ">
+
+        <h3 style="
+            margin-top:0;
+            color:#111827;
+        ">
+            🔎 Resultado do cruzamento
+        </h3>
+
+        <div style="
+            display:grid;
+            gap:7px;
+            margin-bottom:15px;
+            color:#111827;
+        ">
+
+            <div style="color:#111827;">
+                📋
+                <strong style="color:#111827;">
+                    Pendências encontradas:
+                </strong>
+                ${total}
+            </div>
+
+            <div style="color:#111827;">
+                🟢
+                <strong style="color:#111827;">
+                    Equipamentos na oficina:
+                </strong>
+                ${cadastrar}
+            </div>
+
+            <div style="color:#111827;">
+                ⚪
+                <strong style="color:#111827;">
+                    Fora da oficina:
+                </strong>
+                ${foraOficina}
+            </div>
+
+            <div style="color:#111827;">
+                🟡
+                <strong style="color:#111827;">
+                    Precisam revisão:
+                </strong>
+                ${revisar}
+            </div>
+
+        </div>
+
+        <hr>
+
+        <h3 style="
+            color:#111827;
+            margin-bottom:10px;
+        ">
+            📋 Pendências encontradas
+        </h3>
+
+        <div style="
+            color:#111827;
+        ">
+            ${tabela || `
+                <div style="
+                    padding:12px 0;
+                    color:#111827;
+                ">
+                    📭 Nenhuma OM encontrada nas pendências.
+                </div>
+            `}
+        </div>
+
+    </div>
+`;
+
+console.log(
+    "📋 Pendências cruzadas:",
+    pendenciasFinais
+);
+
+mostrarBotaoCadastroPendencias();
 };
 
 </script>
