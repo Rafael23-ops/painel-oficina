@@ -7987,10 +7987,25 @@ function carregarHistoricoLocal(){
     limparHistoricoAntigo();
 }
 function mesclarHistorico(oms){
-    const mapa=new Map();
-    historicoOMs.forEach(function(om){ if(om&&om.id!=null) mapa.set(String(om.id),om); });
-    (Array.isArray(oms)?oms:[]).forEach(function(om){ if(om&&String(om.om||"").trim()==="12345") return; if(om&&om.id!=null) mapa.set(String(om.id),om); });
-    historicoOMs=Array.from(mapa.values()).sort(function(a,b){ return dataHistoricoValida(b)-dataHistoricoValida(a); });
+
+    if (!Array.isArray(oms)) return;
+
+    historicoOMs = oms.filter(function(om){
+
+        if (!om || om.id == null) return false;
+
+        // Descarta a OM 12345 antiga
+        if (String(om.om || "").trim() === "12345") {
+            return Number(om.id) >= 164;
+        }
+
+        return true;
+    });
+
+    historicoOMs.sort(function(a, b){
+        return dataHistoricoValida(b) - dataHistoricoValida(a);
+    });
+
     salvarHistoricoLocal();
 }
 function carregarHistoricoOMs(silencioso){
