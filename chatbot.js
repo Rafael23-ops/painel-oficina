@@ -2,7 +2,9 @@ const express = require("express");
 const app = express();
 const dados = require("./dados");
 const db = require("./database");
+
 app.use(express.json());
+
 
 // ===============================
 // AUTENTICAÇÃO DO PAINEL
@@ -11,48 +13,112 @@ app.use(express.json());
 const USUARIO_PAINEL = "oficina";
 const SENHA_PAINEL = "Oficina@2026";
 
-function autenticarPainel(req, res, next) {
+const sessoes = new Set();
 
-    const autenticacao = req.headers.authorization;
 
-    if (!autenticacao) {
-        res.setHeader("WWW-Authenticate", 'Basic realm="Painel da Oficina"');
-        return res.status(401).send("🔒 Acesso restrito. Informe usuário e senha.");
-    }
+// ===============================
+// GERAR TOKEN
+// ===============================
 
-    const partes = autenticacao.split(" ");
+function gerarToken() {
+    return require("crypto")
+        .randomBytes(32)
+        .toString("hex");
+}
 
-    if (partes.length !== 2 || partes[0] !== "Basic") {
-        return res.status(401).send("🔒 Autenticação inválida.");
-    }
 
-    const credenciais = Buffer
-        .from(partes[1], "base64")
-        .toString("utf8");
+// ===============================
+// LOGIN
+// ===============================
 
-    const separador = credenciais.indexOf(":");
+app.post("/login", function(req, res) {
 
-    if (separador === -1) {
-        return res.status(401).send("🔒 Autenticação inválida.");
-    }
-
-    const usuario = credenciais.substring(0, separador);
-    const senha = credenciais.substring(separador + 1);
+    const usuario = String(req.body.usuario || "").trim();
+    const senha = String(req.body.senha || "");
 
     if (
         usuario !== USUARIO_PAINEL ||
         senha !== SENHA_PAINEL
     ) {
-        res.setHeader("WWW-Authenticate", 'Basic realm="Painel da Oficina"');
+        return res.status(401).json({
+            sucesso: false,
+            erro: "Usuário ou senha incorretos."
+        });
+    }
 
-        return res.status(401).send("❌ Usuário ou senha incorretos.");
+    const token = gerarToken();
+
+    sessoes.add(token);
+
+    res.setHeader(
+    "Set-Cookie",
+    "tokenPainel=" + token + "; HttpOnly; Path=/; SameSite=Strict"
+);
+
+return res.json({
+    sucesso: true
+});
+});
+
+
+// ===============================
+// PROTEÇÃO DO PAINEL
+// ===============================
+
+function autenticarPainel(req, res, next) {
+
+    const cookies = req.headers.cookie || "";
+
+    const encontrado = cookies
+        .split(";")
+        .map(function(item) {
+            return item.trim();
+        })
+        .find(function(item) {
+            return item.startsWith("tokenPainel=");
+        });
+
+    const token = encontrado
+        ? encontrado.substring("tokenPainel=".length)
+        : null;
+
+    if (!token || !sessoes.has(token)) {
+
+        return res.status(401).json({
+            erro: "Não autenticado."
+        });
     }
 
     next();
 }
 
-// Protege o painel e os arquivos HTML/CSS/JS
-app.use(autenticarPainel);
+// ===============================
+// ARQUIVOS PÚBLICOS
+// ===============================
+
+app.use(function(req, res, next) {
+
+    // Permite a tela de login
+    if (req.path === "/login.html") {
+        return express.static("public")(req, res, next);
+    }
+
+    // Permite os arquivos do login
+    if (
+        req.path === "/login.css" ||
+        req.path === "/login.js"
+    ) {
+        return express.static("public")(req, res, next);
+    }
+
+    // Todo o restante fica protegido
+    autenticarPainel(req, res, next);
+});
+
+
+// ===============================
+// ARQUIVOS DO PAINEL
+// ===============================
 
 app.use(express.static("public"));
 // ===============================
