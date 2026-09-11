@@ -15,11 +15,6 @@ const SENHA_PAINEL = "Oficina@2026";
 
 const sessoes = new Set();
 
-
-// ===============================
-// GERAR TOKEN
-// ===============================
-
 function gerarToken() {
     return require("crypto")
         .randomBytes(32)
@@ -51,18 +46,18 @@ app.post("/login", function(req, res) {
     sessoes.add(token);
 
     res.setHeader(
-    "Set-Cookie",
-    "tokenPainel=" + token + "; HttpOnly; Path=/; SameSite=Strict"
-);
+        "Set-Cookie",
+        "tokenPainel=" + token + "; HttpOnly; Path=/; SameSite=Lax"
+    );
 
-return res.json({
-    sucesso: true
-});
+    return res.json({
+        sucesso: true
+    });
 });
 
 
 // ===============================
-// PROTEÇÃO DO PAINEL
+// VERIFICAR AUTENTICAÇÃO
 // ===============================
 
 function autenticarPainel(req, res, next) {
@@ -84,6 +79,12 @@ function autenticarPainel(req, res, next) {
 
     if (!token || !sessoes.has(token)) {
 
+        // Se estiver tentando abrir o painel,
+        // manda para o login.
+        if (req.path === "/") {
+            return res.redirect("/login.html");
+        }
+
         return res.status(401).json({
             erro: "Não autenticado."
         });
@@ -92,28 +93,58 @@ function autenticarPainel(req, res, next) {
     next();
 }
 
+
 // ===============================
-// ARQUIVOS PÚBLICOS
+// ARQUIVOS DO LOGIN
 // ===============================
 
-app.use(function(req, res, next) {
-
-    // Permite a tela de login
-    if (req.path === "/login.html") {
-        return express.static("public")(req, res, next);
-    }
-
-    // Permite os arquivos do login
-    if (
-        req.path === "/login.css" ||
-        req.path === "/login.js"
-    ) {
-        return express.static("public")(req, res, next);
-    }
-
-    // Todo o restante fica protegido
-    autenticarPainel(req, res, next);
+app.get("/login.html", function(req, res) {
+    res.sendFile(__dirname + "/public/login.html");
 });
+
+app.get("/login.css", function(req, res) {
+    res.sendFile(__dirname + "/public/login.css");
+});
+
+app.get("/login.js", function(req, res) {
+    res.sendFile(__dirname + "/public/login.js");
+});
+
+
+// ===============================
+// PÁGINA PRINCIPAL
+// ===============================
+
+app.get("/", function(req, res) {
+
+    const cookies = req.headers.cookie || "";
+
+    const encontrado = cookies
+        .split(";")
+        .map(function(item) {
+            return item.trim();
+        })
+        .find(function(item) {
+            return item.startsWith("tokenPainel=");
+        });
+
+    const token = encontrado
+        ? encontrado.substring("tokenPainel=".length)
+        : null;
+
+    if (!token || !sessoes.has(token)) {
+        return res.redirect("/login.html");
+    }
+
+    return res.sendFile(__dirname + "/public/index.html");
+});
+
+
+// ===============================
+// PROTEGER O RESTANTE DO SISTEMA
+// ===============================
+
+app.use(autenticarPainel);
 
 
 // ===============================
@@ -121,12 +152,15 @@ app.use(function(req, res, next) {
 // ===============================
 
 app.use(express.static("public"));
+
+
 // ===============================
-// ROTA PRINCIPAL
+// LISTA OS EQUIPAMENTOS
 // ===============================
-app.get("/", function(req, res) {
-    res.send("🤖 Bot da Oficina está funcionando!");
-});
+
+// DAQUI PARA BAIXO,
+// MANTENHA O SEU CÓDIGO ORIGINAL.
+
 // ===============================
 // LISTA OS EQUIPAMENTOS
 // ===============================
