@@ -5519,6 +5519,195 @@ window.copiarRelatorioHealth = function() {
     }
 
 };
+
+// =====================================
+// PERGUNTAR CONCLUSÃO HARDWARE / SOFTWARE
+// =====================================
+function perguntarConclusaoHardwareSoftware() {
+    return new Promise((resolve) => {
+
+        const modal = document.createElement("div");
+        modal.id = "modalConclusaoHwSw";
+        modal.style.cssText = `
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            padding: 20px;
+        `;
+
+        modal.innerHTML = `
+            <div style="
+                width: 100%;
+                max-width: 430px;
+                background: #111922;
+                color: #f4f7fb;
+                border-radius: 16px;
+                padding: 24px;
+                box-sizing: border-box;
+                box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            ">
+                <div style="
+                    font-size: 20px;
+                    font-weight: bold;
+                    margin-bottom: 22px;
+                    text-align: center;
+                ">
+                    📄 Conclusão da OM
+                </div>
+
+                <div style="
+                    font-size: 16px;
+                    font-weight: bold;
+                    margin-bottom: 10px;
+                ">
+                    🔧 HARDWARE foi concluído?
+                </div>
+
+                <div style="
+                    display: flex;
+                    gap: 10px;
+                    margin-bottom: 22px;
+                ">
+                    <button id="btnHardwareSim" type="button" style="
+                        flex: 1;
+                        padding: 13px;
+                        border: none;
+                        border-radius: 9px;
+                        background: #16a34a;
+                        color: white;
+                        font-weight: bold;
+                        cursor: pointer;
+                        font-size: 15px;
+                    ">✅ SIM</button>
+
+                    <button id="btnHardwareNao" type="button" style="
+                        flex: 1;
+                        padding: 13px;
+                        border: none;
+                        border-radius: 9px;
+                        background: #dc2626;
+                        color: white;
+                        font-weight: bold;
+                        cursor: pointer;
+                        font-size: 15px;
+                    ">❌ NÃO</button>
+                </div>
+
+                <div style="
+                    font-size: 16px;
+                    font-weight: bold;
+                    margin-bottom: 10px;
+                ">
+                    💻 SOFTWARE foi concluído?
+                </div>
+
+                <div style="
+                    display: flex;
+                    gap: 10px;
+                    margin-bottom: 24px;
+                ">
+                    <button id="btnSoftwareSim" type="button" style="
+                        flex: 1;
+                        padding: 13px;
+                        border: none;
+                        border-radius: 9px;
+                        background: #16a34a;
+                        color: white;
+                        font-weight: bold;
+                        cursor: pointer;
+                        font-size: 15px;
+                    ">✅ SIM</button>
+
+                    <button id="btnSoftwareNao" type="button" style="
+                        flex: 1;
+                        padding: 13px;
+                        border: none;
+                        border-radius: 9px;
+                        background: #dc2626;
+                        color: white;
+                        font-weight: bold;
+                        cursor: pointer;
+                        font-size: 15px;
+                    ">❌ NÃO</button>
+                </div>
+
+                <button id="btnCancelarConclusao" type="button" style="
+                    width: 100%;
+                    padding: 12px;
+                    border: 1px solid #475569;
+                    border-radius: 9px;
+                    background: transparent;
+                    color: #cbd5e1;
+                    font-weight: bold;
+                    cursor: pointer;
+                    font-size: 14px;
+                ">Cancelar</button>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        let hardware = null;
+        let software = null;
+
+        function finalizar() {
+            if (hardware === null || software === null) return;
+
+            modal.remove();
+
+            resolve({
+                hardwareConcluido: hardware,
+                softwareConcluido: software
+            });
+        }
+
+        document.getElementById("btnHardwareSim").onclick = () => {
+            hardware = true;
+            document.getElementById("btnHardwareSim").innerHTML = "✅ SIM — SELECIONADO";
+            document.getElementById("btnHardwareSim").style.background = "#15803d";
+            document.getElementById("btnHardwareNao").innerHTML = "❌ NÃO";
+            document.getElementById("btnHardwareNao").style.background = "#475569";
+            finalizar();
+        };
+
+        document.getElementById("btnHardwareNao").onclick = () => {
+            hardware = false;
+            document.getElementById("btnHardwareNao").innerHTML = "❌ NÃO — SELECIONADO";
+            document.getElementById("btnHardwareNao").style.background = "#b91c1c";
+            document.getElementById("btnHardwareSim").innerHTML = "✅ SIM";
+            document.getElementById("btnHardwareSim").style.background = "#475569";
+            finalizar();
+        };
+
+        document.getElementById("btnSoftwareSim").onclick = () => {
+            software = true;
+            document.getElementById("btnSoftwareSim").innerHTML = "✅ SIM — SELECIONADO";
+            document.getElementById("btnSoftwareSim").style.background = "#15803d";
+            document.getElementById("btnSoftwareNao").innerHTML = "❌ NÃO";
+            document.getElementById("btnSoftwareNao").style.background = "#475569";
+            finalizar();
+        };
+
+        document.getElementById("btnSoftwareNao").onclick = () => {
+            software = false;
+            document.getElementById("btnSoftwareNao").innerHTML = "❌ NÃO — SELECIONADO";
+            document.getElementById("btnSoftwareNao").style.background = "#b91c1c";
+            document.getElementById("btnSoftwareSim").innerHTML = "✅ SIM";
+            document.getElementById("btnSoftwareSim").style.background = "#475569";
+            finalizar();
+        };
+
+        document.getElementById("btnCancelarConclusao").onclick = () => {
+            modal.remove();
+            resolve(null);
+        };
+    });
+}
+
 window.montarRelatorioFleet = async function () {
 
     const conclusao = await perguntarConclusaoHardwareSoftware();
@@ -5729,231 +5918,6 @@ ${listaExecutantes}`;
             <button
                 type="button"
                 onclick="copiarRelatorioFleet()"
-                style="
-                    width: 100%;
-                    padding: 14px;
-                    border: none;
-                    border-radius: 8px;
-                    background: #16a34a;
-                    color: white;
-                    font-weight: bold;
-                    font-size: 16px;
-                    cursor: pointer;
-                "
-            >
-                📋 Copiar relatório
-            </button>
-
-        </div>
-
-    `;
-
-    document.getElementById(
-        "resultadoRelatorioFleet"
-    ).value = relatorio;
-
-};
-window.montarRelatorioFleet = function() {
-
-    const horaHardwareInicial =
-        document.getElementById(
-            "fleetHardwareInicial"
-        ).value;
-
-    const horaHardwareFinal =
-        document.getElementById(
-            "fleetHardwareFinal"
-        ).value;
-
-    const horaSoftwareInicial =
-        document.getElementById(
-            "fleetSoftwareInicial"
-        ).value;
-
-    const horaSoftwareFinal =
-        document.getElementById(
-            "fleetSoftwareFinal"
-        ).value;
-
-    const omConcluida =
-        document.getElementById(
-            "fleetOMConcluida"
-        ).value;
-
-    const podeDarBaixa =
-        document.getElementById(
-            "fleetPodeDarBaixa"
-        ).value;
-
-    const pendencias =
-        document.getElementById(
-            "fleetPendencias"
-        ).value.trim();
-
-    const turno =
-        document.getElementById(
-            "fleetTurno"
-        ).value;
-
-    const executantes = [
-
-        document.getElementById(
-            "fleetExecutante1"
-        ).value,
-
-        document.getElementById(
-            "fleetExecutante2"
-        ).value,
-
-        document.getElementById(
-            "fleetExecutante3"
-        ).value,
-
-        document.getElementById(
-            "fleetExecutante4"
-        ).value
-
-    ];
-
-    const agora = new Date();
-
-    const dia =
-        String(
-            agora.getDate()
-        ).padStart(2, "0");
-
-    const mes =
-        String(
-            agora.getMonth() + 1
-        ).padStart(2, "0");
-
-    const ano =
-        agora.getFullYear();
-
-    const data =
-        dia + "/" + mes + "/" + ano;
-
-
-    // Pegar OM e equipamento
-
-    const caixa =
-        document.getElementById(
-            "conteudoGerarRelatorio"
-        );
-
-    const texto =
-        caixa.innerText;
-
-    const omMatch =
-        texto.match(
-            /OM:\s*([^\n]+)/i
-        );
-
-    const equipamentoMatch =
-        texto.match(
-            /Equipamento:\s*([^\n]+)/i
-        );
-
-    const numeroOM =
-        omMatch
-            ? omMatch[1].trim()
-            : "-";
-
-    const equipamento =
-        equipamentoMatch
-            ? equipamentoMatch[1].trim()
-            : "-";
-
-
-    const listaExecutantes =
-        executantes.map(function(nome) {
-
-            return nome
-                ? "👨🏻‍🔧 " + nome
-                : "👨🏻‍🔧";
-
-        }).join("\n");
-
-
-    const relatorio =
-
-`🗓️ Data: ${data}
-
-🚜 *Equipamento:* ${equipamento}
-📁Nº da OM: ${numeroOM}
-
-Descrição resumida: MP MINESTAR FLEET
-
-📈 *Relatório das atividades executadas:*
-
-*MP HARDWARE*
-
-⏰Horário Inicial: ${horaHardwareInicial || "-"}
-⏰Horário Final: ${horaHardwareFinal || "-"}
-
-✅Bloqueado e etiquetado conforme matriz de bloqueio.
-✅Verificado fixação integridade da antena gps.
-✅Verificado integridade do chicote e conectores.
-✅Verificado integridade e fixação do módulo. 
-✅Inspecionado cabo de GPS. 
-✅Inspecionado cabo de alimentação.
-✅Realizado a limpeza do display
-
-*MP SOFTWARE*
-
-⏰Horário Inicial: ${horaSoftwareInicial || "-"}
-⏰Horário Final: ${horaSoftwareFinal || "-"}
-
-✅Realizado teste touchscreen do Display 
-✅Validado GPS 
-✅Validado comunicação com  Servidor. 
-✅️ Gerado snapshoot.
-✅Validado PLE
-✅Realizado 5s.
-
-📈 *Causa da Parada :* MANUTENÇÃO PREVENTIVA MINESTAR
-
-📈 *solução:* REALIZADO MANUTENÇÃO PREVENTIVA MINESTAR.
-
-⁉️ *OM foi concluída*? ${omConcluida}
-
- *Pode dar baixa?* ${podeDarBaixa}
-
-🚨 *Pendências*: ${pendencias || "Não"}
-
-🛠️ *Centro de trabalho:*           
-               SC103
-
-🛠️ *Equipe turno: *${turno}
-
--Executante:
-${listaExecutantes}`;
-
-
-    caixa.innerHTML = `
-
-        <div style="
-            display: grid;
-            gap: 12px;
-        ">
-
-            <textarea
-                id="resultadoRelatorioFleet"
-                readonly
-                style="
-                    width: 100%;
-                    min-height: 550px;
-                    padding: 12px;
-                    box-sizing: border-box;
-                    resize: vertical;
-                    font-family: monospace;
-                    font-size: 14px;
-                "
-            ></textarea>
-
-            <button
-                type="button"
-                onclick="window.copiarRelatorioFleet()"
                 style="
                     width: 100%;
                     padding: 14px;
@@ -6808,19 +6772,19 @@ window.alternarDesvioPz = function () {
         if (final) final.value = "";
     }
 };
-window.montarRelatorioTerrain = async function () {
+window.montarRelatorioTt = async function () {
 
-const conclusao = await perguntarConclusaoHardwareSoftware();
+    const conclusao = await perguntarConclusaoHardwareSoftware();
 
-if (!conclusao) {
-    return;
-}
+    if (!conclusao) {
+        return;
+    }
 
-const hardwareConcluido = conclusao.hardwareConcluido;
-const softwareConcluido = conclusao.softwareConcluido;
+    const hardwareConcluido = conclusao.hardwareConcluido;
+    const softwareConcluido = conclusao.softwareConcluido;
 
-const iconeHardware = hardwareConcluido ? "✅" : "❌";
-const iconeSoftware = softwareConcluido ? "✅" : "❌";
+    const iconeHardware = hardwareConcluido ? "✅" : "❌";
+    const iconeSoftware = softwareConcluido ? "✅" : "❌";
 
     const caixa = document.getElementById("resultadoRelatorioTt");
 
