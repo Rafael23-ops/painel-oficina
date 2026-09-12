@@ -6037,15 +6037,199 @@ window.alternarDesvioRpEc = function () {
 };
 
 
-window.montarRelatorioRpEc = function () {
+window.montarRelatorioRpEc = async function () {
+    
+    function perguntarConclusaoHardwareSoftware() {
+    return new Promise((resolve) => {
 
-    const hardwareConcluido = confirm(
-    "🔧 HARDWARE foi concluído?\n\nOK = SIM\nCancelar = NÃO"
-);
+        const modal = document.createElement("div");
 
-const softwareConcluido = confirm(
-    "💻 SOFTWARE foi concluído?\n\nOK = SIM\nCancelar = NÃO"
-);
+        modal.id = "modalConclusaoHwSw";
+
+        modal.style.cssText = `
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            padding: 20px;
+        `;
+
+        modal.innerHTML = `
+            <div style="
+                width: 100%;
+                max-width: 430px;
+                background: #111922;
+                color: #f4f7fb;
+                border-radius: 16px;
+                padding: 24px;
+                box-sizing: border-box;
+                box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            ">
+
+                <div style="
+                    font-size: 20px;
+                    font-weight: bold;
+                    margin-bottom: 22px;
+                    text-align: center;
+                ">
+                    📄 Conclusão da OM
+                </div>
+
+                <div style="
+                    font-size: 16px;
+                    font-weight: bold;
+                    margin-bottom: 10px;
+                ">
+                    🔧 HARDWARE foi concluído?
+                </div>
+
+                <div style="
+                    display: flex;
+                    gap: 10px;
+                    margin-bottom: 22px;
+                ">
+                    <button id="btnHardwareSim" type="button" style="
+                        flex: 1;
+                        padding: 13px;
+                        border: none;
+                        border-radius: 9px;
+                        background: #16a34a;
+                        color: white;
+                        font-weight: bold;
+                        cursor: pointer;
+                        font-size: 15px;
+                    ">
+                        ✅ SIM
+                    </button>
+
+                    <button id="btnHardwareNao" type="button" style="
+                        flex: 1;
+                        padding: 13px;
+                        border: none;
+                        border-radius: 9px;
+                        background: #dc2626;
+                        color: white;
+                        font-weight: bold;
+                        cursor: pointer;
+                        font-size: 15px;
+                    ">
+                        ❌ NÃO
+                    </button>
+                </div>
+
+                <div style="
+                    font-size: 16px;
+                    font-weight: bold;
+                    margin-bottom: 10px;
+                ">
+                    💻 SOFTWARE foi concluído?
+                </div>
+
+                <div style="
+                    display: flex;
+                    gap: 10px;
+                    margin-bottom: 24px;
+                ">
+                    <button id="btnSoftwareSim" type="button" style="
+                        flex: 1;
+                        padding: 13px;
+                        border: none;
+                        border-radius: 9px;
+                        background: #16a34a;
+                        color: white;
+                        font-weight: bold;
+                        cursor: pointer;
+                        font-size: 15px;
+                    ">
+                        ✅ SIM
+                    </button>
+
+                    <button id="btnSoftwareNao" type="button" style="
+                        flex: 1;
+                        padding: 13px;
+                        border: none;
+                        border-radius: 9px;
+                        background: #dc2626;
+                        color: white;
+                        font-weight: bold;
+                        cursor: pointer;
+                        font-size: 15px;
+                    ">
+                        ❌ NÃO
+                    </button>
+                </div>
+
+                <button id="btnCancelarConclusao" type="button" style="
+                    width: 100%;
+                    padding: 12px;
+                    border: 1px solid #475569;
+                    border-radius: 9px;
+                    background: transparent;
+                    color: #cbd5e1;
+                    font-weight: bold;
+                    cursor: pointer;
+                    font-size: 14px;
+                ">
+                    Cancelar
+                </button>
+
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        let hardware = null;
+        let software = null;
+
+        function finalizar() {
+            if (hardware === null || software === null) return;
+
+            modal.remove();
+
+            resolve({
+                hardwareConcluido: hardware,
+                softwareConcluido: software
+            });
+        }
+
+        document.getElementById("btnHardwareSim").onclick = () => {
+            hardware = true;
+            finalizar();
+        };
+
+        document.getElementById("btnHardwareNao").onclick = () => {
+            hardware = false;
+            finalizar();
+        };
+
+        document.getElementById("btnSoftwareSim").onclick = () => {
+            software = true;
+            finalizar();
+        };
+
+        document.getElementById("btnSoftwareNao").onclick = () => {
+            software = false;
+            finalizar();
+        };
+
+        document.getElementById("btnCancelarConclusao").onclick = () => {
+            modal.remove();
+            resolve(null);
+        };
+    });
+}
+
+    const conclusao = await perguntarConclusaoHardwareSoftware();
+
+if (!conclusao) {
+    return;
+}
+
+const hardwareConcluido = conclusao.hardwareConcluido;
+const softwareConcluido = conclusao.softwareConcluido;
 
 const iconeHardware = hardwareConcluido ? "✅" : "❌";
 const iconeSoftware = softwareConcluido ? "✅" : "❌";
