@@ -901,11 +901,11 @@ function gerarRelatorioTurno() {
                     const modelo = String(om.modelo_relatorio || "").trim().toUpperCase();
 
 const temHardwareSoftware =
-    modelo === "MP MINESTAR FLEET" ||
-    modelo === "MP MINESTAR RP & EC" ||
-    modelo === "MP MINESTAR PZ" ||
-    modelo === "MP MINESTAR TERRAIN TT";
-
+    modelo.includes("MINESTAR FLEET") ||
+    modelo.includes("MINESTAR RP") ||
+    modelo.includes("MINESTAR PZ") ||
+    modelo.includes("MINESTAR TERRAIN TT");
+    
 const divisao = temHardwareSoftware
     ? dividirHorarioHardwareSoftware(om.horario_inicial, om.horario_final)
     : null;
