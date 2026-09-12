@@ -1141,57 +1141,136 @@ function alterarMotivoPendencia(id, motivoAtual) {
 
 function alterarStatus(id, status) {
 
+    // Se for "Quase concluída", pedir o motivo antes de alterar
+    if (status === "Quase concluída") {
+
+        const motivo = prompt(
+            "🟠 Informe o motivo da pendência / quase conclusão:"
+        );
+
+        if (motivo === null) {
+            return;
+        }
+
+        if (!motivo.trim()) {
+            alert("⚠️ Informe o motivo da pendência.");
+            return;
+        }
+
+        // Primeiro altera o status
+        fetch(
+            "/om/" + id + "/status",
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    status: status
+                })
+            }
+        )
+        .then(function(response) {
+            return response.json().then(function(data) {
+
+                if (!response.ok) {
+                    throw new Error(
+                        data.erro ||
+                        "Erro ao alterar status."
+                    );
+                }
+
+                return data;
+            });
+        })
+        .then(function() {
+
+            // Depois salva o motivo
+            return fetch(
+                "/om/" + id + "/motivo-pendencia",
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        motivo_pendencia: motivo.trim()
+                    })
+                }
+            );
+        })
+        .then(function(response) {
+            return response.json().then(function(data) {
+
+                if (!response.ok) {
+                    throw new Error(
+                        data.erro ||
+                        "Erro ao salvar o motivo."
+                    );
+                }
+
+                return data;
+            });
+        })
+        .then(function() {
+
+            carregarOMs();
+            carregarPainel();
+            carregarOMsRelatorio();
+
+        })
+        .catch(function(error) {
+
+            console.error(
+                "Erro ao alterar status/motivo:",
+                error
+            );
+
+            alert(
+                "❌ " + error.message
+            );
+
+        });
+
+        return;
+    }
+
+    // Comportamento normal dos outros status
     fetch(
         "/om/" + id + "/status",
         {
             method: "PUT",
-
             headers: {
                 "Content-Type":
                     "application/json"
             },
-
             body: JSON.stringify({
                 status: status
             })
         }
     )
-
     .then(function(response) {
 
         return response.json()
-
             .then(function(data) {
 
                 if (!response.ok) {
-
                     throw new Error(
                         data.erro ||
                         "Erro ao alterar status."
                     );
-
                 }
 
                 return data;
-
             });
-
     })
-
     .then(function() {
 
-        // Atualiza a tabela principal
         carregarOMs();
-
-        // Atualiza os números do painel
         carregarPainel();
-
-        // Atualiza automaticamente
-        // a lista de OMs do Relatório de Turno
         carregarOMsRelatorio();
 
     })
-
     .catch(function(error) {
 
         console.error(
@@ -1204,7 +1283,6 @@ function alterarStatus(id, status) {
         );
 
     });
-
 }
 // =====================================
 // CARREGAR PESSOAS PARA DUPLAS
@@ -2266,6 +2344,11 @@ if (
 
 if (om.modelo_relatorio === "MP MINESTAR RP & EC") {
 
+    const divisaoRpEc = dividirHorarioHardwareSoftware(
+    om.horario_inicial || "",
+    om.horario_final || ""
+);
+
     conteudo.innerHTML = `
 
         <div
@@ -2323,7 +2406,7 @@ if (om.modelo_relatorio === "MP MINESTAR RP & EC") {
                 <input
                     type="time"
                     id="rpEcHardwareInicial"
-                    value="${om.horario_inicial || ''}"style="
+                    value="${divisaoRpEc?.hardwareInicial || om.horario_inicial || ''}"
                         width: 100%;
                         padding: 10px;
                         margin-top: 5px;
@@ -2341,7 +2424,7 @@ if (om.modelo_relatorio === "MP MINESTAR RP & EC") {
                 <input
                     type="time"
                     id="rpEcHardwareFinal"
-                    value="${om.horario_final || ''}"style="
+                    value="${divisaoRpEc?.hardwareFinal || om.horario_final || ''}"
                         width: 100%;
                         padding: 10px;
                         margin-top: 5px;
@@ -2376,7 +2459,7 @@ if (om.modelo_relatorio === "MP MINESTAR RP & EC") {
                 <input
                     type="time"
                     id="rpEcSoftwareInicial"
-                    value="${om.horario_inicial || ''}"style="
+                   value="${divisaoRpEc?.softwareInicial || om.horario_inicial || ''}"
                         width: 100%;
                         padding: 10px;
                         margin-top: 5px;
@@ -2394,7 +2477,7 @@ if (om.modelo_relatorio === "MP MINESTAR RP & EC") {
                 <input
                     type="time"
                     id="rpEcSoftwareFinal"
-                    value="${om.horario_final || ''}"style="
+                  value="${divisaoRpEc?.softwareFinal || om.horario_final || ''}"
                         width: 100%;
                         padding: 10px;
                         margin-top: 5px;
@@ -2670,6 +2753,11 @@ if (om.modelo_relatorio === "MP MINESTAR RP & EC") {
 }
 if (om.modelo_relatorio === "MP MINESTAR PZ") {
 
+    const divisaoPz = dividirHorarioHardwareSoftware(
+    om.horario_inicial || "",
+    om.horario_final || ""
+);
+
     conteudo.innerHTML = `
 
         <div
@@ -2728,7 +2816,7 @@ if (om.modelo_relatorio === "MP MINESTAR PZ") {
                 <input
                     type="time"
                     id="pzHardwareInicial"
-                    value="${om.horario_inicial || ''}"style="
+                   value="${divisaoPz?.hardwareInicial || om.horario_inicial || ''}"
                         width: 100%;
                         padding: 10px;
                         margin-top: 5px;
@@ -2746,7 +2834,7 @@ if (om.modelo_relatorio === "MP MINESTAR PZ") {
                 <input
                     type="time"
                     id="pzHardwareFinal"
-                    value="${om.horario_final || ''}"style="
+                   value="${divisaoPz?.hardwareFinal || om.horario_final || ''}"
                         width: 100%;
                         padding: 10px;
                         margin-top: 5px;
@@ -2866,7 +2954,7 @@ if (om.modelo_relatorio === "MP MINESTAR PZ") {
                 <input
                     type="time"
                     id="pzSoftwareInicial"
-                    value="${om.horario_inicial || ''}"style="
+                   value="${divisaoPz?.softwareInicial || om.horario_inicial || ''}"
                         width: 100%;
                         padding: 10px;
                         margin-top: 5px;
@@ -2884,7 +2972,7 @@ if (om.modelo_relatorio === "MP MINESTAR PZ") {
                 <input
                     type="time"
                     id="pzSoftwareFinal"
-                    value="${om.horario_final || ''}"style="
+                    value="${divisaoPz?.softwareFinal || om.horario_final || ''}"
                         width: 100%;
                         padding: 10px;
                         margin-top: 5px;
@@ -5970,37 +6058,17 @@ window.montarRelatorioRpEc = function () {
     const data = `${dia}/${mes}/${ano}`;
 
     // Horários
-    const horarioGeralInicial =
-    document.getElementById("rpEcHardwareInicial")?.value || "";
+    const horaHardwareInicial =
+        document.getElementById("rpEcHardwareInicial")?.value || "-";
 
-const horarioGeralFinal =
-    document.getElementById("rpEcHardwareFinal")?.value || "";
+    const horaHardwareFinal =
+        document.getElementById("rpEcHardwareFinal")?.value || "-";
 
-const divisaoHorario =
-    dividirHorarioHardwareSoftware(
-        horarioGeralInicial,
-        horarioGeralFinal
-    );
+    const horaSoftwareInicial =
+        document.getElementById("rpEcSoftwareInicial")?.value || "-";
 
-const horaHardwareInicial =
-    divisaoHorario?.hardwareInicial ||
-    horarioGeralInicial ||
-    "-";
-
-const horaHardwareFinal =
-    divisaoHorario?.hardwareFinal ||
-    horarioGeralFinal ||
-    "-";
-
-const horaSoftwareInicial =
-    divisaoHorario?.softwareInicial ||
-    horarioGeralInicial ||
-    "-";
-
-const horaSoftwareFinal =
-    divisaoHorario?.softwareFinal ||
-    horarioGeralFinal ||
-    "-";
+    const horaSoftwareFinal =
+        document.getElementById("rpEcSoftwareFinal")?.value || "-";
 
     // Desvio
     const temDesvio =
