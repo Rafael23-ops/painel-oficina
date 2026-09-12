@@ -4406,25 +4406,25 @@ Descrição resumida: MP MINESTAR FLEET
 ⏰Horário Inicial: ${horaHardwareInicial || "-"}
 ⏰Horário Final: ${horaHardwareFinal || "-"}
 
-✅Bloqueado e etiquetado conforme matriz de bloqueio.
-✅Verificado fixação integridade da antena gps.
-✅Verificado integridade do chicote e conectores.
-✅Verificado integridade e fixação do módulo. 
-✅Inspecionado cabo de GPS. 
-✅Inspecionado cabo de alimentação.
-✅Realizado a limpeza do display
+${iconeHardware} Bloqueado e etiquetado conforme matriz de bloqueio.
+${iconeHardware} Verificado fixação integridade da antena gps.
+${iconeHardware} Verificado integridade do chicote e conectores.
+${iconeHardware} Verificado integridade e fixação do módulo.
+${iconeHardware} Inspecionado cabo de GPS.
+${iconeHardware} Inspecionado cabo de alimentação.
+${iconeHardware} Realizado a limpeza do display
 
 *MP SOFTWARE*
 
 ⏰Horário Inicial: ${horaSoftwareInicial || "-"}
 ⏰Horário Final: ${horaSoftwareFinal || "-"}
 
-✅Realizado teste touchscreen do Display 
-✅Validado GPS 
-✅Validado comunicação com  Servidor. 
-✅️ Gerado snapshoot.
-✅Validado PLE
-✅Realizado 5s.
+${iconeSoftware} Realizado teste touchscreen do Display
+${iconeSoftware} Validado GPS
+${iconeSoftware} Validado comunicação com Servidor.
+${iconeSoftware} Gerado snapshoot.
+${iconeSoftware} Validado PLE
+${iconeSoftware} Realizado 5s.
 
 📈 *Causa da Parada :* MANUTENÇÃO PREVENTIVA MINESTAR
 
@@ -6506,15 +6506,16 @@ window.copiarRelatorioRpEc = function () {
 // RELATÓRIO MP MINESTAR PZ
 // ===============================
 
-window.montarRelatorioPz = function () {
+window.montarRelatorioPz = async function () {
 
-    const hardwareConcluido = confirm(
-    "🔧 HARDWARE foi concluído?\n\nOK = SIM\nCancelar = NÃO"
-);
+    const conclusao = await perguntarConclusaoHardwareSoftware();
 
-const softwareConcluido = confirm(
-    "💻 SOFTWARE foi concluído?\n\nOK = SIM\nCancelar = NÃO"
-);
+if (!conclusao) {
+    return;
+}
+
+const hardwareConcluido = conclusao.hardwareConcluido;
+const softwareConcluido = conclusao.softwareConcluido;
 
 const iconeHardware = hardwareConcluido ? "✅" : "❌";
 const iconeSoftware = softwareConcluido ? "✅" : "❌";
