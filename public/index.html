@@ -5519,18 +5519,19 @@ window.copiarRelatorioHealth = function() {
     }
 
 };
-window.montarRelatorioFleet = function() {
-const hardwareConcluido = confirm(
-    "🔧 HARDWARE foi concluído?\n\nOK = SIM\nCancelar = NÃO"
-);
+window.montarRelatorioFleet = async function () {
 
-const softwareConcluido = confirm(
-    "💻 SOFTWARE foi concluído?\n\nOK = SIM\nCancelar = NÃO"
-);
+    const conclusao = await perguntarConclusaoHardwareSoftware();
+
+if (!conclusao) {
+    return;
+}
+
+const hardwareConcluido = conclusao.hardwareConcluido;
+const softwareConcluido = conclusao.softwareConcluido;
 
 const iconeHardware = hardwareConcluido ? "✅" : "❌";
 const iconeSoftware = softwareConcluido ? "✅" : "❌";
-
     const horaHardwareInicial =
         document.getElementById(
             "fleetHardwareInicial"
@@ -6196,24 +6197,52 @@ window.montarRelatorioRpEc = async function () {
         }
 
         document.getElementById("btnHardwareSim").onclick = () => {
-            hardware = true;
-            finalizar();
-        };
+    hardware = true;
 
-        document.getElementById("btnHardwareNao").onclick = () => {
-            hardware = false;
-            finalizar();
-        };
+    document.getElementById("btnHardwareSim").innerHTML = "✅ SIM — SELECIONADO";
+    document.getElementById("btnHardwareSim").style.background = "#15803d";
 
-        document.getElementById("btnSoftwareSim").onclick = () => {
-            software = true;
-            finalizar();
-        };
+    document.getElementById("btnHardwareNao").innerHTML = "❌ NÃO";
+    document.getElementById("btnHardwareNao").style.background = "#475569";
 
-        document.getElementById("btnSoftwareNao").onclick = () => {
-            software = false;
-            finalizar();
-        };
+    finalizar();
+};
+
+document.getElementById("btnHardwareNao").onclick = () => {
+    hardware = false;
+
+    document.getElementById("btnHardwareNao").innerHTML = "❌ NÃO — SELECIONADO";
+    document.getElementById("btnHardwareNao").style.background = "#b91c1c";
+
+    document.getElementById("btnHardwareSim").innerHTML = "✅ SIM";
+    document.getElementById("btnHardwareSim").style.background = "#475569";
+
+    finalizar();
+};
+
+document.getElementById("btnSoftwareSim").onclick = () => {
+    software = true;
+
+    document.getElementById("btnSoftwareSim").innerHTML = "✅ SIM — SELECIONADO";
+    document.getElementById("btnSoftwareSim").style.background = "#15803d";
+
+    document.getElementById("btnSoftwareNao").innerHTML = "❌ NÃO";
+    document.getElementById("btnSoftwareNao").style.background = "#475569";
+
+    finalizar();
+};
+
+document.getElementById("btnSoftwareNao").onclick = () => {
+    software = false;
+
+    document.getElementById("btnSoftwareNao").innerHTML = "❌ NÃO — SELECIONADO";
+    document.getElementById("btnSoftwareNao").style.background = "#b91c1c";
+
+    document.getElementById("btnSoftwareSim").innerHTML = "✅ SIM";
+    document.getElementById("btnSoftwareSim").style.background = "#475569";
+
+    finalizar();
+};
 
         document.getElementById("btnCancelarConclusao").onclick = () => {
             modal.remove();
@@ -6778,14 +6807,16 @@ window.alternarDesvioPz = function () {
         if (final) final.value = "";
     }
 };
-window.montarRelatorioTT = function () {
-const hardwareConcluido = confirm(
-    "🔧 HARDWARE foi concluído?\n\nOK = SIM\nCancelar = NÃO"
-);
+window.montarRelatorioTerrain = async function () {
 
-const softwareConcluido = confirm(
-    "💻 SOFTWARE foi concluído?\n\nOK = SIM\nCancelar = NÃO"
-);
+const conclusao = await perguntarConclusaoHardwareSoftware();
+
+if (!conclusao) {
+    return;
+}
+
+const hardwareConcluido = conclusao.hardwareConcluido;
+const softwareConcluido = conclusao.softwareConcluido;
 
 const iconeHardware = hardwareConcluido ? "✅" : "❌";
 const iconeSoftware = softwareConcluido ? "✅" : "❌";
