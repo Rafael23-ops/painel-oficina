@@ -5520,6 +5520,16 @@ window.copiarRelatorioHealth = function() {
 
 };
 window.montarRelatorioFleet = function() {
+const hardwareConcluido = confirm(
+    "🔧 HARDWARE foi concluído?\n\nOK = SIM\nCancelar = NÃO"
+);
+
+const softwareConcluido = confirm(
+    "💻 SOFTWARE foi concluído?\n\nOK = SIM\nCancelar = NÃO"
+);
+
+const iconeHardware = hardwareConcluido ? "✅" : "❌";
+const iconeSoftware = softwareConcluido ? "✅" : "❌";
 
     const horaHardwareInicial =
         document.getElementById(
@@ -5657,30 +5667,28 @@ Descrição resumida: MP MINESTAR FLEET
 ⏰Horário Inicial: ${horaHardwareInicial || "-"}
 ⏰Horário Final: ${horaHardwareFinal || "-"}
 
-✅Bloqueado e etiquetado conforme matriz de bloqueio.
-✅Verificado fixação integridade da antena gps.
-✅Verificado integridade do chicote e conectores.
-✅Verificado integridade e fixação do módulo. 
-✅Inspecionado cabo de GPS. 
-✅Inspecionado cabo de alimentação.
-✅Realizado a limpeza do display
+${iconeHardware} Bloqueado e etiquetado conforme matriz de bloqueio.
+${iconeHardware} Verificado fixação integridade da antena gps.
+${iconeHardware} Verificado integridade do chicote e conectores.
+${iconeHardware} Verificado integridade e fixação do módulo.
+${iconeHardware} Inspecionado cabo de GPS.
+${iconeHardware} Inspecionado cabo de alimentação.
+${iconeHardware} Realizado a limpeza do display
 
 *MP SOFTWARE*
 
 ⏰Horário Inicial: ${horaSoftwareInicial || "-"}
 ⏰Horário Final: ${horaSoftwareFinal || "-"}
 
-✅Realizado teste touchscreen do Display 
-✅Validado GPS 
-✅Validado comunicação com  Servidor. 
-✅️ Gerado snapshoot.
-✅Validado PLE
-✅Realizado 5s.
+${iconeSoftware} Realizado teste touchscreen do Display
+${iconeSoftware} Validado GPS
+${iconeSoftware} Validado comunicação com Servidor.
+${iconeSoftware} Gerado snapshoot.
+${iconeSoftware} Validado PLE
+${iconeSoftware} Realizado 5s.
 
 📈 *Causa da Parada :* MANUTENÇÃO PREVENTIVA MINESTAR
-
 📈 *solução:* REALIZADO MANUTENÇÃO PREVENTIVA MINESTAR.
-
 ⁉️ *OM foi concluída*? ${omConcluida}
 
  *Pode dar baixa?* ${podeDarBaixa}
@@ -6031,6 +6039,17 @@ window.alternarDesvioRpEc = function () {
 
 window.montarRelatorioRpEc = function () {
 
+    const hardwareConcluido = confirm(
+    "🔧 HARDWARE foi concluído?\n\nOK = SIM\nCancelar = NÃO"
+);
+
+const softwareConcluido = confirm(
+    "💻 SOFTWARE foi concluído?\n\nOK = SIM\nCancelar = NÃO"
+);
+
+const iconeHardware = hardwareConcluido ? "✅" : "❌";
+const iconeSoftware = softwareConcluido ? "✅" : "❌";
+
     const caixa = document.getElementById("conteudoGerarRelatorio");
 
     if (!caixa) {
@@ -6135,33 +6154,32 @@ HARDWARE
 ⏰Horário Inicial: ${horaHardwareInicial}
 ⏰Horário Final: ${horaHardwareFinal}
 
-✅ Bloqueado e etiquetado conforme matriz de bloqueio
-✅ Verificado fixação integridade da antena GPS
-✅ Verificado resistência resistores
-✅ Verificado integridade dos chicotes e conectores, antenas e sensores
-✅ Verificados sensores de inclinação (Boom)
-✅ Verificados sensores de inclinação (Stick)
-✅ Verificados sensores de inclinação (Bucket)
-✅ Verificado integridade e fixação do módulo
-✅ Inspecionado cabo de alimentação
-✅ Realizada a limpeza do display
-✅ Limpo e organizado a área
-✅ Soldado tampa do sensor da caçamba
+${iconeHardware} Bloqueado e etiquetado conforme matriz de bloqueio
+${iconeHardware} Verificado fixação integridade da antena GPS
+${iconeHardware} Verificado resistência resistores
+${iconeHardware} Verificado integridade dos chicotes e conectores, antenas e sensores
+${iconeHardware} Verificados sensores de inclinação (Boom)
+${iconeHardware} Verificados sensores de inclinação (Stick)
+${iconeHardware} Verificados sensores de inclinação (Bucket)
+${iconeHardware} Verificado integridade e fixação do módulo
+${iconeHardware} Inspecionado cabo de alimentação
+${iconeHardware} Realizada a limpeza do display
+${iconeHardware} Limpo e organizado a área
 
 SOFTWARE
 
 ⏰Horário Inicial: ${horaSoftwareInicial}
 ⏰Horário Final: ${horaSoftwareFinal}
 
-✅ Realizado teste de touchscreen do Display
-✅ Verificado diagnóstico de falha
-✅ Verificado IPs
-✅ Verificado a versão do firmware
-✅ Verificado status de GPS
-✅ Verificado versão do Display
-✅ Verificado comunicação com o servidor
-✅ Limpo e testado o funcionamento do display
-✅ Verificado comunicação com os sensores
+${iconeSoftware} Realizado teste de touchscreen do Display
+${iconeSoftware} Verificado diagnóstico de falha
+${iconeSoftware} Verificado IPs
+${iconeSoftware} Verificado a versão do firmware
+${iconeSoftware} Verificado status de GPS
+${iconeSoftware} Verificado versão do Display
+${iconeSoftware} Verificado comunicação com o servidor
+${iconeSoftware} Limpo e testado o funcionamento do display
+${iconeSoftware} Verificado comunicação com os sensores
 
 📈 Causa da Parada: Manutenção preventiva MineStar
 
@@ -6276,6 +6294,17 @@ window.copiarRelatorioRpEc = function () {
 // ===============================
 
 window.montarRelatorioPz = function () {
+
+    const hardwareConcluido = confirm(
+    "🔧 HARDWARE foi concluído?\n\nOK = SIM\nCancelar = NÃO"
+);
+
+const softwareConcluido = confirm(
+    "💻 SOFTWARE foi concluído?\n\nOK = SIM\nCancelar = NÃO"
+);
+
+const iconeHardware = hardwareConcluido ? "✅" : "❌";
+const iconeSoftware = softwareConcluido ? "✅" : "❌";
 
     const caixa = document.getElementById("conteudoGerarRelatorio");
 
@@ -6403,42 +6432,42 @@ HARDWARE
 ⏰-Horário inicial: ${hardwareInicial}
 ⏰-Horário final: ${hardwareFinal}
 
-✅ INSPECIONADO OS CABOS DE ALIMENTAÇÃO DO DISPLAY.
-✅ CERTIFICADO QUE O MASTRO DA ANTENA GNSS NÃO ESTÁ RACHADO NEM EMPENADO
-✅ CERTIFICADO QUE AS ANTENAS DO GNSS ESTÃO FIRMEMENTE PRESAS AO MASTRO
-✅ CERTIFICADO SE OS CONECTORES ESTÃO BEM PRESOS AOS CABOS DO GPS
-✅ VERIFICADO SE HÁ CORTES OU DANOS NOS CABOS DA ANTENA DO GNSS
-✅ VERIFICADO O SENSOR DE APROXIMACAO
-✅ VERIFICADO ENCODER
-✅ INSPECIONADO O SUPORTE DO DISPLAY
-✅ INSPECIONADO CONECTORES DO DISPLAY
-✅ LIMPO O DISPLAY E TESTADO FUNCIONAMENTO DO TOUCHSCREEN
-✅ INSPECIONADO OS CABOS E CONECTORES DO PLE E DO SWITCH
-✅ INSPECIONADO PRENSA CABOS
-✅ INSPECIONADO O TERMINAL OLHAL DO ATERRAMENTO
-✅ INSPECIONADO VEDAÇÃO DOS CONECTORES
-✅ INSPECIONADO TRAVAS INTERNA E EXTERNA
-✅ INSPECIONADO BORRACHA DE CONEXÃO INTERNA E EXTERNA DOS CONECTORES
-✅ INSPECIONADO PINOS DE CONEXÃO DOS CONECTORES
-✅ INSPECIONADO SOQUETES DOS CONECTORES.
-✅ VERIFICADO CONECTOR SENSOR DE ANGULO
-✅ VERIFICADO CONCTORES SENSORES PRESSÃO
+${iconeHardware} INSPECIONADO OS CABOS DE ALIMENTAÇÃO DO DISPLAY.
+${iconeHardware} CERTIFICADO QUE O MASTRO DA ANTENA GNSS NÃO ESTÁ RACHADO NEM EMPENADO
+${iconeHardware} CERTIFICADO QUE AS ANTENAS DO GNSS ESTÃO FIRMEMENTE PRESAS AO MASTRO
+${iconeHardware} CERTIFICADO SE OS CONECTORES ESTÃO BEM PRESOS AOS CABOS DO GPS
+${iconeHardware} VERIFICADO SE HÁ CORTES OU DANOS NOS CABOS DA ANTENA DO GNSS
+${iconeHardware} VERIFICADO O SENSOR DE APROXIMACAO
+${iconeHardware} VERIFICADO ENCODER
+${iconeHardware} INSPECIONADO O SUPORTE DO DISPLAY
+${iconeHardware} INSPECIONADO CONECTORES DO DISPLAY
+${iconeHardware} LIMPO O DISPLAY E TESTADO FUNCIONAMENTO DO TOUCHSCREEN
+${iconeHardware} INSPECIONADO OS CABOS E CONECTORES DO PLE E DO SWITCH
+${iconeHardware} INSPECIONADO PRENSA CABOS
+${iconeHardware} INSPECIONADO O TERMINAL OLHAL DO ATERRAMENTO
+${iconeHardware} INSPECIONADO VEDAÇÃO DOS CONECTORES
+${iconeHardware} INSPECIONADO TRAVAS INTERNA E EXTERNA
+${iconeHardware} INSPECIONADO BORRACHA DE CONEXÃO INTERNA E EXTERNA DOS CONECTORES
+${iconeHardware} INSPECIONADO PINOS DE CONEXÃO DOS CONECTORES
+${iconeHardware} INSPECIONADO SOQUETES DOS CONECTORES.
+${iconeHardware} VERIFICADO CONECTOR SENSOR DE ANGULO
+${iconeHardware} VERIFICADO CONCTORES SENSORES PRESSÃO
 
 SOFTWARE
 
 ⏰-Horário inicial: ${softwareInicial}
 ⏰-Horário final: ${softwareFinal}
 
-✅ VERIFICADO DIAGNÓSTICO DE FALHAS
-✅ VALIDADO OS IPS E COMUNICAÇÃO VALIDADO IPS DO DIM
-✅ TESTADO O TOUCHSCREEN DO DISPLAY
-✅ VERIFICADO OS TERMINAIS DO TOUCHSCREEN
-✅ VERIFICADO SINAIS DA TRAVA DO MASTRO, CABOS ATIVOS DAS TECNOLOGIA OPERAÇÃO
-✅ VERIFICADO SINAL DA CHAVE FORK,CABOSET
-✅ FEITO BACKUP DO TERRAIN
-✅ VALIDADO O STATUS DO GPS
-✅ VALIDADO COMUNICAÇÃO COM SERVIDOR DO DESPACHO
-✅ VALIDADO A LEITURA DOS SENSORES
+${iconeSoftware} VERIFICADO DIAGNÓSTICO DE FALHAS
+${iconeSoftware} VALIDADO OS IPS E COMUNICAÇÃO VALIDADO IPS DO DIM
+${iconeSoftware} TESTADO O TOUCHSCREEN DO DISPLAY
+${iconeSoftware} VERIFICADO OS TERMINAIS DO TOUCHSCREEN
+${iconeSoftware} VERIFICADO SINAIS DA TRAVA DO MASTRO, CABOS ATIVOS DAS TECNOLOGIA OPERAÇÃO
+${iconeSoftware} VERIFICADO SINAL DA CHAVE FORK,CABOSET
+${iconeSoftware} FEITO BACKUP DO TERRAIN
+${iconeSoftware} VALIDADO O STATUS DO GPS
+${iconeSoftware} VALIDADO COMUNICAÇÃO COM SERVIDOR DO DESPACHO
+${iconeSoftware} VALIDADO A LEITURA DOS SENSORES
 
 ⏹️ Feita anteriormente
 ✅ Feita
@@ -6565,7 +6594,17 @@ window.alternarDesvioPz = function () {
         if (final) final.value = "";
     }
 };
-window.montarRelatorioTt = function () {
+window.montarRelatorioTT = function () {
+const hardwareConcluido = confirm(
+    "🔧 HARDWARE foi concluído?\n\nOK = SIM\nCancelar = NÃO"
+);
+
+const softwareConcluido = confirm(
+    "💻 SOFTWARE foi concluído?\n\nOK = SIM\nCancelar = NÃO"
+);
+
+const iconeHardware = hardwareConcluido ? "✅" : "❌";
+const iconeSoftware = softwareConcluido ? "✅" : "❌";
 
     const caixa = document.getElementById("resultadoRelatorioTt");
 
@@ -6653,26 +6692,26 @@ Descrição resumida: MP MINESTAR TERRAIN
 ⏰Horário Inicial: ${hardwareInicial}
 ⏰Horário Final: ${hardwareFinal}
 
-✅Bloqueado e etiquetado conforme matriz de bloqueio.
-✅Verificado fixação integridade da antena gps.
-✅Verificado integridade do chicote e conectores.
-✅Verificado integridade e fixação do módulo.
-✅Inspecionado cabo de GPS.
-✅Inspecionado cabo de alimentação.
-✅Verificado resistor can 1 e 2
-✅Realizado a limpeza do display
+${iconeHardware} Bloqueado e etiquetado conforme matriz de bloqueio.
+${iconeHardware} Verificado fixação integridade da antena gps.
+${iconeHardware} Verificado integridade do chicote e conectores.
+${iconeHardware} Verificado integridade e fixação do módulo.
+${iconeHardware} Inspecionado cabo de GPS.
+${iconeHardware} Inspecionado cabo de alimentação.
+${iconeHardware} Verificado resistor can 1 e 2
+${iconeHardware} Realizado a limpeza do display
 
 *MP SOFTWARE*
 
 ⏰Horário Inicial: ${softwareInicial}
 ⏰Horário Final: ${softwareFinal}
 
-✅Realizado teste touchscreen do Display
-✅Validado GPS
-✅Validado comunicação com Servidor.
-✅Gerado snapshoot.
-✅Validado PLE
-✅Realizado 5s.
+${iconeSoftware} Realizado teste touchscreen do Display
+${iconeSoftware} Validado GPS
+${iconeSoftware} Validado comunicação com Servidor.
+${iconeSoftware} Gerado snapshoot.
+${iconeSoftware} Validado PLE
+${iconeSoftware} Realizado 5s.
 
 📈 *Causa da Parada :* Manutenção preventiva minestar.
 📈 *solução:* Feito preventiva minestar.
