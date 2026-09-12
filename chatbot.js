@@ -898,10 +898,11 @@ app.put("/om/:id/status", function(req, res) {
         });
     }
     const statusPermitidos = [
-        "Pendente",
-        "Em execução",
-        "Concluída"
-    ];
+    "Pendente",
+    "Em execução",
+    "Quase concluída",
+    "Concluída"
+];
     if (!statusPermitidos.includes(novoStatus)) {
         return res.status(400).json({
             erro:
@@ -1014,10 +1015,11 @@ app.get("/oms", function(req, res) {
     let parametros = [];
     if (status) {
         const statusPermitidos = [
-            "Pendente",
-            "Em execução",
-            "Concluída"
-        ];
+    "Pendente",
+    "Em execução",
+    "Quase concluída",
+    "Concluída"
+];
         if (!statusPermitidos.includes(status)) {
             return res.status(400).json({
                 erro:

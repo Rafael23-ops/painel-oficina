@@ -905,7 +905,7 @@ const temHardwareSoftware =
     modelo.includes("MINESTAR RP") ||
     modelo.includes("MINESTAR PZ") ||
     modelo.includes("MINESTAR TERRAIN TT");
-    
+
 const divisao = temHardwareSoftware
     ? dividirHorarioHardwareSoftware(om.horario_inicial, om.horario_final)
     : null;
@@ -5970,17 +5970,37 @@ window.montarRelatorioRpEc = function () {
     const data = `${dia}/${mes}/${ano}`;
 
     // Horários
-    const horaHardwareInicial =
-        document.getElementById("rpEcHardwareInicial")?.value || "-";
+    const horarioGeralInicial =
+    document.getElementById("rpEcHardwareInicial")?.value || "";
 
-    const horaHardwareFinal =
-        document.getElementById("rpEcHardwareFinal")?.value || "-";
+const horarioGeralFinal =
+    document.getElementById("rpEcHardwareFinal")?.value || "";
 
-    const horaSoftwareInicial =
-        document.getElementById("rpEcSoftwareInicial")?.value || "-";
+const divisaoHorario =
+    dividirHorarioHardwareSoftware(
+        horarioGeralInicial,
+        horarioGeralFinal
+    );
 
-    const horaSoftwareFinal =
-        document.getElementById("rpEcSoftwareFinal")?.value || "-";
+const horaHardwareInicial =
+    divisaoHorario?.hardwareInicial ||
+    horarioGeralInicial ||
+    "-";
+
+const horaHardwareFinal =
+    divisaoHorario?.hardwareFinal ||
+    horarioGeralFinal ||
+    "-";
+
+const horaSoftwareInicial =
+    divisaoHorario?.softwareInicial ||
+    horarioGeralInicial ||
+    "-";
+
+const horaSoftwareFinal =
+    divisaoHorario?.softwareFinal ||
+    horarioGeralFinal ||
+    "-";
 
     // Desvio
     const temDesvio =
@@ -6216,17 +6236,37 @@ window.montarRelatorioPz = function () {
     const data = `${dia}/${mes}/${ano}`;
 
     // Horários
-    const hardwareInicial =
-        document.getElementById("pzHardwareInicial")?.value || "-";
+    const horarioGeralInicial =
+    document.getElementById("pzHardwareInicial")?.value || "";
 
-    const hardwareFinal =
-        document.getElementById("pzHardwareFinal")?.value || "-";
+const horarioGeralFinal =
+    document.getElementById("pzHardwareFinal")?.value || "";
 
-    const softwareInicial =
-        document.getElementById("pzSoftwareInicial")?.value || "-";
+const divisaoHorario =
+    dividirHorarioHardwareSoftware(
+        horarioGeralInicial,
+        horarioGeralFinal
+    );
 
-    const softwareFinal =
-        document.getElementById("pzSoftwareFinal")?.value || "-";
+const hardwareInicial =
+    divisaoHorario?.hardwareInicial ||
+    horarioGeralInicial ||
+    "-";
+
+const hardwareFinal =
+    divisaoHorario?.hardwareFinal ||
+    horarioGeralFinal ||
+    "-";
+
+const softwareInicial =
+    divisaoHorario?.softwareInicial ||
+    horarioGeralInicial ||
+    "-";
+
+const softwareFinal =
+    divisaoHorario?.softwareFinal ||
+    horarioGeralFinal ||
+    "-";
 
     // Desvio IAMO
     const temDesvio =
