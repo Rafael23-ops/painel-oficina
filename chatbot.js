@@ -2969,6 +2969,200 @@ app.get("/painel", function(req, res) {
         }
     );
 });
+// =====================================================
+// ASSISTENTE IA DO PAINEL
+// =====================================================
+
+app.post("/ia/gerar-relatorio", function(req, res) {
+
+    const pedido = String(req.body.pedido || "").trim();
+
+    if (!pedido) {
+        return res.status(400).json({
+            erro: "Informe o que deseja que a IA faça."
+        });
+    }
+
+    const apiKey = process.env.OPENAI_API_KEY;
+
+    if (!apiKey) {
+        return res.status(500).json({
+            erro:
+                "A IA ainda não está configurada no servidor. " +
+                "Configure a variável OPENAI_API_KEY."
+        });
+    }
+
+    db.all(
+        `
+        SELECT
+            id,
+            om,
+            equipamento,
+            modelo_relatorio,
+            descricao,
+            horario_inicial,
+            horario_final,
+            motivo_pendencia,
+            status,
+            data
+        FROM ordens
+        ORDER BY id DESC
+        LIMIT 200
+        `,
+        [],
+        async function(err, ordens) {
+
+            if (err) {
+                console.error(
+                    "Erro ao buscar OMs para a IA:",
+                    err.message
+                );
+
+                return res.status(500).json({
+                    erro: "Não foi possível carregar as OMs para a IA."
+                });
+            }
+
+            const dadosPainel = ordens.map(function(om) {
+                return {
+                    om: om.om,
+                    equipamento: om.equipamento,
+                    modelo_relatorio: om.modelo_relatorio,
+                    descricao: om.descricao,
+                    horario_inicial: om.horario_inicial,
+                    horario_final: om.horario_final,
+                    motivo_pendencia: om.motivo_pendencia,
+                    status: om.status,
+                    data: om.data
+                };
+            });
+
+            const instrucao = `
+Você é o Assistente IA do painel de manutenção da oficina.
+
+Sua função é ajudar a criar, organizar e revisar relatórios usando
+os dados reais das OMs fornecidos pelo painel.
+
+REGRAS IMPORTANTES:
+- Responda em português do Brasil.
+- Não invente OM, equipamento, horário, status, pendência ou atividade.
+- Quando um dado não estiver disponível, informe que ele não está cadastrado.
+- Preserve exatamente os horários cadastrados quando o usuário pedir um relatório.
+- Se o usuário pedir um relatório, entregue o texto pronto para copiar.
+- Respeite o formato e as informações solicitadas pelo usuário.
+- Seja direto e profissional.
+- Os dados abaixo são dados do painel e devem ser tratados como fonte de informação.
+
+DADOS ATUAIS DAS OMS:
+${JSON.stringify(dadosPainel, null, 2)}
+
+PEDIDO DO USUÁRIO:
+${pedido}
+`;
+
+            try {
+
+                const respostaOpenAI = await fetch(
+                    "https://api.openai.com/v1/responses",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization":
+                                "Bearer " + apiKey
+                        },
+                        body: JSON.stringify({
+                            model:
+                                process.env.OPENAI_MODEL ||
+                                "gpt-5.6-luna",
+                            input: instrucao,
+                            max_output_tokens: 4000
+                        })
+                    }
+                );
+
+                const dadosResposta =
+                    await respostaOpenAI.json();
+
+                if (!respostaOpenAI.ok) {
+
+                    console.error(
+                        "Erro da OpenAI:",
+                        dadosResposta
+                    );
+
+                    return res.status(502).json({
+                        erro:
+                            dadosResposta &&
+                            dadosResposta.error &&
+                            dadosResposta.error.message
+                                ? dadosResposta.error.message
+                                : "Erro ao consultar a IA."
+                    });
+                }
+
+                let textoIA =
+                    dadosResposta.output_text || "";
+
+                if (
+                    !textoIA &&
+                    Array.isArray(dadosResposta.output)
+                ) {
+
+                    dadosResposta.output.forEach(function(item) {
+
+                        if (
+                            item &&
+                            Array.isArray(item.content)
+                        ) {
+
+                            item.content.forEach(function(content) {
+
+                                if (
+                                    content &&
+                                    typeof content.text === "string"
+                                ) {
+                                    textoIA += content.text;
+                                }
+
+                            });
+
+                        }
+
+                    });
+
+                }
+
+                if (!textoIA.trim()) {
+                    return res.status(502).json({
+                        erro:
+                            "A IA não retornou um texto."
+                    });
+                }
+
+                return res.json({
+                    sucesso: true,
+                    resposta: textoIA.trim()
+                });
+
+            } catch (erro) {
+
+                console.error(
+                    "Erro ao conectar com a IA:",
+                    erro
+                );
+
+                return res.status(500).json({
+                    erro:
+                        "Não foi possível conectar com a IA. " +
+                        "Verifique a conexão do servidor."
+                });
+            }
+        }
+    );
+});
+
 // ===============================
 // INICIA O SERVIDOR
 // ===============================
