@@ -3038,29 +3038,120 @@ app.post("/ia/gerar-relatorio", function(req, res) {
                 };
             });
 
-            const instrucao = `
-Você é o Assistente IA do painel de manutenção da oficina.
+          const instrucao = `
+Você é o Assistente IA responsável por transformar anotações de manutenção
+fornecidas pelo usuário em textos técnicos, profissionais e prontos para
+serem utilizados em relatórios de oficina.
 
-Sua função é ajudar a criar, organizar e revisar relatórios usando
-os dados reais das OMs fornecidos pelo painel.
+OBJETIVO PRINCIPAL:
+O usuário irá descrever o que foi realizado durante a manutenção de maneira
+simples, resumida, informal, abreviada ou com erros de português.
 
-REGRAS IMPORTANTES:
-- Responda em português do Brasil.
-- Não invente OM, equipamento, horário, status, pendência ou atividade.
-- Quando um dado não estiver disponível, informe que ele não está cadastrado.
-- Preserve exatamente os horários cadastrados quando o usuário pedir um relatório.
-- Se o usuário pedir um relatório, entregue o texto pronto para copiar.
-- Respeite o formato e as informações solicitadas pelo usuário.
-- Seja direto e profissional.
-- Os dados abaixo são dados do painel e devem ser tratados como fonte de informação.
+Sua função é transformar essas informações em uma redação técnica,
+clara, organizada e profissional.
 
-DADOS ATUAIS DAS OMS:
+REGRA MAIS IMPORTANTE:
+Use SOMENTE as informações fornecidas pelo usuário para descrever o serviço.
+
+Você pode:
+- melhorar a gramática;
+- corrigir erros de português;
+- organizar as frases;
+- utilizar linguagem técnica e profissional;
+- deixar a descrição mais clara;
+- organizar as atividades na sequência em que foram informadas;
+- substituir expressões informais por termos técnicos equivalentes;
+- eliminar repetições;
+- deixar o texto mais elaborado quando o usuário pedir;
+- deixar o texto resumido quando o usuário pedir.
+
+Você NÃO pode:
+- inventar procedimentos;
+- inventar peças substituídas;
+- inventar testes;
+- inventar resultados;
+- inventar diagnóstico;
+- inventar causas de falha;
+- inventar horários;
+- inventar valores de medição;
+- inventar pendências;
+- inventar informações que não foram fornecidas pelo usuário.
+
+IMPORTANTE:
+Não diga que uma OM não está cadastrada somente porque ela não apareceu
+nos dados do painel.
+
+Se o usuário informar uma OM, equipamento, componente ou qualquer outro
+dado no próprio pedido, utilize exatamente essa informação.
+
+DADOS DO PAINEL:
+Os dados abaixo são apenas informações auxiliares.
+Eles podem ser usados para complementar ou confirmar informações quando
+houver correspondência clara com o pedido do usuário.
+
 ${JSON.stringify(dadosPainel, null, 2)}
+
+COMO INTERPRETAR O PEDIDO:
+Se o usuário disser algo como:
+
+"OM 202604641343 RP51 realizado teste de ping porém sem sucesso,
+realizado comunicação com servidor e verificado conexão"
+
+transforme em uma descrição técnica profissional, por exemplo:
+
+"Realizado teste de comunicação através do comando PING, porém sem sucesso.
+Na sequência, realizada comunicação com o servidor para verificação da
+conectividade, bem como verificação da comunicação do equipamento com a rede."
+
+O exemplo acima serve SOMENTE para demonstrar o estilo de escrita.
+Não copie informações que não tenham sido fornecidas pelo usuário.
+
+FORMATO:
+Quando o usuário pedir um relatório, entregue diretamente o relatório
+pronto para copiar.
+
+Não escreva:
+- "Claro, segue o relatório";
+- "Espero ter ajudado";
+- explicações sobre o que você fez;
+- avisos desnecessários;
+- comentários fora do relatório.
+
+Se o usuário não pedir um formato específico, organize o relatório de forma
+profissional e objetiva, podendo utilizar:
+
+RELATÓRIO DE MANUTENÇÃO
+
+OM:
+EQUIPAMENTO:
+
+DESCRIÇÃO / SERVIÇO EXECUTADO:
+[texto técnico elaborado a partir das informações fornecidas]
+
+PENDÊNCIAS:
+[Somente se informado pelo usuário.]
+
+STATUS:
+[Somente se informado ou claramente solicitado.]
+
+Se o usuário pedir "resumido", seja objetivo.
+
+Se o usuário pedir "detalhado", desenvolva melhor a redação usando somente
+as informações fornecidas.
+
+Se o usuário pedir apenas para "melhorar o texto", não acrescente campos
+desnecessários: apenas transforme o texto em uma redação técnica melhor.
+
+IDIOMA:
+Português do Brasil.
+
+ESTILO:
+Técnico, profissional, objetivo, claro e adequado para documentação de
+manutenção de equipamentos.
 
 PEDIDO DO USUÁRIO:
 ${pedido}
 `;
-
             try {
 
                 const respostaOpenAI = await fetch(
@@ -3069,100 +3160,74 @@ ${pedido}
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
-                            "Authorization":
-                                "Bearer " + apiKey
+                            "Authorization": "Bearer " + apiKey
                         },
                         body: JSON.stringify({
-                            model:
-                                process.env.OPENAI_MODEL ||
-                                "gpt-5.6-luna",
-                            input: instrucao,
-                            max_output_tokens: 4000
+                            model: "gpt-5.6-luna",
+                            input: instrucao
                         })
                     }
                 );
 
-                const dadosResposta =
+                const dadosOpenAI =
                     await respostaOpenAI.json();
 
                 if (!respostaOpenAI.ok) {
 
                     console.error(
                         "Erro da OpenAI:",
-                        dadosResposta
+                        dadosOpenAI
                     );
 
-                    return res.status(502).json({
+                    return res.status(500).json({
                         erro:
-                            dadosResposta &&
-                            dadosResposta.error &&
-                            dadosResposta.error.message
-                                ? dadosResposta.error.message
-                                : "Erro ao consultar a IA."
+                            "Erro ao gerar o relatório com a IA."
                     });
                 }
 
-                let textoIA =
-                    dadosResposta.output_text || "";
+                let resposta =
+                    dadosOpenAI.output_text || "";
 
                 if (
-                    !textoIA &&
-                    Array.isArray(dadosResposta.output)
+                    !resposta &&
+                    Array.isArray(dadosOpenAI.output)
                 ) {
 
-                    dadosResposta.output.forEach(function(item) {
-
-                        if (
-                            item &&
-                            Array.isArray(item.content)
-                        ) {
-
-                            item.content.forEach(function(content) {
-
-                                if (
-                                    content &&
-                                    typeof content.text === "string"
-                                ) {
-                                    textoIA += content.text;
-                                }
-
-                            });
-
-                        }
-
-                    });
-
-                }
-
-                if (!textoIA.trim()) {
-                    return res.status(502).json({
-                        erro:
-                            "A IA não retornou um texto."
-                    });
+                    resposta =
+                        dadosOpenAI.output
+                            .flatMap(function(item) {
+                                return item.content || [];
+                            })
+                            .filter(function(item) {
+                                return item.type === "output_text";
+                            })
+                            .map(function(item) {
+                                return item.text;
+                            })
+                            .join("\n");
                 }
 
                 return res.json({
-                    sucesso: true,
-                    resposta: textoIA.trim()
+                    resposta: resposta
                 });
 
             } catch (erro) {
 
                 console.error(
-                    "Erro ao conectar com a IA:",
+                    "Erro ao chamar a IA:",
                     erro
                 );
 
                 return res.status(500).json({
                     erro:
-                        "Não foi possível conectar com a IA. " +
-                        "Verifique a conexão do servidor."
+                        "Não foi possível gerar o relatório com a IA."
                 });
             }
+
         }
     );
-});
 
+});
 // ===============================
 // INICIA O SERVIDOR
 // ===============================
