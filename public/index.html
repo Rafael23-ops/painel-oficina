@@ -133,7 +133,7 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
 <option>Em execução</option>
 <option>Quase concluída</option>
 <option>Concluída</option></select></div></div>
- <div class="table-wrap"><table class="om-table"><thead><tr><th>Nº OM</th><th>Equipamento</th><th>Relatório</th><th>Descrição</th><th>Horário</th><th>Motivo</th><th>Responsável</th><th>Status</th><th>Ações</th></tr></thead><tbody id="listaOMs"><tr><td colspan="9">Carregando OMs...</td></tr></tbody></table></div>
+ <div class="table-wrap"><table class="om-table"><thead><tr><th>Nº OM</th><th>Equipamento</th><th>Oficina</th><th>Relatório</th><th>Descrição</th><th>Horário</th><th>Motivo</th><th>Responsável</th><th>Status</th><th>Ações</th></tr></thead><tbody id="listaOMs"><tr><td colspan="10">Carregando OMs...</td></tr></tbody></table></div>
 </section>
 
 <div class="grid-bottom">
@@ -718,6 +718,35 @@ function carregarOMs() {
             const pesquisa = pesquisaEl ? pesquisaEl.value.toLowerCase().trim() : "";
             const filtro = filtroEl ? filtroEl.value : "";
 
+            // Lê os equipamentos atualmente informados na ferramenta
+            // "EQUIPAMENTOS NA OFICINA" para mostrar o status de cada OM.
+            const campoOficina = document.getElementById("textoEquipamentosOficina");
+            const textoOficina = campoOficina ? campoOficina.value : "";
+            const normalizarOficina = function(texto) {
+                return String(texto || "")
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .replace(/[\s-]+/g, "")
+                    .trim()
+                    .toUpperCase();
+            };
+            const equipamentosOficinaAtuais = new Set();
+            textoOficina.split(/\r?\n/).forEach(function(linha) {
+                const base = String(linha || "").toUpperCase();
+                const completos = base.match(/\b[A-Z]{2}\d+KS\d+\b/g) || [];
+                completos.forEach(function(codigo) {
+                    const m = codigo.match(/^([A-Z]{2})\d+KS(\d+)$/);
+                    if (m) equipamentosOficinaAtuais.add(normalizarOficina(m[1] + m[2]));
+                });
+                const simples = base.match(/\b[A-Z]{2}[\s-]?\d{2,3}\b/g) || [];
+                simples.forEach(function(codigo) {
+                    const normalizado = normalizarOficina(codigo);
+                    if (!/^(MP|GPS|CAN|HO|OM)\d*$/.test(normalizado)) {
+                        equipamentosOficinaAtuais.add(normalizado);
+                    }
+                });
+            });
+
             const filtradas = (Array.isArray(oms) ? oms : []).filter(function(om) {
                 const texto = [om.om, om.equipamento, om.descricao, om.responsaveis, om.modelo_relatorio]
                     .filter(Boolean).join(" ").toLowerCase();
@@ -725,11 +754,18 @@ function carregarOMs() {
             });
 
             if (!filtradas.length) {
-                lista.innerHTML = '<tr><td colspan="9" style="padding:25px;text-align:center;color:#7f8b98">📭 Nenhuma OM encontrada.</td></tr>';
+                lista.innerHTML = '<tr><td colspan="10" style="padding:25px;text-align:center;color:#7f8b98">📭 Nenhuma OM encontrada.</td></tr>';
                 return;
             }
 
             lista.innerHTML = filtradas.map(function(om) {
+                const equipamentoNormalizado = normalizarOficina(om.equipamento || "");
+                const oficinaHTML = !textoOficina.trim()
+                    ? '<span class="status-pill" style="background:#475569;color:#fff;">— Não informado</span>'
+                    : equipamentosOficinaAtuais.has(equipamentoNormalizado)
+                        ? '<span class="status-pill status-green">🟢 Na oficina</span>'
+                        : '<span class="status-pill" style="background:#64748b;color:#fff;">⚪ Fora da oficina</span>';
+
                 let statusHTML = om.status === "Concluída"
     ? '<span class="status-pill status-green">🟢 Concluída</span>'
     : om.status === "Em execução"
@@ -747,6 +783,7 @@ const motivo =
                     <tr>
                         <td><strong>${om.om || "-"}</strong></td>
                         <td>${om.equipamento || "-"}</td>
+                        <td>${oficinaHTML}</td>
                         <td><strong>📄 ${om.modelo_relatorio || "-"}</strong></td>
                         <td>${om.descricao || "-"}</td>
                         <td style="white-space:nowrap">${om.horario_inicial || om.horario_final ? `🕘 ${om.horario_inicial || "--:--"} → ${om.horario_final || "--:--"}` : "-"}</td>
@@ -771,7 +808,7 @@ ${(om.status === "Pendente" || om.status === "Quase concluída") ? `<button clas
         })
         .catch(function(error) {
             console.error("Erro ao carregar OMs:", error);
-            lista.innerHTML = '<tr><td colspan="9" style="padding:20px;text-align:center;color:#ff8b90">❌ Erro ao carregar as OMs.</td></tr>';
+            lista.innerHTML = '<tr><td colspan="10" style="padding:20px;text-align:center;color:#ff8b90">❌ Erro ao carregar as OMs.</td></tr>';
         });
 }
 
@@ -899,25 +936,8 @@ function gerarRelatorioTurno() {
                     if (indice > 0) relatorio += "\n";
                     relatorio += "📁 N° OM: " + (om.om || "") + "\n";
                     relatorio += "Descrição resumida: " + (om.descricao || "") + "\n";
-                    const modelo = String(om.modelo_relatorio || "").trim().toUpperCase();
-
-const temHardwareSoftware =
-    modelo.includes("MINESTAR FLEET") ||
-    modelo.includes("MINESTAR RP") ||
-    modelo.includes("MINESTAR PZ") ||
-    modelo.includes("MINESTAR TERRAIN TT");
-
-const divisao = temHardwareSoftware
-    ? dividirHorarioHardwareSoftware(om.horario_inicial, om.horario_final)
-    : null;
-
-if (divisao) {
-    relatorio += "🔧 Hardware: " + divisao.hardwareInicial + " às " + divisao.hardwareFinal + "\n";
-    relatorio += "💻 Software: " + divisao.softwareInicial + " às " + divisao.softwareFinal + "\n";
-} else {
-    relatorio += "⏰ Horário inicial: " + (om.horario_inicial || "") + "\n";
-    relatorio += "⏰ Horário final: " + (om.horario_final || "") + "\n";
-}
+                    relatorio += "⏰ Horário inicial: " + (om.horario_inicial || "") + "\n";
+                    relatorio += "⏰ Horário final: " + (om.horario_final || "") + "\n";
                     relatorio += "🚜 Equipamento: " + (om.equipamento || "") + "\n";
                     relatorio += "🚨Pendências: " + (om.motivo_pendencia || "NÃO") + "\n";                });
                 relatorio += "\n";
@@ -6511,38 +6531,19 @@ const iconeSoftware = softwareConcluido ? "✅" : "❌";
 
     const data = `${dia}/${mes}/${ano}`;
 
-    // Horários
-    const horarioGeralInicial =
-    document.getElementById("pzHardwareInicial")?.value || "";
+    // Horários: respeita exatamente o que foi digitado nos quatro campos.
+    // A divisão automática continua apenas no preenchimento inicial do formulário.
+    const hardwareInicial =
+        document.getElementById("pzHardwareInicial")?.value || "-";
 
-const horarioGeralFinal =
-    document.getElementById("pzHardwareFinal")?.value || "";
+    const hardwareFinal =
+        document.getElementById("pzHardwareFinal")?.value || "-";
 
-const divisaoHorario =
-    dividirHorarioHardwareSoftware(
-        horarioGeralInicial,
-        horarioGeralFinal
-    );
+    const softwareInicial =
+        document.getElementById("pzSoftwareInicial")?.value || "-";
 
-const hardwareInicial =
-    divisaoHorario?.hardwareInicial ||
-    horarioGeralInicial ||
-    "-";
-
-const hardwareFinal =
-    divisaoHorario?.hardwareFinal ||
-    horarioGeralFinal ||
-    "-";
-
-const softwareInicial =
-    divisaoHorario?.softwareInicial ||
-    horarioGeralInicial ||
-    "-";
-
-const softwareFinal =
-    divisaoHorario?.softwareFinal ||
-    horarioGeralFinal ||
-    "-";
+    const softwareFinal =
+        document.getElementById("pzSoftwareFinal")?.value || "-";
 
     // Desvio IAMO
     const temDesvio =
@@ -8102,6 +8103,7 @@ window.cruzarPendencias = function () {
     });
 
     console.log("🏭 Equipamentos encontrados na oficina:", Array.from(equipamentosOficina));
+    window.equipamentosOficinaCruza = equipamentosOficina;
 
     const linhas = textoPendencias.split(/\r?\n/).map(function(l){ return l.trim(); }).filter(Boolean);
     const pendencias = [];
@@ -8130,8 +8132,41 @@ window.cruzarPendencias = function () {
         if (!oms) return;
 
         let equipamentosDaLinha = extrairEquipamentosCruza(linhaOriginal);
+        let descricaoBloco = "";
+        let motivoBloco = "";
 
-        // Quando a pendência veio quebrada em duas linhas, procura o equipamento
+        // Lê também o formato em bloco, por exemplo:
+        // N° OM: 202604641343
+        // Equipamento: RP51
+        // Descrição: Substituir chicote...
+        // Motivo: Pendente
+        for (let pos = indice + 1; pos < Math.min(indice + 7, linhas.length); pos++) {
+            const prox = linhas[pos];
+            if (/\b\d{8,12}\b/.test(normalizarTextoCruza(prox))) break;
+
+            const equipamentoMatch = prox.match(/(?:🚜\s*)?equipamento\s*:\s*(.+)/i);
+            if (equipamentoMatch) {
+                const codigos = extrairEquipamentosCruza(equipamentoMatch[1]);
+                codigos.forEach(function(codigo){
+                    if (!equipamentosDaLinha.includes(codigo)) equipamentosDaLinha.push(codigo);
+                });
+                continue;
+            }
+
+            const descricaoMatch = prox.match(/(?:📝\s*)?descri(?:ção|cao)\s*:\s*(.+)/i);
+            if (descricaoMatch) {
+                descricaoBloco = descricaoMatch[1].trim();
+                continue;
+            }
+
+            const motivoMatch = prox.match(/(?:🚨\s*)?motivo\s*:\s*(.+)/i);
+            if (motivoMatch) {
+                motivoBloco = motivoMatch[1].trim();
+                continue;
+            }
+        }
+
+        // Quando a pendência veio quebrada em linhas simples, procura o equipamento
         // imediatamente acima/abaixo da linha da OM.
         if (!equipamentosDaLinha.length) {
             const vizinhos = [indice - 1, indice + 1];
@@ -8152,7 +8187,8 @@ window.cruzarPendencias = function () {
             pendencias.push({
                 om: numeroOM,
                 equipamento: equipamento || "Não identificado",
-                descricao: limparDescricao(linhaOriginal, numeroOM, equipamento),
+                descricao: descricaoBloco || limparDescricao(linhaOriginal, numeroOM, equipamento),
+                motivo_pendencia: motivoBloco || "Pendente",
                 situacao: situacao,
                 linhaOriginal: linhaOriginal
             });
@@ -8338,6 +8374,7 @@ console.log(
 );
 
 mostrarBotaoCadastroPendencias();
+if (typeof carregarOMs === "function") carregarOMs();
 };
 
 </script>
