@@ -629,7 +629,7 @@ document
                 if (!valorResponsavel) {
 
                     alert(
-                        "' + omIcon('alerta') + ' Selecione uma pessoa."
+                        " Selecione uma pessoa."
                     );
 
                     return;
@@ -645,7 +645,7 @@ document
                 if (!valorResponsavel) {
 
                     alert(
-                        "' + omIcon('alerta') + ' Selecione uma dupla."
+                        " Selecione uma dupla."
                     );
 
                     return;
@@ -831,7 +831,7 @@ function carregarOMs() {
 
 const motivo =
     (om.status === "Pendente" || om.status === "Quase concluída")
-        ? (om.motivo_pendencia || "' + omIcon('alerta') + ' Não informado")
+        ? (om.motivo_pendencia || " Não informado")
         : "-";                const motivoSeguro = String(om.motivo_pendencia || "").replace(/'/g, "\\'");
 
                 return `
@@ -847,15 +847,15 @@ const motivo =
                         <td>${statusHTML}</td>
                         <td>
                             <div class="actions">
-${(om.status === "Pendente" || om.status === "Quase concluída") ? `<button class="action-yellow" onclick="alterarMotivoPendencia(${om.id}, '${motivoSeguro}')" title="Informar motivo">' + omIcon('alerta') + '</button>` : ""}                                <button class="action-yellow" onclick="alterarStatus(${om.id}, 'Pendente')" title="Marcar como Pendente">🟡</button>
+${(om.status === "Pendente" || om.status === "Quase concluída") ? `<button class="action-yellow" onclick="alterarMotivoPendencia(${om.id}, '${motivoSeguro}')" title="Informar motivo">${omIcon('alerta')}</button>` : ""}                                <button class="action-yellow" onclick="alterarStatus(${om.id}, 'Pendente')" title="Marcar como Pendente">🟡</button>
                                 <button class="action-blue" onclick="alterarStatus(${om.id}, 'Em execução')" title="Marcar Em execução">🔵</button>
                                 <button class="action-orange" onclick="alterarStatus(${om.id}, 'Quase concluída')" title="Marcar como Quase concluída">🟠</button>
                                 <button class="action-green" onclick="alterarStatus(${om.id}, 'Concluída')" title="Marcar Concluída">🟢</button>
-                                <button class="action-neutral action-clock" onclick="abrirDefinirHorarios(${om.id})" title="Definir horários da OM">⏰</button>
-                                <button class="action-neutral" onclick="abrirDetalhesOM(${om.id})" title="Ver detalhes">' + omIcon('olho') + '</button>
-                                <button class="action-neutral" onclick="gerarRelatorio(${om.id})" title="Gerar relatório">📄</button>
-                                <button class="action-red" onclick="excluirOM(${om.id})" title="Excluir OM">' + omIcon('excluir') + '</button>
-                                <button class="action-edit" onclick="editarOM(${om.id})" title="Editar OM">' + omIcon('lapis') + '</button>
+                                <button class="action-neutral action-clock" onclick="abrirDefinirHorarios(${om.id})" title="Definir horários da OM">${omIcon('relogio')}</button>
+                                <button class="action-neutral" onclick="abrirDetalhesOM(${om.id})" title="Ver detalhes">${omIcon('olho')}</button>
+                                <button class="action-neutral" onclick="gerarRelatorio(${om.id})" title="Gerar relatório">${omIcon('salvar')}</button>
+                                <button class="action-red" onclick="excluirOM(${om.id})" title="Excluir OM">${omIcon('excluir')}</button>
+                                <button class="action-edit" onclick="editarOM(${om.id})" title="Editar OM">${omIcon('lapis')}</button>
                             </div>
                         </td>
                     </tr>`;
@@ -1009,7 +1009,7 @@ function gerarRelatorioTurno() {
 // OMs PENDENTES DO DIA
 // =====================================
 
-relatorio += "' + omIcon('alerta') + 'Pendências:' + omIcon('alerta') + '\n\n";
+relatorio += "Pendências:\n\n";
 
 const pendentesHoje = lista.filter(function(om) {
     const status = String(om.status || "")
@@ -1113,7 +1113,7 @@ function copiarRelatorioTurno() {
         } else {
 
             alert(
-                "' + omIcon('alerta') + ' Não foi possível copiar automaticamente. Pressione Ctrl + C."
+                " Não foi possível copiar automaticamente. Pressione Ctrl + C."
             );
 
         }
@@ -1126,7 +1126,7 @@ function copiarRelatorioTurno() {
         );
 
         alert(
-            "' + omIcon('alerta') + ' O relatório foi selecionado. Pressione Ctrl + C."
+            " O relatório foi selecionado. Pressione Ctrl + C."
         );
 
     }
@@ -1139,7 +1139,7 @@ function copiarRelatorioTurno() {
 function alterarMotivoPendencia(id, motivoAtual) {
 
     const novoMotivo = prompt(
-        "' + omIcon('alerta') + ' Informe o motivo da pendência:",
+        " Informe o motivo da pendência:",
         motivoAtual || ""
     );
 
@@ -1151,7 +1151,7 @@ function alterarMotivoPendencia(id, motivoAtual) {
 
     if (!motivo) {
         alert(
-            "' + omIcon('alerta') + ' Informe um motivo para a pendência."
+            " Informe um motivo para a pendência."
         );
         return;
     }
@@ -1229,7 +1229,7 @@ function alterarStatus(id, status) {
         }
 
         if (!motivo.trim()) {
-            alert("' + omIcon('alerta') + ' Informe o motivo da pendência.");
+            alert(" Informe o motivo da pendência.");
             return;
         }
 
@@ -1462,7 +1462,7 @@ function criarDupla() {
     if (!pessoa1 || !pessoa2) {
 
         mensagem.textContent =
-            "' + omIcon('alerta') + ' Selecione as duas pessoas.";
+            " Selecione as duas pessoas.";
 
         mensagem.style.display =
             "block";
@@ -1479,7 +1479,7 @@ function criarDupla() {
     if (pessoa1 === pessoa2) {
 
         mensagem.textContent =
-            "' + omIcon('alerta') + ' Uma pessoa não pode formar dupla com ela mesma.";
+            " Uma pessoa não pode formar dupla com ela mesma.";
 
         mensagem.style.display =
             "block";
@@ -1694,7 +1694,7 @@ function carregarDuplas() {
                         "
                     >
 
-                        ' + omIcon('excluir') + ' Excluir
+                         Excluir
 
                     </button>
 
@@ -4617,7 +4617,7 @@ function copiarRelatorioHealth() {
         console.error(erro);
 
         alert(
-            "' + omIcon('alerta') + ' Não foi possível copiar automaticamente. O relatório está selecionado. Pressione Ctrl + C."
+            " Não foi possível copiar automaticamente. O relatório está selecionado. Pressione Ctrl + C."
         );
 
     }
@@ -4889,7 +4889,7 @@ function excluirOM(id) {
 
     const confirmar =
         confirm(
-            "' + omIcon('alerta') + ' Tem certeza que deseja excluir esta OM?\n\n" +
+            " Tem certeza que deseja excluir esta OM?\n\n" +
             "Essa ação não poderá ser desfeita."
         );
 
@@ -4991,7 +4991,7 @@ function salvarEdicaoOM() {
     const descricao = document.getElementById("editarOMDescricao").value.trim();
 
     if (!om || !equipamento) {
-        alert("' + omIcon('alerta') + ' Informe o número da OM e o equipamento.");
+        alert(" Informe o número da OM e o equipamento.");
         return;
     }
 
@@ -5055,7 +5055,7 @@ function salvarHorariosOM() {
     const horarioFinal = document.getElementById("horariosOMFinal").value;
 
     if (horarioInicial && horarioFinal && horarioFinal < horarioInicial) {
-        alert("' + omIcon('alerta') + ' O horário final não pode ser menor que o horário inicial.");
+        alert(" O horário final não pode ser menor que o horário inicial.");
         return;
     }
 
@@ -5124,7 +5124,7 @@ function excluirTodasOMs() {
     const confirmar =
         confirm(
 
-            "' + omIcon('alerta') + ' ATENÇÃO!\n\n" +
+            " ATENÇÃO!\n\n" +
 
             "Você está prestes a excluir TODAS as OMs cadastradas.\n\n" +
 
@@ -5390,7 +5390,7 @@ function salvarNovoResponsavel() {
         if (!valor) {
 
             alert(
-                "' + omIcon('alerta') + ' Selecione uma pessoa."
+                " Selecione uma pessoa."
             );
 
             return;
@@ -5406,7 +5406,7 @@ function salvarNovoResponsavel() {
         if (!valor) {
 
             alert(
-                "' + omIcon('alerta') + ' Selecione uma dupla."
+                " Selecione uma dupla."
             );
 
             return;
@@ -5575,7 +5575,7 @@ window.copiarRelatorioHealth = function() {
         } else {
 
             alert(
-                "' + omIcon('alerta') + ' Não foi possível copiar automaticamente. O texto está selecionado. Pressione Ctrl + C."
+                " Não foi possível copiar automaticamente. O texto está selecionado. Pressione Ctrl + C."
             );
 
         }
@@ -5588,7 +5588,7 @@ window.copiarRelatorioHealth = function() {
         );
 
         alert(
-            "' + omIcon('alerta') + ' O texto foi selecionado. Pressione Ctrl + C para copiar."
+            " O texto foi selecionado. Pressione Ctrl + C para copiar."
         );
 
     }
@@ -6040,7 +6040,7 @@ window.copiarRelatorioFleet = function () {
             alert("✅ Relatório copiado com sucesso!");
         } else {
             alert(
-                "' + omIcon('alerta') + ' Não foi possível copiar automaticamente. O texto foi selecionado. Pressione Ctrl + C."
+                " Não foi possível copiar automaticamente. O texto foi selecionado. Pressione Ctrl + C."
             );
         }
 
@@ -6049,7 +6049,7 @@ window.copiarRelatorioFleet = function () {
         console.error("Erro ao copiar:", erro);
 
         alert(
-            "' + omIcon('alerta') + ' O texto foi selecionado. Pressione Ctrl + C para copiar."
+            " O texto foi selecionado. Pressione Ctrl + C para copiar."
         );
 
     }
@@ -6526,7 +6526,7 @@ window.copiarRelatorioRpEc = function () {
             alert("✅ Relatório copiado com sucesso!");
         } else {
             alert(
-                "' + omIcon('alerta') + ' Não foi possível copiar automaticamente. " +
+                " Não foi possível copiar automaticamente. " +
                 "O texto foi selecionado. Pressione Ctrl + C."
             );
         }
@@ -6536,7 +6536,7 @@ window.copiarRelatorioRpEc = function () {
         console.error("Erro ao copiar:", erro);
 
         alert(
-            "' + omIcon('alerta') + ' O texto foi selecionado. " +
+            " O texto foi selecionado. " +
             "Pressione Ctrl + C para copiar."
         );
     }
@@ -6793,7 +6793,7 @@ window.copiarRelatorioPz = function () {
             alert("✅ Relatório copiado com sucesso!");
         } else {
             alert(
-                "' + omIcon('alerta') + ' Não foi possível copiar automaticamente. " +
+                " Não foi possível copiar automaticamente. " +
                 "O texto foi selecionado. Pressione Ctrl + C."
             );
         }
@@ -6803,7 +6803,7 @@ window.copiarRelatorioPz = function () {
         console.error("Erro ao copiar:", erro);
 
         alert(
-            "' + omIcon('alerta') + ' O texto foi selecionado. " +
+            " O texto foi selecionado. " +
             "Pressione Ctrl + C para copiar."
         );
     }
@@ -7141,7 +7141,7 @@ window.interpretarAtividades = function () {
         campo.value.trim();
     if (!texto) {
         alert(
-            "' + omIcon('alerta') + ' Cole primeiro a lista de atividades do dia."
+            " Cole primeiro a lista de atividades do dia."
         );
         return;
     }
@@ -7738,7 +7738,7 @@ window.interpretarAtividades = function () {
                                 color: #92400e;
                                 font-weight: bold;
                             ">
-                                ' + omIcon('alerta') + ' Equipamento não identificado.
+                                 Equipamento não identificado.
                                 Revisar antes de salvar.
                             </div>
                         `
@@ -7804,7 +7804,7 @@ window.interpretarAtividades = function () {
             </div>
 
             <div>
-                ' + omIcon('alerta') + '
+                
                 <strong>Precisam revisão:</strong>
                 ${revisar}
             </div>
@@ -7945,7 +7945,7 @@ async function cadastrarAtividadesDoDia() {
         atividades.length === 0
     ) {
         alert(
-            "' + omIcon('alerta') + ' Não existem OMs para cadastrar."
+            " Não existem OMs para cadastrar."
         );
         return;
     }
@@ -7966,7 +7966,7 @@ async function cadastrarAtividadesDoDia() {
         botao.disabled =
             true;
         botao.innerHTML =
-            "' + omIcon('relogio') + ' Cadastrando OMs...";
+            " Cadastrando OMs...";
     }
     try {
         /*
@@ -8046,7 +8046,7 @@ async function cadastrarAtividadesDoDia() {
             existentes +
             "\n";
         mensagem +=
-            "' + omIcon('alerta') + ' Erros: " +
+            " Erros: " +
             erros;
         alert(mensagem);
         if (botao) {
@@ -8123,14 +8123,14 @@ async function cadastrarPendenciasEncontradas() {
     });
 
     if (!candidatas.length) {
-        alert("' + omIcon('alerta') + ' Não existem OMs para cadastrar.");
+        alert(" Não existem OMs para cadastrar.");
         return;
     }
 
     if (!confirm("Deseja cadastrar " + candidatas.length + " OMs encontradas na oficina?")) return;
 
     const botao = document.getElementById("botaoCadastroPendencias");
-    if (botao) { botao.disabled = true; botao.textContent = "' + omIcon('relogio') + ' Cadastrando OMs..."; }
+    if (botao) { botao.disabled = true; botao.textContent = " Cadastrando OMs..."; }
 
     try {
         const resposta = await fetch("/om/importar-pendencias", {
@@ -8152,7 +8152,7 @@ async function cadastrarPendenciasEncontradas() {
         alert("✅ Importação concluída!\n\n" +
             "🟢 Novas OMs cadastradas: " + ((dados.cadastradas || []).length) + "\n" +
             "🔵 OMs que já existiam: " + ((dados.existentes || []).length) + "\n" +
-            "' + omIcon('alerta') + ' Erros: " + ((dados.erros || []).length));
+            " Erros: " + ((dados.erros || []).length));
 
         if (botao) { botao.disabled = true; botao.textContent = "✅ Importação concluída"; botao.style.background = "#64748b"; }
         carregarOMs();
@@ -8182,11 +8182,11 @@ window.cruzarPendencias = function () {
     const textoEquipamentos = campoEquipamentos.value.trim();
 
     if (!textoPendencias) {
-        alert("' + omIcon('alerta') + ' Cole primeiro as pendências do turno anterior.");
+        alert(" Cole primeiro as pendências do turno anterior.");
         return;
     }
     if (!textoEquipamentos) {
-        alert("' + omIcon('alerta') + ' Informe primeiro os equipamentos que estão na oficina.");
+        alert(" Informe primeiro os equipamentos que estão na oficina.");
         return;
     }
 
@@ -8242,7 +8242,7 @@ window.cruzarPendencias = function () {
 
     function limparDescricao(linhaOriginal, numeroOM, equipamento) {
         let d = String(linhaOriginal || "")
-            .replace(/' + omIcon('alerta') + '|🟢|🔵|🟡|🔴|🚫/g, "")
+            .replace(/|🟢|🔵|🟡|🔴|🚫/g, "")
             .replace(new RegExp("\\b" + numeroOM + "\\b", "gi"), "")
             .replace(/\bOM\s*:\s*/gi, "")
             .trim();
@@ -8614,7 +8614,7 @@ function renderizarHistoricoOMs(){
     if(!resultado.length){lista.innerHTML='<div class="muted" style="padding:15px;text-align:center">📭 Nenhuma OM encontrada nos últimos 7 dias.</div>';return;}
     lista.innerHTML=resultado.map(function(om){
         const s=String(om.status||"").trim(); const cls=s==="Concluída"?"status-green":s==="Em execução"?"status-blue":"status-yellow";
-        return `<div class="recent-item"><div class="recent-line"><b style="color:#fff">📁 OM ${om.om||"-"}</b><span class="status-pill ${cls}">${s||"Pendente"}</span></div><div class="muted" style="margin-top:5px">🚜 ${om.equipamento||"-"} &nbsp; • &nbsp; 📄 ${om.modelo_relatorio||om.descricao||"-"}</div><div class="muted" style="margin-top:4px">📅 ${om.data||"-"}</div>${om.motivo_pendencia?`<div style="margin-top:5px;color:#f2bd28">' + omIcon('alerta') + ' ${om.motivo_pendencia}</div>`:""}</div>`;
+        return `<div class="recent-item"><div class="recent-line"><b style="color:#fff">📁 OM ${om.om||"-"}</b><span class="status-pill ${cls}">${s||"Pendente"}</span></div><div class="muted" style="margin-top:5px">🚜 ${om.equipamento||"-"} &nbsp; • &nbsp; 📄 ${om.modelo_relatorio||om.descricao||"-"}</div><div class="muted" style="margin-top:4px">📅 ${om.data||"-"}</div>${om.motivo_pendencia?`<div style="margin-top:5px;color:#f2bd28"> ${om.motivo_pendencia}</div>`:""}</div>`;
     }).join("");
 }
 function filtrarHistoricoOMs(){renderizarHistoricoOMs();}
@@ -8629,7 +8629,7 @@ function atualizarUltimasOMs(){
         const ult=arr.slice().sort(function(a,b){return dataHistoricoValida(b)-dataHistoricoValida(a);}).slice(0,5);
         el.innerHTML=ult.length?ult.map(function(o){const hora=extrairHoraTexto(o.data);return `<div class="recent-item"><div class="recent-line"><span><i class="dot ${o.status==="Concluída"?"green":o.status==="Em execução"?"blue":o.status==="Quase concluída"?"orange":"yellow"}"></i><b style="color:#fff">OM ${o.om||"-"} - ${o.equipamento||"-"}</b></span><span class="muted">${normalizarDataTexto(o.data)} ${hora}</span></div><div class="muted" style="margin-left:15px;margin-top:4px">${o.status||"Pendente"}</div></div>`}).join(""):'<div class="muted" style="padding:15px">Nenhuma OM.</div>';
         const c=arr.filter(function(o){return o.status==="Concluída"}).length,e=arr.filter(function(o){return o.status==="Em execução"}).length,p=arr.filter(function(o){return o.status==="Pendente"}).length;
-        if(resumo) resumo.innerHTML=`<div class="pending-item"><b>' + omIcon('alerta') + ' Pendências do turno <span style="float:right;color:#ff5960">${p}</span></b><span>${p?`Existem ${p} OMs pendentes aguardando ação.`:"Nenhuma OM pendente."}</span></div><div class="summary-row"><div class="summary-chip"><b style="color:#16c784">${c}</b><small>Concluídas</small></div><div class="summary-chip"><b style="color:#2583f7">${e}</b><small>Em execução</small></div><div class="summary-chip"><b style="color:#f2bd28">${p}</b><small>Pendentes</small></div></div>`;
+        if(resumo) resumo.innerHTML=`<div class="pending-item"><b> Pendências do turno <span style="float:right;color:#ff5960">${p}</span></b><span>${p?`Existem ${p} OMs pendentes aguardando ação.`:"Nenhuma OM pendente."}</span></div><div class="summary-row"><div class="summary-chip"><b style="color:#16c784">${c}</b><small>Concluídas</small></div><div class="summary-chip"><b style="color:#2583f7">${e}</b><small>Em execução</small></div><div class="summary-chip"><b style="color:#f2bd28">${p}</b><small>Pendentes</small></div></div>`;
     }).catch(function(){});
 }
 document.addEventListener("DOMContentLoaded",function(){
