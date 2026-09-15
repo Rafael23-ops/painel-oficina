@@ -10,7 +10,7 @@
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
 html{scroll-behavior:smooth} body{background:var(--bg);color:var(--text);min-height:100vh}
 button,input,select,textarea{font:inherit} button{cursor:pointer}
-.app{display:flex;min-height:100vh}.sidebar{width:215px;flex:0 0 215px;background:#080d12;border-right:1px solid #202731;position:fixed;inset:0 auto 0 0;z-index:100;display:flex;flex-direction:column}
+.app{position:relative;display:flex;min-height:100vh}.sidebar{width:215px;flex:0 0 215px;background:#080d12;border-right:1px solid #202731;position:fixed;inset:0 auto 0 0;height:100vh;z-index:100;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden}
 .brand{
     height:86px;
     border-bottom:1px solid #222a33;
@@ -62,7 +62,7 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
     text-align:left;
     white-space:nowrap;
 }
-.nav{padding:18px 10px;display:flex;flex-direction:column;gap:5px}.nav button{width:100%;border:0;background:transparent;color:#cbd3dc;text-align:left;padding:12px 13px;border-radius:8px;display:flex;align-items:center;gap:12px;font-size:13px}.nav button:hover,.nav button.active{background:linear-gradient(90deg,#f02027,#c70d16);color:#fff}.nav .ico{width:20px;text-align:center;font-size:17px}.side-bottom{margin-top:auto;padding:14px}.side-note{border:1px solid #28333f;border-left:3px solid var(--red);border-radius:8px;padding:14px;color:#dbe2ea;font-size:12px;line-height:1.5;background:#0c1218}
+.nav{padding:18px 10px;display:flex;flex-direction:column;gap:5px;flex:0 0 auto}.sidebar{scrollbar-width:none}.sidebar::-webkit-scrollbar{display:none}.nav button{width:100%;border:0;background:transparent;color:#cbd3dc;text-align:left;padding:12px 13px;border-radius:8px;display:flex;align-items:center;gap:12px;font-size:13px}.nav button:hover,.nav button.active{background:linear-gradient(90deg,#f02027,#c70d16);color:#fff}.nav .ico{width:20px;text-align:center;font-size:17px}.side-bottom{margin-top:auto;padding:14px}.side-note{border:1px solid #28333f;border-left:3px solid var(--red);border-radius:8px;padding:14px;color:#dbe2ea;font-size:12px;line-height:1.5;background:#0c1218}
 .main{margin-left:215px;min-width:0;width:calc(100% - 215px)}.topbar{height:72px;background:#090e14;border-bottom:1px solid #202731;display:flex;align-items:center;justify-content:flex-end;padding:0 28px;gap:24px}.server{font-size:11px;color:#9ba6b3}.server b{color:#23c77e}.user{display:flex;align-items:center;gap:10px;font-size:12px}.avatar{width:32px;height:32px;border-radius:50%;background:#293441;display:grid;place-items:center}.content{padding:20px 18px 28px;max-width:1450px;margin:auto}.hero{position:relative;overflow:hidden;border:1px solid #26313d;background:linear-gradient(100deg,#101720,#0d131a);border-radius:8px;padding:22px 24px;margin-bottom:16px;box-shadow:var(--shadow)}.hero:before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--red)}.hero h1{font-size:22px;margin-bottom:7px}.hero p{color:#9ca8b5;font-size:13px}.hero-mark{position:absolute;right:25px;top:18px;text-align:right;color:#f7c51c;font-weight:900;font-size:18px}.hero-mark small{display:block;color:#aeb7c1;font-size:9px;letter-spacing:.5px}
 .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}.metric{background:linear-gradient(145deg,#101820,#0c1218);border:1px solid #26313c;border-radius:8px;padding:16px;min-height:108px;box-shadow:var(--shadow)}.metric-top{display:flex;align-items:center;gap:12px}.metric-icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:20px}.metric.blue .metric-icon{background:#0d55a8}.metric.yellow .metric-icon{background:#6f5711}.metric.green .metric-icon{background:#0a7047}.metric.red .metric-icon{background:#7c1218}.metric-label{font-size:12px;color:#aeb7c1}.metric-number{font-size:28px;font-weight:700;margin-top:3px}.metric-foot{font-size:10px;margin-top:8px}.metric.blue .metric-foot{color:#3e9cff}.metric.yellow .metric-foot{color:#e7bb2f}.metric.green .metric-foot{color:#24c77d}.metric.red .metric-foot{color:#ff4b52}
 .panel{background:linear-gradient(145deg,#0e151c,#0b1117);border:1px solid #242f3a;border-radius:8px;box-shadow:var(--shadow);overflow:hidden}.panel-head{padding:14px 16px;border-bottom:1px solid #222c36;display:flex;align-items:center;justify-content:space-between;gap:12px}.panel-title{font-size:16px;font-weight:700}.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.search,.select-dark{background:#111922;color:#d9e0e8;border:1px solid #34404d;border-radius:6px;padding:9px 11px;font-size:11px;outline:none}.search{min-width:240px}.select-dark{min-width:130px}.search:focus,.select-dark:focus{border-color:#64748b}.table-wrap{overflow:auto}.om-table{width:100%;border-collapse:collapse;min-width:1050px}.om-table th{background:#151e28;color:#9eabb8;text-align:left;font-size:10px;padding:11px 12px;white-space:nowrap}.om-table td{border-top:1px solid #1e2832;padding:11px 12px;color:#d6dde5;font-size:11px;vertical-align:middle}.om-table tr:hover td{background:#111a23}.om-table td:first-child{color:#fff;font-weight:700}.status-pill{display:inline-block;border-radius:20px;padding:5px 10px;font-size:10px;font-weight:700;white-space:nowrap}.status-green{background:#0b9f5c;color:#07150f}.status-blue{background:#2583f7;color:#06152b}.status-yellow{background:#f2bd28;color:#1c1703}.actions{display:flex;gap:5px;flex-wrap:wrap;align-items:center;justify-content:center}.actions button{border:1px solid #33404d!important;background:#151e28!important;color:#f1f5f9!important;border-radius:7px!important;padding:7px 9px!important;margin:0!important;font-size:12px!important;min-width:34px;box-shadow:0 2px 5px rgba(0,0,0,.18)}.actions button:hover{background:#263444!important;transform:translateY(-1px)}.actions .action-yellow{border-color:#8a6b12!important;background:#2b2410!important}.actions .action-blue{border-color:#1d64b8!important;background:#10253d!important}.actions .action-green{border-color:#168653!important;background:#0d2b20!important}.actions .action-red{border-color:#8b252b!important;background:#321216!important}.actions .action-edit{border-color:#315d93!important;background:#132238!important}.actions .action-neutral{border-color:#45515e!important;background:#1a232d!important}.actions .action-clock{border-color:#8a6b12!important;background:#2b2410!important;color:#f2bd28!important}.actions button span{font-size:11px}.report-select-heading{font-size:13px;font-weight:800;color:#fff;line-height:1.25}.btn-select-all {
@@ -90,6 +90,60 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
 @media(max-width:1050px){.sidebar{width:70px;flex-basis:70px}.main{margin-left:70px;width:calc(100% - 70px)}.brand{justify-content:center;padding:10px}.brand-name,.brand-sub,.brand-cat{display:none}.brand-sotreq{font-size:12px;padding:8px}.nav button{justify-content:center}.nav button span:last-child{display:none}.side-note{display:none}.cards{grid-template-columns:repeat(2,1fr)}.grid-bottom{grid-template-columns:1fr}.hero-mark{display:none}}
 @media(max-width:650px){.topbar{padding:0 12px}.server{display:none}.content{padding:12px}.cards{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.search{min-width:160px;width:100%}.panel-head{align-items:flex-start;flex-direction:column}.tools{width:100%}.select-dark{flex:1}.hero h1{font-size:19px}}
 
+
+/* ===== CAMADA VISUAL PROFISSIONAL ===== */
+:root{
+  --accent:#e3131b;
+  --accent-soft:#2a1215;
+  --surface:#0f171f;
+  --surface-2:#121c26;
+  --surface-3:#17222d;
+}
+.ui-icon{
+  width:17px;
+  height:17px;
+  display:inline-block;
+  flex:0 0 17px;
+  vertical-align:middle;
+  stroke:currentColor;
+  fill:none;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.ui-icon-lg{width:20px;height:20px;flex-basis:20px}
+.nav .ui-icon{width:18px;height:18px;flex-basis:18px}
+.nav button{transition:background .18s ease,color .18s ease,transform .18s ease}
+.nav button:hover{transform:translateX(2px)}
+.nav button.active{box-shadow:inset 3px 0 0 #fff,0 5px 16px rgba(227,19,27,.18)}
+.panel-head .panel-title{display:flex;align-items:center;gap:9px;letter-spacing:.15px}
+.metric-icon{font-size:0}
+.metric-icon .ui-icon{width:21px;height:21px}
+.topbar>div:nth-child(2){font-size:0}
+.topbar>div:nth-child(2) .ui-icon{width:18px;height:18px}
+.avatar{font-size:0}
+.avatar .ui-icon{width:17px;height:17px}
+.side-note{position:relative}
+.side-note .ui-icon{margin-bottom:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px}
+.btn-select-all,.btn-red{display:flex;align-items:center;justify-content:center;gap:7px}
+.actions button{display:inline-flex;align-items:center;justify-content:center}
+.actions button .ui-icon{width:15px;height:15px;flex-basis:15px}
+.status-pill{display:inline-flex;align-items:center;gap:5px}
+.status-pill .ui-icon{width:12px;height:12px;flex-basis:12px}
+.hero-mark{letter-spacing:.5px}
+.field label{letter-spacing:.2px}
+.section{scroll-margin-top:12px}
+@media(max-width:1050px){
+  .nav button:hover{transform:none}
+}
+
+
+/* Ícones profissionais para status e ações das OMs */
+.om-icon{width:16px;height:16px;display:inline-block;vertical-align:-3px;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.om-icon.sm{width:14px;height:14px}.om-icon.lg{width:18px;height:18px}
+.status-pill .om-icon,.actions .om-icon,button .om-icon{margin-right:4px}
+
 </style>
 
 </head>
@@ -102,35 +156,35 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
         <span class="brand-cat">CAT</span>
     </div>
 
-    <div class="brand-name">🔧 OFICINA</div>
+    <div class="brand-name"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a5 5 0 0 0-6.4 6.4L3.5 17.5a2.1 2.1 0 0 0 3 3l4.8-4.8a5 5 0 0 0 6.4-6.4l-3.1 3.1-2.7-.6-.6-2.7z"/></svg> OFICINA</div>
     <div class="brand-sub">Sistema de Ordens de Manutenção</div>
 </div>
   <nav class="nav">
-    <button class="active" onclick="irPara('dashboard',this)"><span class="ico">⌂</span><span>Dashboard</span></button>
-    <button onclick="irPara('ordens',this)"><span class="ico">▣</span><span>Ordens de Manutenção</span></button>
-    <button onclick="irPara('ferramentas',this)"><span class="ico">🚜</span><span>Equipamentos</span></button>
-    <button onclick="abrirModal('modalNovaOM')"><span class="ico">＋</span><span>Cadastrar OM</span></button>
+    <button class="active" onclick="irPara('dashboard',this)"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h7v7H3z"/><path d="M14 3h7v7h-7z"/><path d="M3 14h7v7H3z"/><path d="M14 14h7v7h-7z"/></svg><span>Dashboard</span></button>
+    <button onclick="irPara('ordens',this)"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2h6v2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg><span>Ordens de Manutenção</span></button>
+    <button onclick="irPara('ferramentas',this)"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m14.7 6.3 3 3M3 21l7.7-7.7M13 5a5 5 0 0 0 6.4 6.4L15 15.8 8.2 9 12.6 4.6A5 5 0 0 0 13 5z"/></svg><span>Equipamentos</span></button>
+    <button onclick="abrirModal('modalNovaOM')"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Cadastrar OM</span></button>
     
-    <button onclick="irPara('relatorios',this)"><span class="ico">▤</span><span>Relatórios</span></button>
-    <button onclick="irPara('fimTurno',this)"><span class="ico">▣</span><span>Relatório de Fim de Turno</span></button>
-    <button onclick="irPara('configuracoes',this)"><span class="ico">⚙</span><span>Configurações</span></button>
+    <button onclick="irPara('relatorios',this)"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v5h5M9 12h6M9 16h6"/></svg><span>Relatórios</span></button>
+    <button onclick="irPara('fimTurno',this)"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v5h5M9 12h6M9 16h6"/></svg><span>Relatório de Fim de Turno</span></button>
+    <button onclick="irPara('configuracoes',this)"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/><circle cx="12" cy="12" r="4"/></svg><span>Configurações</span></button>
   </nav>
-  <div class="side-bottom"><div class="side-note">♧<br><strong>Juntos por uma operação mais eficiente!</strong></div></div>
+  <div class="side-bottom"><div class="side-note"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m14.7 6.3 3 3M3 21l7.7-7.7M13 5a5 5 0 0 0 6.4 6.4L15 15.8 8.2 9 12.6 4.6A5 5 0 0 0 13 5z"/></svg><br><strong>Juntos por uma operação mais eficiente!</strong></div></div>
 </aside>
 <main class="main">
-<header class="topbar"><div class="server">● <b>Servidor Online</b><br><span>Atualização automática</span></div><div>🔔</div><div class="user"><span class="avatar">👤</span><span><strong>TURNO C</strong><br><small class="muted">Técnicos</small></span></div></header>
+<header class="topbar"><div class="server">● <b>Servidor Online</b><br><span>Atualização automática</span></div><div><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg></div><div class="user"><span class="avatar"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 21a7 7 0 0 1 14 0"/></svg></span><span><strong>TURNO C</strong><br><small class="muted">Técnicos</small></span></div></header>
 <div class="content" id="dashboard">
 <div id="erro"></div>
 <section class="hero"><div><h1>Olá, TURNO "C"!</h1><p>Aqui está o painel de OMs.</p></div><div class="hero-mark">SOTREQ<small>SOLUÇÕES PARA<br>UM MUNDO MELHOR</small></div></section>
 <section class="cards">
-  <div class="metric blue"><div class="metric-top"><div class="metric-icon">▣</div><div><div class="metric-label">Total de OMs</div><div class="metric-number" id="total">0</div></div></div><div class="metric-foot">↟ Atualizado automaticamente</div></div>
-  <div class="metric yellow"><div class="metric-top"><div class="metric-icon">▶</div><div><div class="metric-label">Em Execução</div><div class="metric-number" id="execucao">0</div></div></div><div class="metric-foot">↘ Em andamento</div></div>
-  <div class="metric green"><div class="metric-top"><div class="metric-icon">✓</div><div><div class="metric-label">Concluídas</div><div class="metric-number" id="concluidas">0</div></div></div><div class="metric-foot">⌁ Finalizadas</div></div>
-  <div class="metric red"><div class="metric-top"><div class="metric-icon">⚠</div><div><div class="metric-label">Pendentes</div><div class="metric-number" id="pendentes">0</div></div></div><div class="metric-foot">! Aguardando ação</div></div>
+  <div class="metric blue"><div class="metric-top"><div class="metric-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2h6v2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg></div><div><div class="metric-label">Total de OMs</div><div class="metric-number" id="total">0</div></div></div><div class="metric-foot">Atualizado automaticamente</div></div>
+  <div class="metric yellow"><div class="metric-top"><div class="metric-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7z"/></svg></div><div><div class="metric-label">Em Execução</div><div class="metric-number" id="execucao">0</div></div></div><div class="metric-foot">Em andamento</div></div>
+  <div class="metric green"><div class="metric-top"><div class="metric-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></div><div><div class="metric-label">Concluídas</div><div class="metric-number" id="concluidas">0</div></div></div><div class="metric-foot">Finalizadas</div></div>
+  <div class="metric red"><div class="metric-top"><div class="metric-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 22 20H2z"/><path d="M12 9v5M12 17h.01"/></svg></div><div><div class="metric-label">Pendentes</div><div class="metric-number" id="pendentes">0</div></div></div><div class="metric-foot">Aguardando ação</div></div>
 </section>
 
 <section class="panel" id="ordens">
- <div class="panel-head"><div class="panel-title">▣ ORDENS DE MANUTENÇÃO</div><div class="tools"><input id="pesquisaOM" class="search" placeholder="Pesquisar OM, equipamento..." autocomplete="off"><select class="select-dark" id="filtroStatusVisual"><option value="">Todos os Status</option><option>Pendente</option>
+ <div class="panel-head"><div class="panel-title"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2h6v2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg> ORDENS DE MANUTENÇÃO</div><div class="tools"><input id="pesquisaOM" class="search" placeholder="Pesquisar OM, equipamento..." autocomplete="off"><select class="select-dark" id="filtroStatusVisual"><option value="">Todos os Status</option><option>Pendente</option>
 <option>Em execução</option>
 <option>Quase concluída</option>
 <option>Concluída</option></select></div></div>
@@ -138,71 +192,70 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
 </section>
 
 <div class="grid-bottom">
- <section class="panel mini"><div class="panel-head"><div class="panel-title">◷ ÚLTIMAS OMS ATUALIZADAS</div></div><div class="mini-list" id="ultimasOMs"><div class="muted" style="padding:15px">Carregando...</div></div></section>
- <section class="panel mini" id="relatorios"><div class="panel-head"><div class="panel-title">▤ GERAR RELATÓRIO</div></div><div class="report-box"><div class="report-select-heading">OMs concluídas de hoje</div><div class="historico-note" style="margin:0">Atualização automática</div><button type="button" class="btn-select-all" onclick="selecionarTodasOMsRelatorio()">☑ Selecionar todas as OMs</button><div id="listaOMsRelatorio">Carregando OMs concluídas...</div><button class="btn-red" type="button" onclick="gerarRelatorioTurno()">▣ GERAR RELATÓRIO DE FIM DE TURNO</button><div id="resultadoRelatorioTurno"></div></div></section>
- <section class="panel mini" id="fimTurno"><div class="panel-head"><div class="panel-title">▣ RELATÓRIO DE FIM DE TURNO</div><button class="btn btn-gray" type="button" onclick="gerarRelatorioTurno()">Ver relatório</button></div><div id="resumoFimTurno" class="mini-list"><div class="pending-item">Carregando resumo...</div></div></section>
+ <section class="panel mini"><div class="panel-head"><div class="panel-title"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> ÚLTIMAS OMS ATUALIZADAS</div></div><div class="mini-list" id="ultimasOMs"><div class="muted" style="padding:15px">Carregando...</div></div></section>
+ <section class="panel mini" id="relatorios"><div class="panel-head"><div class="panel-title"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v5h5M9 12h6M9 16h6"/></svg> GERAR RELATÓRIO</div></div><div class="report-box"><div class="report-select-heading">OMs concluídas de hoje</div><div class="historico-note" style="margin:0">Atualização automática</div><button type="button" class="btn-select-all" onclick="selecionarTodasOMsRelatorio()">Selecionar todas as OMs</button><div id="listaOMsRelatorio">Carregando OMs concluídas...</div><button class="btn-red" type="button" onclick="gerarRelatorioTurno()">GERAR RELATÓRIO DE FIM DE TURNO</button><div id="resultadoRelatorioTurno"></div></div></section>
+ <section class="panel mini" id="fimTurno"><div class="panel-head"><div class="panel-title"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v5h5M9 12h6M9 16h6"/></svg> RELATÓRIO DE FIM DE TURNO</div><button class="btn btn-gray" type="button" onclick="gerarRelatorioTurno()">Ver relatório</button></div><div id="resumoFimTurno" class="mini-list"><div class="pending-item">Carregando resumo...</div></div></section>
 </div>
 
-<section class="section" id="ferramentas"><div class="panel"><div class="panel-head"><div class="panel-title">⚙ FERRAMENTAS OPERACIONAIS</div></div><div class="section-body"><div class="form-grid">
- <div class="field full"><label>IMPORTAR ATIVIDADES DO DIA</label><textarea id="textoAtividades" placeholder="Cole aqui a lista de atividades do dia..."></textarea><div class="button-row"><button class="btn btn-blue" type="button" onclick="interpretarAtividades()">🔎 Interpretar atividades</button></div><div id="resultadoImportacao"></div><style>
-#resultadoImportacao {
-    margin-top: 12px;
-    color: #ffffff;
-    background: #0b1118;
-    border: 1px solid #2f3d4a;
-    border-radius: 8px;
-    padding: 14px;
-    line-height: 1.5;
-}
+<section class="section" id="ferramentas"><div class="panel"><div class="panel-head"><div class="panel-title"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m14.7 6.3 3 3M3 21l7.7-7.7M13 5a5 5 0 0 0 6.4 6.4L15 15.8 8.2 9 12.6 4.6A5 5 0 0 0 13 5z"/></svg> FERRAMENTAS OPERACIONAIS</div></div><div class="section-body"><div class="form-grid">
+ <div class="field full"><label>CARREGAR DADOS DO TURNO</label><textarea id="textoDadosTurno" placeholder="Cole aqui as atividades do dia, as pendências do turno anterior e os equipamentos na oficina...
 
-#resultadoImportacao * {
-    color: #ffffff;
-}
+ATIVIDADES DO DIA
+...
 
-#resultadoImportacao input,
-#resultadoImportacao textarea,
-#resultadoImportacao select {
-    background: #111922 !important;
-    color: #ffffff !important;
-    border: 1px solid #3b4a58 !important;
-}
+PENDÊNCIAS DO TURNO ANTERIOR
+...
 
-#resultadoImportacao strong,
-#resultadoImportacao b {
-    color: #ffffff !important;
-}
+EQUIPAMENTOS NA OFICINA
+EC67
+PZ58
+TT70"></textarea><div class="button-row"><button class="btn btn-blue" type="button" onclick="carregarDadosTurno()"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4M8 8l4-4 4 4"/><path d="M5 14v5h14v-5"/></svg> Carregar dados do turno</button></div></div>
+ <div id="camposInternosTurno" style="display:none">
+  <textarea id="textoAtividades"></textarea>
+  <textarea id="textoPendencias"></textarea>
+  <textarea id="textoEquipamentosOficina"></textarea>
+ </div>
+ <div class="field full"><div id="resultadoImportacao"></div></div>
+ <div class="field full"><div id="resultadoPendencias"></div></div>
+ </div></div></div></section>
 
-#resultadoImportacao button {
-    color: #ffffff !important;
-}
-</style></div>
- <div class="field"><label>PENDÊNCIAS DO TURNO ANTERIOR</label><textarea id="textoPendencias" placeholder="Cole aqui as pendências..."></textarea></div>
- <div class="field"><label>EQUIPAMENTOS NA OFICINA</label><textarea id="textoEquipamentosOficina" placeholder="EC67\nPZ58\nTT70"></textarea></div>
- <div class="field full"><div class="button-row"><button class="btn btn-yellow" type="button" onclick="cruzarPendencias()">⚠ Cruzar pendências com equipamentos</button></div><div id="resultadoPendencias"></div></div>
-</div></div></div></section>
+<section class="section" id="historico"><div class="panel"><div class="panel-head"><div class="panel-title"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> HISTÓRICO DE OMS</div><div class="tools"><input id="pesquisaHistoricoOM" class="search" placeholder="Pesquisar no histórico..." oninput="filtrarHistoricoOMs()"><button class="btn btn-gray" onclick="filtrarHistoricoStatus('todos')">Todos</button><button class="btn btn-yellow" onclick="filtrarHistoricoStatus('pendente')">Pendentes</button><button class="btn btn-blue" onclick="filtrarHistoricoStatus('em execução')">Em execução</button><button class="btn btn-green" onclick="filtrarHistoricoStatus('concluída')">Concluídas</button></div></div><div class="section-body" id="listaHistoricoOMs">Carregando Carregando histórico...</div></div></section>
 
-
-
-<section class="section" id="historico"><div class="panel"><div class="panel-head"><div class="panel-title">📚 HISTÓRICO DE OMS</div><div class="tools"><input id="pesquisaHistoricoOM" class="search" placeholder="Pesquisar no histórico..." oninput="filtrarHistoricoOMs()"><button class="btn btn-gray" onclick="filtrarHistoricoStatus('todos')">Todos</button><button class="btn btn-yellow" onclick="filtrarHistoricoStatus('pendente')">Pendentes</button><button class="btn btn-blue" onclick="filtrarHistoricoStatus('em execução')">Em execução</button><button class="btn btn-green" onclick="filtrarHistoricoStatus('concluída')">Concluídas</button></div></div><div class="section-body" id="listaHistoricoOMs">⏳ Carregando histórico...</div></div></section>
-
-<section class="section" id="configuracoes"><div class="panel"><div class="panel-head"><div class="panel-title">⚙ Configurações</div></div><div class="section-body"><div class="danger-zone"><span><strong>Zona de segurança</strong><br>Excluir todas as OMs é uma ação permanente.</span><button class="btn btn-primary" type="button" onclick="excluirTodasOMs()">🗑 Excluir todas as OMs</button></div></div></div></section>
+<section class="section" id="configuracoes"><div class="panel"><div class="panel-head"><div class="panel-title"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/><circle cx="12" cy="12" r="4"/></svg> Configurações</div></div><div class="section-body"><div class="danger-zone"><span><strong>Zona de segurança</strong><br>Excluir todas as OMs é uma ação permanente.</span><button class="btn btn-primary" type="button" onclick="excluirTodasOMs()">Excluir todas as OMs</button></div></div></div></section>
 <div class="footer">Sistema da Oficina - Sotreq &nbsp; • &nbsp; Disciplina &nbsp; • &nbsp; Organização &nbsp; • &nbsp; Resultado &nbsp; • &nbsp; Versão 2.0</div>
 </div></main></div>
 
 <!-- MODAL NOVA OM -->
-<div class="modal" id="modalNovaOM"><div class="modal-card"><h2>➕ Nova Ordem de Manutenção</h2><form id="formOM"><div class="form-grid"><div class="field"><label>NÚMERO DA OM</label><input id="numero" required placeholder="Número da OM"></div><div class="field"><label>EQUIPAMENTO</label><select id="equipamento" required><option value="">Selecione o equipamento</option></select></div><div class="field full"><label>MODELO DO RELATÓRIO</label><select id="modeloRelatorio" required><option value="">Selecione o modelo</option><option>MP MINESTAR FLEET</option><option>MP MINESTAR RP & EC</option><option>MP MINESTAR HEALTH</option><option>MP MINESTAR TERRAIN TT</option><option>MP MINESTAR PZ</option></select></div><div class="field full"><label>DESCRIÇÃO</label><textarea id="descricao" required placeholder="Descrição do serviço"></textarea></div><div class="field"><label>TIPO DE RESPONSÁVEL</label><select id="tipoResponsavel"><option value="">Sem responsável</option><option value="pessoa">Pessoa</option></select></div><div class="field"><label>RESPONSÁVEL</label><select id="responsavel"><option value="">Selecione o responsável</option></select></div></div><div class="button-row"><button class="btn btn-primary" type="submit">➕ Cadastrar OM</button><button class="btn btn-gray" type="button" onclick="fecharModal('modalNovaOM')">Cancelar</button></div><div id="mensagemOM"></div></form></div></div>
+<div class="modal" id="modalNovaOM"><div class="modal-card"><h2>Nova Ordem de Manutenção</h2><form id="formOM"><div class="form-grid"><div class="field"><label>NÚMERO DA OM</label><input id="numero" required placeholder="Número da OM"></div><div class="field"><label>EQUIPAMENTO</label><select id="equipamento" required><option value="">Selecione o equipamento</option></select></div><div class="field full"><label>MODELO DO RELATÓRIO</label><select id="modeloRelatorio" required><option value="">Selecione o modelo</option><option>MP MINESTAR FLEET</option><option>MP MINESTAR RP & EC</option><option>MP MINESTAR HEALTH</option><option>MP MINESTAR TERRAIN TT</option><option>MP MINESTAR PZ</option></select></div><div class="field full"><label>DESCRIÇÃO</label><textarea id="descricao" required placeholder="Descrição do serviço"></textarea></div><div class="field"><label>TIPO DE RESPONSÁVEL</label><select id="tipoResponsavel"><option value="">Sem responsável</option><option value="pessoa">Pessoa</option></select></div><div class="field"><label>RESPONSÁVEL</label><select id="responsavel"><option value="">Selecione o responsável</option></select></div></div><div class="button-row"><button class="btn btn-primary" type="submit">➕ Cadastrar OM</button><button class="btn btn-gray" type="button" onclick="fecharModal('modalNovaOM')">Cancelar</button></div><div id="mensagemOM"></div></form></div></div>
 
 <!-- MODAIS COMPATÍVEIS COM AS FUNÇÕES EXISTENTES -->
-<div class="modal" id="modalEditarOM"><div class="modal-card"><h2>✏️ Editar OM</h2><input type="hidden" id="editarOMId"><label>Número da OM</label><input id="editarOMNumero"><label>Equipamento</label><input id="editarOMEquipamento"><label>Descrição</label><textarea id="editarOMDescricao"></textarea><div class="modal-actions"><button class="btn-primary" onclick="salvarEdicaoOM()">💾 Salvar</button><button class="btn-gray" onclick="fecharEditarOM()">Cancelar</button></div></div></div>
-<div class="modal" id="modalHorarios"><div class="modal-card"><h2>⏰ Definir horários da OM</h2><input type="hidden" id="horariosOMId"><div id="horariosOMInfo" class="muted" style="margin-bottom:10px"></div><label>⏰ Horário inicial</label><input type="time" id="horariosOMInicial"><label>⏰ Horário final</label><input type="time" id="horariosOMFinal"><div class="modal-actions"><button class="btn-primary" type="button" onclick="salvarHorariosOM()">💾 Salvar horários</button><button class="btn-gray" type="button" onclick="fecharHorariosOM()">Cancelar</button></div></div></div>
-<div class="modal" id="modalDetalhesOM"><div class="modal-card"><h2>📋 Detalhes da OM</h2><div id="conteudoDetalhesOM">🔄 Carregando...</div><button class="btn btn-gray" style="width:100%;margin-top:12px" onclick="fecharDetalhesOM()">Fechar</button></div></div>
-<div class="modal" id="modalGerarRelatorio"><div class="modal-card"><h2>📄 Gerar Relatório</h2><div id="conteudoGerarRelatorio">🔄 Carregando...</div><button class="btn btn-gray" style="width:100%;margin-top:12px" onclick="fecharGerarRelatorio()">Fechar</button></div></div>
-<div class="modal" id="modalResponsavel"><div class="modal-card"><h2>🔄 Alterar responsável</h2><p id="omSelecionada" class="muted"></p><select id="novoTipoResponsavel"><option value="">Sem responsável</option><option value="pessoa">Pessoa</option></select><select id="novoResponsavel"><option value="">Selecione o responsável</option></select><div class="modal-actions"><button class="btn-primary" onclick="salvarNovoResponsavel()">💾 Salvar</button><button class="btn-gray" onclick="fecharAlterarResponsavel()">Cancelar</button></div></div></div>
+<div class="modal" id="modalEditarOM"><div class="modal-card"><h2>Editar OM</h2><input type="hidden" id="editarOMId"><label>Número da OM</label><input id="editarOMNumero"><label>Equipamento</label><input id="editarOMEquipamento"><label>Descrição</label><textarea id="editarOMDescricao"></textarea><div class="modal-actions"><button class="btn-primary" onclick="salvarEdicaoOM()">Salvar</button><button class="btn-gray" onclick="fecharEditarOM()">Cancelar</button></div></div></div>
+<div class="modal" id="modalHorarios"><div class="modal-card"><h2>Definir horários da OM</h2><input type="hidden" id="horariosOMId"><div id="horariosOMInfo" class="muted" style="margin-bottom:10px"></div><label>⏰ Horário inicial</label><input type="time" id="horariosOMInicial"><label>⏰ Horário final</label><input type="time" id="horariosOMFinal"><div class="modal-actions"><button class="btn-primary" type="button" onclick="salvarHorariosOM()">Salvar horários</button><button class="btn-gray" type="button" onclick="fecharHorariosOM()">Cancelar</button></div></div></div>
+<div class="modal" id="modalDetalhesOM"><div class="modal-card"><h2>Detalhes da OM</h2><div id="conteudoDetalhesOM">Carregando Carregando...</div><button class="btn btn-gray" style="width:100%;margin-top:12px" onclick="fecharDetalhesOM()">Fechar</button></div></div>
+<div class="modal" id="modalGerarRelatorio"><div class="modal-card"><h2>Gerar Relatório</h2><div id="conteudoGerarRelatorio">Carregando Carregando...</div><button class="btn btn-gray" style="width:100%;margin-top:12px" onclick="fecharGerarRelatorio()">Fechar</button></div></div>
+<div class="modal" id="modalResponsavel"><div class="modal-card"><h2>Alterar responsável</h2><p id="omSelecionada" class="muted"></p><select id="novoTipoResponsavel"><option value="">Sem responsável</option><option value="pessoa">Pessoa</option></select><select id="novoResponsavel"><option value="">Selecione o responsável</option></select><div class="modal-actions"><button class="btn-primary" onclick="salvarNovoResponsavel()">Salvar</button><button class="btn-gray" onclick="fecharAlterarResponsavel()">Cancelar</button></div></div></div>
 
 <!-- IDs legados necessários para compatibilidade; a funcionalidade de Duplas não é exibida -->
 <div class="compat"><select id="pessoa1Dupla"></select><select id="pessoa2Dupla"></select><div id="mensagemDupla"></div><div id="listaDuplas"></div><div id="botaoCadastrarAtividades"></div></div>
 
 <script>
+function omIcon(tipo, classe="") {
+  const c = ("om-icon " + classe).trim();
+  const i = {
+    pendente:`<svg class="${c}" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>`,
+    concluida:`<svg class="${c}" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg>`,
+    quase:`<svg class="${c}" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12h8"/></svg>`,
+    lapis:`<svg class="${c}" viewBox="0 0 24 24"><path d="m4 20 4.5-1 10-10a2.1 2.1 0 0 0-3-3l-10 10L4 20Z"/><path d="m13.5 7.5 3 3"/></svg>`,
+    relogio:`<svg class="${c}" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>`,
+    olho:`<svg class="${c}" viewBox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.5"/></svg>`,
+    excluir:`<svg class="${c}" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13M10 11v5M14 11v5"/></svg>`,
+    salvar:`<svg class="${c}" viewBox="0 0 24 24"><path d="M5 4h12l2 2v14H5Z"/><path d="M8 4v6h8V4M8 20v-6h8v6"/></svg>`,
+    alerta:`<svg class="${c}" viewBox="0 0 24 24"><path d="m12 3 9 17H3L12 3Z"/><path d="M12 9v5M12 17h.01"/></svg>`,
+    check:`<svg class="${c}" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></svg>`
+  };
+  return i[tipo] || "";
+}
+
 
 
 // =====================================
@@ -576,7 +629,7 @@ document
                 if (!valorResponsavel) {
 
                     alert(
-                        "⚠️ Selecione uma pessoa."
+                        "' + omIcon('alerta') + ' Selecione uma pessoa."
                     );
 
                     return;
@@ -592,7 +645,7 @@ document
                 if (!valorResponsavel) {
 
                     alert(
-                        "⚠️ Selecione uma dupla."
+                        "' + omIcon('alerta') + ' Selecione uma dupla."
                     );
 
                     return;
@@ -778,7 +831,7 @@ function carregarOMs() {
 
 const motivo =
     (om.status === "Pendente" || om.status === "Quase concluída")
-        ? (om.motivo_pendencia || "⚠️ Não informado")
+        ? (om.motivo_pendencia || "' + omIcon('alerta') + ' Não informado")
         : "-";                const motivoSeguro = String(om.motivo_pendencia || "").replace(/'/g, "\\'");
 
                 return `
@@ -794,15 +847,15 @@ const motivo =
                         <td>${statusHTML}</td>
                         <td>
                             <div class="actions">
-${(om.status === "Pendente" || om.status === "Quase concluída") ? `<button class="action-yellow" onclick="alterarMotivoPendencia(${om.id}, '${motivoSeguro}')" title="Informar motivo">⚠️</button>` : ""}                                <button class="action-yellow" onclick="alterarStatus(${om.id}, 'Pendente')" title="Marcar como Pendente">🟡</button>
+${(om.status === "Pendente" || om.status === "Quase concluída") ? `<button class="action-yellow" onclick="alterarMotivoPendencia(${om.id}, '${motivoSeguro}')" title="Informar motivo">' + omIcon('alerta') + '</button>` : ""}                                <button class="action-yellow" onclick="alterarStatus(${om.id}, 'Pendente')" title="Marcar como Pendente">🟡</button>
                                 <button class="action-blue" onclick="alterarStatus(${om.id}, 'Em execução')" title="Marcar Em execução">🔵</button>
                                 <button class="action-orange" onclick="alterarStatus(${om.id}, 'Quase concluída')" title="Marcar como Quase concluída">🟠</button>
                                 <button class="action-green" onclick="alterarStatus(${om.id}, 'Concluída')" title="Marcar Concluída">🟢</button>
                                 <button class="action-neutral action-clock" onclick="abrirDefinirHorarios(${om.id})" title="Definir horários da OM">⏰</button>
-                                <button class="action-neutral" onclick="abrirDetalhesOM(${om.id})" title="Ver detalhes">👁️</button>
+                                <button class="action-neutral" onclick="abrirDetalhesOM(${om.id})" title="Ver detalhes">' + omIcon('olho') + '</button>
                                 <button class="action-neutral" onclick="gerarRelatorio(${om.id})" title="Gerar relatório">📄</button>
-                                <button class="action-red" onclick="excluirOM(${om.id})" title="Excluir OM">🗑️</button>
-                                <button class="action-edit" onclick="editarOM(${om.id})" title="Editar OM">✏️</button>
+                                <button class="action-red" onclick="excluirOM(${om.id})" title="Excluir OM">' + omIcon('excluir') + '</button>
+                                <button class="action-edit" onclick="editarOM(${om.id})" title="Editar OM">' + omIcon('lapis') + '</button>
                             </div>
                         </td>
                     </tr>`;
@@ -956,7 +1009,7 @@ function gerarRelatorioTurno() {
 // OMs PENDENTES DO DIA
 // =====================================
 
-relatorio += "⚠️Pendências:⚠️\n\n";
+relatorio += "' + omIcon('alerta') + 'Pendências:' + omIcon('alerta') + '\n\n";
 
 const pendentesHoje = lista.filter(function(om) {
     const status = String(om.status || "")
@@ -1060,7 +1113,7 @@ function copiarRelatorioTurno() {
         } else {
 
             alert(
-                "⚠️ Não foi possível copiar automaticamente. Pressione Ctrl + C."
+                "' + omIcon('alerta') + ' Não foi possível copiar automaticamente. Pressione Ctrl + C."
             );
 
         }
@@ -1073,7 +1126,7 @@ function copiarRelatorioTurno() {
         );
 
         alert(
-            "⚠️ O relatório foi selecionado. Pressione Ctrl + C."
+            "' + omIcon('alerta') + ' O relatório foi selecionado. Pressione Ctrl + C."
         );
 
     }
@@ -1086,7 +1139,7 @@ function copiarRelatorioTurno() {
 function alterarMotivoPendencia(id, motivoAtual) {
 
     const novoMotivo = prompt(
-        "⚠️ Informe o motivo da pendência:",
+        "' + omIcon('alerta') + ' Informe o motivo da pendência:",
         motivoAtual || ""
     );
 
@@ -1098,7 +1151,7 @@ function alterarMotivoPendencia(id, motivoAtual) {
 
     if (!motivo) {
         alert(
-            "⚠️ Informe um motivo para a pendência."
+            "' + omIcon('alerta') + ' Informe um motivo para a pendência."
         );
         return;
     }
@@ -1176,7 +1229,7 @@ function alterarStatus(id, status) {
         }
 
         if (!motivo.trim()) {
-            alert("⚠️ Informe o motivo da pendência.");
+            alert("' + omIcon('alerta') + ' Informe o motivo da pendência.");
             return;
         }
 
@@ -1409,7 +1462,7 @@ function criarDupla() {
     if (!pessoa1 || !pessoa2) {
 
         mensagem.textContent =
-            "⚠️ Selecione as duas pessoas.";
+            "' + omIcon('alerta') + ' Selecione as duas pessoas.";
 
         mensagem.style.display =
             "block";
@@ -1426,7 +1479,7 @@ function criarDupla() {
     if (pessoa1 === pessoa2) {
 
         mensagem.textContent =
-            "⚠️ Uma pessoa não pode formar dupla com ela mesma.";
+            "' + omIcon('alerta') + ' Uma pessoa não pode formar dupla com ela mesma.";
 
         mensagem.style.display =
             "block";
@@ -1641,7 +1694,7 @@ function carregarDuplas() {
                         "
                     >
 
-                        🗑️ Excluir
+                        ' + omIcon('excluir') + ' Excluir
 
                     </button>
 
@@ -4564,7 +4617,7 @@ function copiarRelatorioHealth() {
         console.error(erro);
 
         alert(
-            "⚠️ Não foi possível copiar automaticamente. O relatório está selecionado. Pressione Ctrl + C."
+            "' + omIcon('alerta') + ' Não foi possível copiar automaticamente. O relatório está selecionado. Pressione Ctrl + C."
         );
 
     }
@@ -4836,7 +4889,7 @@ function excluirOM(id) {
 
     const confirmar =
         confirm(
-            "⚠️ Tem certeza que deseja excluir esta OM?\n\n" +
+            "' + omIcon('alerta') + ' Tem certeza que deseja excluir esta OM?\n\n" +
             "Essa ação não poderá ser desfeita."
         );
 
@@ -4938,7 +4991,7 @@ function salvarEdicaoOM() {
     const descricao = document.getElementById("editarOMDescricao").value.trim();
 
     if (!om || !equipamento) {
-        alert("⚠️ Informe o número da OM e o equipamento.");
+        alert("' + omIcon('alerta') + ' Informe o número da OM e o equipamento.");
         return;
     }
 
@@ -5002,7 +5055,7 @@ function salvarHorariosOM() {
     const horarioFinal = document.getElementById("horariosOMFinal").value;
 
     if (horarioInicial && horarioFinal && horarioFinal < horarioInicial) {
-        alert("⚠️ O horário final não pode ser menor que o horário inicial.");
+        alert("' + omIcon('alerta') + ' O horário final não pode ser menor que o horário inicial.");
         return;
     }
 
@@ -5071,7 +5124,7 @@ function excluirTodasOMs() {
     const confirmar =
         confirm(
 
-            "⚠️ ATENÇÃO!\n\n" +
+            "' + omIcon('alerta') + ' ATENÇÃO!\n\n" +
 
             "Você está prestes a excluir TODAS as OMs cadastradas.\n\n" +
 
@@ -5337,7 +5390,7 @@ function salvarNovoResponsavel() {
         if (!valor) {
 
             alert(
-                "⚠️ Selecione uma pessoa."
+                "' + omIcon('alerta') + ' Selecione uma pessoa."
             );
 
             return;
@@ -5353,7 +5406,7 @@ function salvarNovoResponsavel() {
         if (!valor) {
 
             alert(
-                "⚠️ Selecione uma dupla."
+                "' + omIcon('alerta') + ' Selecione uma dupla."
             );
 
             return;
@@ -5522,7 +5575,7 @@ window.copiarRelatorioHealth = function() {
         } else {
 
             alert(
-                "⚠️ Não foi possível copiar automaticamente. O texto está selecionado. Pressione Ctrl + C."
+                "' + omIcon('alerta') + ' Não foi possível copiar automaticamente. O texto está selecionado. Pressione Ctrl + C."
             );
 
         }
@@ -5535,7 +5588,7 @@ window.copiarRelatorioHealth = function() {
         );
 
         alert(
-            "⚠️ O texto foi selecionado. Pressione Ctrl + C para copiar."
+            "' + omIcon('alerta') + ' O texto foi selecionado. Pressione Ctrl + C para copiar."
         );
 
     }
@@ -5987,7 +6040,7 @@ window.copiarRelatorioFleet = function () {
             alert("✅ Relatório copiado com sucesso!");
         } else {
             alert(
-                "⚠️ Não foi possível copiar automaticamente. O texto foi selecionado. Pressione Ctrl + C."
+                "' + omIcon('alerta') + ' Não foi possível copiar automaticamente. O texto foi selecionado. Pressione Ctrl + C."
             );
         }
 
@@ -5996,7 +6049,7 @@ window.copiarRelatorioFleet = function () {
         console.error("Erro ao copiar:", erro);
 
         alert(
-            "⚠️ O texto foi selecionado. Pressione Ctrl + C para copiar."
+            "' + omIcon('alerta') + ' O texto foi selecionado. Pressione Ctrl + C para copiar."
         );
 
     }
@@ -6473,7 +6526,7 @@ window.copiarRelatorioRpEc = function () {
             alert("✅ Relatório copiado com sucesso!");
         } else {
             alert(
-                "⚠️ Não foi possível copiar automaticamente. " +
+                "' + omIcon('alerta') + ' Não foi possível copiar automaticamente. " +
                 "O texto foi selecionado. Pressione Ctrl + C."
             );
         }
@@ -6483,7 +6536,7 @@ window.copiarRelatorioRpEc = function () {
         console.error("Erro ao copiar:", erro);
 
         alert(
-            "⚠️ O texto foi selecionado. " +
+            "' + omIcon('alerta') + ' O texto foi selecionado. " +
             "Pressione Ctrl + C para copiar."
         );
     }
@@ -6740,7 +6793,7 @@ window.copiarRelatorioPz = function () {
             alert("✅ Relatório copiado com sucesso!");
         } else {
             alert(
-                "⚠️ Não foi possível copiar automaticamente. " +
+                "' + omIcon('alerta') + ' Não foi possível copiar automaticamente. " +
                 "O texto foi selecionado. Pressione Ctrl + C."
             );
         }
@@ -6750,7 +6803,7 @@ window.copiarRelatorioPz = function () {
         console.error("Erro ao copiar:", erro);
 
         alert(
-            "⚠️ O texto foi selecionado. " +
+            "' + omIcon('alerta') + ' O texto foi selecionado. " +
             "Pressione Ctrl + C para copiar."
         );
     }
@@ -6996,6 +7049,83 @@ window.alternarDesvioTt = function () {
 // IDENTIFICA OMs EM QUALQUER FORMATO
 // E PERMITE CADASTRAR NO SISTEMA
 // =====================================
+// =====================================
+// CARREGAR DADOS COMPLETOS DO TURNO
+// =====================================
+window.carregarDadosTurno = function () {
+    const campo = document.getElementById("textoDadosTurno");
+    const atividades = document.getElementById("textoAtividades");
+    const pendencias = document.getElementById("textoPendencias");
+    const equipamentos = document.getElementById("textoEquipamentosOficina");
+
+    if (!campo || !atividades || !pendencias || !equipamentos) {
+        alert("Campo de dados do turno não encontrado.");
+        return;
+    }
+
+    const texto = campo.value.trim();
+    if (!texto) {
+        alert("Cole primeiro os dados do turno.");
+        return;
+    }
+
+    const linhas = texto.split(/\r?\n/);
+    let secao = "";
+    const partes = { atividades: [], pendencias: [], equipamentos: [] };
+
+    linhas.forEach(function(linha) {
+        const limpa = linha.trim()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toUpperCase();
+
+        if (/^ATIVIDADES\s+DO\s+DIA\b/.test(limpa) ||
+            /^LISTA\s+DE\s+ATIVIDADES\b/.test(limpa)) {
+            secao = "atividades";
+            partes.atividades.push(linha);
+            return;
+        }
+
+        if (/^PENDENCIAS?\s+DO\s+TURNO\s+ANTERIOR\b/.test(limpa)) {
+            secao = "pendencias";
+            return;
+        }
+
+        if (/^EQUIPAMENTOS\s+NA\s+OFICINA\b/.test(limpa) ||
+            /^LISTA\s+DE\s+EQUIPAMENTOS\b/.test(limpa) ||
+            /^EQUIPAMENTOS\s+DO\s+TURNO\b/.test(limpa)) {
+            secao = "equipamentos";
+            return;
+        }
+
+        if (secao) partes[secao].push(linha);
+    });
+
+    const textoAtividades = partes.atividades.join("\n").trim();
+    const textoPendencias = partes.pendencias.join("\n").trim();
+    const textoEquipamentos = partes.equipamentos.join("\n").trim();
+
+    if (!textoAtividades) {
+        alert("Não encontrei a seção ATIVIDADES DO DIA.");
+        return;
+    }
+    if (!textoPendencias) {
+        alert("Não encontrei a seção PENDÊNCIAS DO TURNO ANTERIOR.");
+        return;
+    }
+    if (!textoEquipamentos) {
+        alert("Não encontrei a seção EQUIPAMENTOS NA OFICINA.");
+        return;
+    }
+
+    atividades.value = textoAtividades;
+    pendencias.value = textoPendencias;
+    equipamentos.value = textoEquipamentos;
+
+    interpretarAtividades();
+    cruzarPendencias();
+};
+
 window.interpretarAtividades = function () {
     const campo =
         document.getElementById("textoAtividades");
@@ -7011,7 +7141,7 @@ window.interpretarAtividades = function () {
         campo.value.trim();
     if (!texto) {
         alert(
-            "⚠️ Cole primeiro a lista de atividades do dia."
+            "' + omIcon('alerta') + ' Cole primeiro a lista de atividades do dia."
         );
         return;
     }
@@ -7608,7 +7738,7 @@ window.interpretarAtividades = function () {
                                 color: #92400e;
                                 font-weight: bold;
                             ">
-                                ⚠️ Equipamento não identificado.
+                                ' + omIcon('alerta') + ' Equipamento não identificado.
                                 Revisar antes de salvar.
                             </div>
                         `
@@ -7674,7 +7804,7 @@ window.interpretarAtividades = function () {
             </div>
 
             <div>
-                ⚠️
+                ' + omIcon('alerta') + '
                 <strong>Precisam revisão:</strong>
                 ${revisar}
             </div>
@@ -7815,7 +7945,7 @@ async function cadastrarAtividadesDoDia() {
         atividades.length === 0
     ) {
         alert(
-            "⚠️ Não existem OMs para cadastrar."
+            "' + omIcon('alerta') + ' Não existem OMs para cadastrar."
         );
         return;
     }
@@ -7836,7 +7966,7 @@ async function cadastrarAtividadesDoDia() {
         botao.disabled =
             true;
         botao.innerHTML =
-            "⏳ Cadastrando OMs...";
+            "' + omIcon('relogio') + ' Cadastrando OMs...";
     }
     try {
         /*
@@ -7916,7 +8046,7 @@ async function cadastrarAtividadesDoDia() {
             existentes +
             "\n";
         mensagem +=
-            "⚠️ Erros: " +
+            "' + omIcon('alerta') + ' Erros: " +
             erros;
         alert(mensagem);
         if (botao) {
@@ -7993,14 +8123,14 @@ async function cadastrarPendenciasEncontradas() {
     });
 
     if (!candidatas.length) {
-        alert("⚠️ Não existem OMs para cadastrar.");
+        alert("' + omIcon('alerta') + ' Não existem OMs para cadastrar.");
         return;
     }
 
     if (!confirm("Deseja cadastrar " + candidatas.length + " OMs encontradas na oficina?")) return;
 
     const botao = document.getElementById("botaoCadastroPendencias");
-    if (botao) { botao.disabled = true; botao.textContent = "⏳ Cadastrando OMs..."; }
+    if (botao) { botao.disabled = true; botao.textContent = "' + omIcon('relogio') + ' Cadastrando OMs..."; }
 
     try {
         const resposta = await fetch("/om/importar-pendencias", {
@@ -8022,7 +8152,7 @@ async function cadastrarPendenciasEncontradas() {
         alert("✅ Importação concluída!\n\n" +
             "🟢 Novas OMs cadastradas: " + ((dados.cadastradas || []).length) + "\n" +
             "🔵 OMs que já existiam: " + ((dados.existentes || []).length) + "\n" +
-            "⚠️ Erros: " + ((dados.erros || []).length));
+            "' + omIcon('alerta') + ' Erros: " + ((dados.erros || []).length));
 
         if (botao) { botao.disabled = true; botao.textContent = "✅ Importação concluída"; botao.style.background = "#64748b"; }
         carregarOMs();
@@ -8052,11 +8182,11 @@ window.cruzarPendencias = function () {
     const textoEquipamentos = campoEquipamentos.value.trim();
 
     if (!textoPendencias) {
-        alert("⚠️ Cole primeiro as pendências do turno anterior.");
+        alert("' + omIcon('alerta') + ' Cole primeiro as pendências do turno anterior.");
         return;
     }
     if (!textoEquipamentos) {
-        alert("⚠️ Informe primeiro os equipamentos que estão na oficina.");
+        alert("' + omIcon('alerta') + ' Informe primeiro os equipamentos que estão na oficina.");
         return;
     }
 
@@ -8112,7 +8242,7 @@ window.cruzarPendencias = function () {
 
     function limparDescricao(linhaOriginal, numeroOM, equipamento) {
         let d = String(linhaOriginal || "")
-            .replace(/⚠️|🟢|🔵|🟡|🔴|🚫/g, "")
+            .replace(/' + omIcon('alerta') + '|🟢|🔵|🟡|🔴|🚫/g, "")
             .replace(new RegExp("\\b" + numeroOM + "\\b", "gi"), "")
             .replace(/\bOM\s*:\s*/gi, "")
             .trim();
@@ -8484,7 +8614,7 @@ function renderizarHistoricoOMs(){
     if(!resultado.length){lista.innerHTML='<div class="muted" style="padding:15px;text-align:center">📭 Nenhuma OM encontrada nos últimos 7 dias.</div>';return;}
     lista.innerHTML=resultado.map(function(om){
         const s=String(om.status||"").trim(); const cls=s==="Concluída"?"status-green":s==="Em execução"?"status-blue":"status-yellow";
-        return `<div class="recent-item"><div class="recent-line"><b style="color:#fff">📁 OM ${om.om||"-"}</b><span class="status-pill ${cls}">${s||"Pendente"}</span></div><div class="muted" style="margin-top:5px">🚜 ${om.equipamento||"-"} &nbsp; • &nbsp; 📄 ${om.modelo_relatorio||om.descricao||"-"}</div><div class="muted" style="margin-top:4px">📅 ${om.data||"-"}</div>${om.motivo_pendencia?`<div style="margin-top:5px;color:#f2bd28">⚠ ${om.motivo_pendencia}</div>`:""}</div>`;
+        return `<div class="recent-item"><div class="recent-line"><b style="color:#fff">📁 OM ${om.om||"-"}</b><span class="status-pill ${cls}">${s||"Pendente"}</span></div><div class="muted" style="margin-top:5px">🚜 ${om.equipamento||"-"} &nbsp; • &nbsp; 📄 ${om.modelo_relatorio||om.descricao||"-"}</div><div class="muted" style="margin-top:4px">📅 ${om.data||"-"}</div>${om.motivo_pendencia?`<div style="margin-top:5px;color:#f2bd28">' + omIcon('alerta') + ' ${om.motivo_pendencia}</div>`:""}</div>`;
     }).join("");
 }
 function filtrarHistoricoOMs(){renderizarHistoricoOMs();}
@@ -8499,7 +8629,7 @@ function atualizarUltimasOMs(){
         const ult=arr.slice().sort(function(a,b){return dataHistoricoValida(b)-dataHistoricoValida(a);}).slice(0,5);
         el.innerHTML=ult.length?ult.map(function(o){const hora=extrairHoraTexto(o.data);return `<div class="recent-item"><div class="recent-line"><span><i class="dot ${o.status==="Concluída"?"green":o.status==="Em execução"?"blue":o.status==="Quase concluída"?"orange":"yellow"}"></i><b style="color:#fff">OM ${o.om||"-"} - ${o.equipamento||"-"}</b></span><span class="muted">${normalizarDataTexto(o.data)} ${hora}</span></div><div class="muted" style="margin-left:15px;margin-top:4px">${o.status||"Pendente"}</div></div>`}).join(""):'<div class="muted" style="padding:15px">Nenhuma OM.</div>';
         const c=arr.filter(function(o){return o.status==="Concluída"}).length,e=arr.filter(function(o){return o.status==="Em execução"}).length,p=arr.filter(function(o){return o.status==="Pendente"}).length;
-        if(resumo) resumo.innerHTML=`<div class="pending-item"><b>⚠ Pendências do turno <span style="float:right;color:#ff5960">${p}</span></b><span>${p?`Existem ${p} OMs pendentes aguardando ação.`:"Nenhuma OM pendente."}</span></div><div class="summary-row"><div class="summary-chip"><b style="color:#16c784">${c}</b><small>Concluídas</small></div><div class="summary-chip"><b style="color:#2583f7">${e}</b><small>Em execução</small></div><div class="summary-chip"><b style="color:#f2bd28">${p}</b><small>Pendentes</small></div></div>`;
+        if(resumo) resumo.innerHTML=`<div class="pending-item"><b>' + omIcon('alerta') + ' Pendências do turno <span style="float:right;color:#ff5960">${p}</span></b><span>${p?`Existem ${p} OMs pendentes aguardando ação.`:"Nenhuma OM pendente."}</span></div><div class="summary-row"><div class="summary-chip"><b style="color:#16c784">${c}</b><small>Concluídas</small></div><div class="summary-chip"><b style="color:#2583f7">${e}</b><small>Em execução</small></div><div class="summary-chip"><b style="color:#f2bd28">${p}</b><small>Pendentes</small></div></div>`;
     }).catch(function(){});
 }
 document.addEventListener("DOMContentLoaded",function(){
