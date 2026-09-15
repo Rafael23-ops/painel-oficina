@@ -90,49 +90,6 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
 @media(max-width:1050px){.sidebar{width:70px;flex-basis:70px}.main{margin-left:70px;width:calc(100% - 70px)}.brand{justify-content:center;padding:10px}.brand-name,.brand-sub,.brand-cat{display:none}.brand-sotreq{font-size:12px;padding:8px}.nav button{justify-content:center}.nav button span:last-child{display:none}.side-note{display:none}.cards{grid-template-columns:repeat(2,1fr)}.grid-bottom{grid-template-columns:1fr}.hero-mark{display:none}}
 @media(max-width:650px){.topbar{padding:0 12px}.server{display:none}.content{padding:12px}.cards{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.search{min-width:160px;width:100%}.panel-head{align-items:flex-start;flex-direction:column}.tools{width:100%}.select-dark{flex:1}.hero h1{font-size:19px}}
 
-/* =====================================================
-   ASSISTENTE IA — CENTRAL INTELIGENTE
-   ===================================================== */
-.ai-section{margin-top:16px}
-.ai-panel{position:relative;overflow:hidden}
-.ai-panel:before{content:"";position:absolute;inset:0 0 auto 0;height:2px;background:linear-gradient(90deg,#e3131b,#2583f7,#16c784);opacity:.95}
-.ai-head{padding:18px 20px;border-bottom:1px solid #26313c;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.ai-title-wrap{display:flex;align-items:center;gap:13px}
-.ai-orb{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(145deg,#182b40,#0e1722);border:1px solid #31506f;box-shadow:0 0 22px rgba(37,131,247,.14);font-size:21px}
-.ai-title{font-size:17px;font-weight:800;letter-spacing:.2px}
-.ai-subtitle{font-size:10px;color:#82909e;margin-top:4px}
-.ai-live{display:flex;align-items:center;gap:7px;border:1px solid #214735;background:#0b1913;color:#55dc9c;border-radius:20px;padding:7px 10px;font-size:10px;font-weight:700;white-space:nowrap}
-.ai-live-dot{width:7px;height:7px;border-radius:50%;background:#16c784;box-shadow:0 0 9px rgba(22,199,132,.65)}
-.ai-body{padding:18px 20px}
-.ai-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:14px}
-.ai-compose{border:1px solid #293744;background:linear-gradient(145deg,#0d151d,#0a1016);border-radius:10px;padding:14px}
-.ai-label{font-size:10px;color:#9da9b6;font-weight:700;letter-spacing:.4px;margin-bottom:7px}
-.ai-textarea{width:100%;min-height:150px;resize:vertical;background:#091018;border:1px solid #344554;color:#f4f7fb;border-radius:8px;padding:13px;outline:none;line-height:1.55;font-size:12px}
-.ai-textarea:focus{border-color:#2583f7;box-shadow:0 0 0 2px rgba(37,131,247,.10)}
-.ai-examples{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
-.ai-example{border:1px solid #2d3b48;background:#111a23;color:#cbd5df;border-radius:6px;padding:7px 9px;font-size:10px;cursor:pointer}
-.ai-example:hover{border-color:#2583f7;background:#142334;color:#fff}
-.ai-actions{display:flex;gap:8px;margin-top:11px}
-.ai-main-btn{flex:1;border:0;border-radius:7px;padding:11px 14px;background:linear-gradient(90deg,#e3131b,#c90f17);color:#fff;font-weight:800;font-size:11px}
-.ai-main-btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
-.ai-main-btn:disabled{opacity:.55;cursor:wait;transform:none}
-.ai-clear-btn{border:1px solid #354351;background:#151e27;color:#dce3ea;border-radius:7px;padding:11px 14px;font-size:11px}
-.ai-side{display:flex;flex-direction:column;gap:9px}
-.ai-card{border:1px solid #293744;background:#101820;border-radius:9px;padding:12px}
-.ai-card-title{font-size:11px;font-weight:800;color:#fff;margin-bottom:8px}
-.ai-chip{display:inline-flex;align-items:center;gap:5px;border:1px solid #303e4b;background:#0d151d;color:#aeb9c5;border-radius:20px;padding:5px 8px;font-size:9px;margin:2px}
-.ai-output{margin-top:14px;border:1px solid #304252;background:#080e14;border-radius:10px;overflow:hidden;display:none}
-.ai-output-head{padding:11px 13px;border-bottom:1px solid #26313c;display:flex;align-items:center;justify-content:space-between;gap:10px}
-.ai-output-title{font-size:11px;font-weight:800}
-.ai-output-status{font-size:9px;color:#55dc9c}
-.ai-result{width:100%;min-height:320px;resize:vertical;background:#05090d;color:#f5f7fa;border:0;padding:15px;outline:none;font-family:Consolas,Monaco,monospace;font-size:12px;line-height:1.55}
-.ai-output-actions{padding:10px;border-top:1px solid #26313c;display:flex;gap:8px}
-.ai-output-actions button{flex:1}
-.ai-help{font-size:10px;color:#758290;line-height:1.5;margin-top:9px}
-.ai-error{display:none;margin-top:10px;border:1px solid #6c1b20;background:#1b0d10;color:#ffb9bd;border-radius:7px;padding:10px;font-size:10px;line-height:1.45}
-@media(max-width:900px){.ai-grid{grid-template-columns:1fr}.ai-side{display:grid;grid-template-columns:1fr 1fr}}
-@media(max-width:650px){.ai-head{align-items:flex-start;flex-direction:column}.ai-live{align-self:flex-start}.ai-body{padding:13px}.ai-side{display:flex}}
-
 </style>
 
 </head>
@@ -155,7 +112,6 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
     <button onclick="abrirModal('modalNovaOM')"><span class="ico">＋</span><span>Cadastrar OM</span></button>
     
     <button onclick="irPara('relatorios',this)"><span class="ico">▤</span><span>Relatórios</span></button>
-    <button onclick="irPara('assistenteIA',this)"><span class="ico">✦</span><span>Assistente IA</span></button>
     <button onclick="irPara('fimTurno',this)"><span class="ico">▣</span><span>Relatório de Fim de Turno</span></button>
     <button onclick="irPara('configuracoes',this)"><span class="ico">⚙</span><span>Configurações</span></button>
   </nav>
@@ -226,87 +182,6 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
 </div></div></div></section>
 
 
-
-<section class="section ai-section" id="assistenteIA">
-  <div class="panel ai-panel">
-    <div class="ai-head">
-      <div class="ai-title-wrap">
-        <div class="ai-orb">✦</div>
-        <div>
-          <div class="ai-title">ASSISTENTE IA • RELATÓRIOS INTELIGENTES</div>
-          <div class="ai-subtitle">Transforme suas anotações de manutenção em um relatório técnico organizado.</div>
-        </div>
-      </div>
-      <div class="ai-live"><span class="ai-live-dot"></span> IA pronta para uso</div>
-    </div>
-
-    <div class="ai-body">
-      <div class="ai-grid">
-        <div class="ai-compose">
-          <div class="ai-label">DESCREVA O SERVIÇO REALIZADO</div>
-          <textarea id="pedidoIA" class="ai-textarea" placeholder="Exemplo:&#10;&#10;OM 202604641343, equipamento RP51. Foi identificado problema no chicote do GPS. Substituído o chicote, realizado teste de continuidade e teste funcional. Equipamento liberado. Sem pendências.&#10;&#10;A IA irá organizar as informações em um relatório profissional."></textarea>
-
-          <div class="ai-examples">
-            <button type="button" class="ai-example" onclick="preencherExemploIA('corretiva')">🔧 Corretiva</button>
-            <button type="button" class="ai-example" onclick="preencherExemploIA('pendencia')">⚠️ Com pendência</button>
-            <button type="button" class="ai-example" onclick="preencherExemploIA('concluido')">✅ Serviço concluído</button>
-          </div>
-
-          <div class="ai-actions">
-            <button type="button" id="btnGerarIA" class="ai-main-btn" onclick="gerarRelatorioIA()">✦ GERAR RELATÓRIO COM IA</button>
-            <button type="button" class="ai-clear-btn" onclick="limparAssistenteIA()">Limpar</button>
-          </div>
-
-          <div id="erroIA" class="ai-error"></div>
-          <div class="ai-help">Dica: informe OM, equipamento, o que foi encontrado, o que foi feito, horários e pendências quando souber. A IA não deve inventar dados que não estejam disponíveis.</div>
-        </div>
-
-        <div class="ai-side">
-          <div class="ai-card">
-            <div class="ai-card-title">📋 O QUE A IA ORGANIZA</div>
-            <span class="ai-chip">N° OM</span>
-            <span class="ai-chip">Equipamento</span>
-            <span class="ai-chip">Descrição</span>
-            <span class="ai-chip">Serviço executado</span>
-            <span class="ai-chip">Horários</span>
-            <span class="ai-chip">Pendências</span>
-            <span class="ai-chip">Status</span>
-            <span class="ai-chip">Conclusão</span>
-          </div>
-
-          <div class="ai-card">
-            <div class="ai-card-title">⚡ COMO USAR</div>
-            <div style="font-size:10px;color:#9ca8b5;line-height:1.65">
-              <b style="color:#fff">01.</b> Conte o que aconteceu.<br>
-              <b style="color:#fff">02.</b> Informe os dados que tiver.<br>
-              <b style="color:#fff">03.</b> Clique em gerar.<br>
-              <b style="color:#fff">04.</b> Revise e copie o relatório.
-            </div>
-          </div>
-
-          <div class="ai-card">
-            <div class="ai-card-title">🛡️ PADRÃO TÉCNICO</div>
-            <div style="font-size:10px;color:#9ca8b5;line-height:1.55">
-              A IA trabalha com os dados disponíveis no painel e com o seu relato, mantendo os horários e informações fornecidos.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div id="resultadoIA" class="ai-output">
-        <div class="ai-output-head">
-          <div class="ai-output-title">📄 RELATÓRIO GERADO</div>
-          <div class="ai-output-status">● PRONTO PARA REVISÃO</div>
-        </div>
-        <textarea id="textoResultadoIA" class="ai-result" spellcheck="false"></textarea>
-        <div class="ai-output-actions">
-          <button type="button" class="btn btn-blue" onclick="copiarRelatorioIA()">📋 Copiar relatório</button>
-          <button type="button" class="btn btn-gray" onclick="editarPedidoIA()">✏️ Ajustar pedido</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <section class="section" id="historico"><div class="panel"><div class="panel-head"><div class="panel-title">📚 HISTÓRICO DE OMS</div><div class="tools"><input id="pesquisaHistoricoOM" class="search" placeholder="Pesquisar no histórico..." oninput="filtrarHistoricoOMs()"><button class="btn btn-gray" onclick="filtrarHistoricoStatus('todos')">Todos</button><button class="btn btn-yellow" onclick="filtrarHistoricoStatus('pendente')">Pendentes</button><button class="btn btn-blue" onclick="filtrarHistoricoStatus('em execução')">Em execução</button><button class="btn btn-green" onclick="filtrarHistoricoStatus('concluída')">Concluídas</button></div></div><div class="section-body" id="listaHistoricoOMs">⏳ Carregando histórico...</div></div></section>
 
@@ -8505,180 +8380,6 @@ if (typeof carregarOMs === "function") carregarOMs();
 };
 
 
-// =====================================================
-// ASSISTENTE IA — RELATÓRIOS
-// =====================================================
-function irParaAssistenteIA() {
-    const el = document.getElementById("assistenteIA");
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-function preencherExemploIA(tipo) {
-    const campo = document.getElementById("pedidoIA");
-    if (!campo) return;
-
-    const exemplos = {
-        corretiva:
-`OM 202604641343, equipamento RP51.
-Foi identificado problema no chicote do GPS.
-Realizado diagnóstico, substituição do chicote, teste de continuidade e teste funcional.
-Equipamento liberado para operação.
-Sem pendências.`,
-
-        pendencia:
-`OM 202604641343, equipamento RP51.
-Foi identificado problema no sistema de GPS.
-Realizado diagnóstico e correção parcial.
-O equipamento permanece com pendência aguardando a chegada do componente necessário.
-Horário inicial: 06:30.
-Horário final: 09:00.`,
-
-        concluido:
-`OM 202604641343, equipamento RP51.
-Realizada inspeção, diagnóstico e correção da falha informada.
-Executados testes funcionais após o reparo.
-Equipamento funcionando normalmente e liberado.
-Sem pendências.`
-    };
-
-    campo.value = exemplos[tipo] || "";
-    campo.focus();
-}
-
-function limparAssistenteIA() {
-    const campo = document.getElementById("pedidoIA");
-    const resultado = document.getElementById("resultadoIA");
-    const erro = document.getElementById("erroIA");
-
-    if (campo) campo.value = "";
-    if (resultado) resultado.style.display = "none";
-    if (erro) {
-        erro.style.display = "none";
-        erro.textContent = "";
-    }
-}
-
-function editarPedidoIA() {
-    const campo = document.getElementById("pedidoIA");
-    if (campo) {
-        campo.focus();
-        campo.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-}
-
-async function gerarRelatorioIA() {
-    const campo = document.getElementById("pedidoIA");
-    const botao = document.getElementById("btnGerarIA");
-    const resultado = document.getElementById("resultadoIA");
-    const textoResultado = document.getElementById("textoResultadoIA");
-    const erro = document.getElementById("erroIA");
-
-    const pedido = campo ? campo.value.trim() : "";
-
-    if (!pedido) {
-        if (erro) {
-            erro.textContent = "⚠️ Descreva o serviço realizado antes de gerar o relatório.";
-            erro.style.display = "block";
-        }
-        if (campo) campo.focus();
-        return;
-    }
-
-    if (erro) {
-        erro.style.display = "none";
-        erro.textContent = "";
-    }
-
-    if (botao) {
-        botao.disabled = true;
-        botao.textContent = "⏳ GERANDO RELATÓRIO...";
-    }
-
-    if (resultado) resultado.style.display = "none";
-
-    try {
-        const response = await fetch("/ia/gerar-relatorio", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                pedido: pedido
-            })
-        });
-
-        let data = {};
-        try {
-            data = await response.json();
-        } catch (e) {
-            data = {};
-        }
-
-        if (!response.ok) {
-            throw new Error(
-                data.erro ||
-                "Não foi possível gerar o relatório com a IA."
-            );
-        }
-
-        if (!data.resposta) {
-            throw new Error("A IA não retornou um relatório.");
-        }
-
-        if (textoResultado) {
-            textoResultado.value = data.resposta;
-        }
-
-        if (resultado) {
-            resultado.style.display = "block";
-            resultado.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
-        }
-
-    } catch (error) {
-        console.error("Erro no Assistente IA:", error);
-
-        if (erro) {
-            erro.textContent = "❌ " + error.message;
-            erro.style.display = "block";
-        }
-    } finally {
-        if (botao) {
-            botao.disabled = false;
-            botao.textContent = "✦ GERAR RELATÓRIO COM IA";
-        }
-    }
-}
-
-async function copiarRelatorioIA() {
-    const campo = document.getElementById("textoResultadoIA");
-
-    if (!campo || !campo.value.trim()) {
-        alert("❌ Não há relatório para copiar.");
-        return;
-    }
-
-    campo.focus();
-    campo.select();
-    campo.setSelectionRange(0, campo.value.length);
-
-    try {
-        const copiou = document.execCommand("copy");
-
-        if (copiou) {
-            alert("✅ Relatório copiado com sucesso!");
-        } else {
-            await navigator.clipboard.writeText(campo.value);
-            alert("✅ Relatório copiado com sucesso!");
-        }
-    } catch (erro) {
-        console.error("Erro ao copiar relatório da IA:", erro);
-        alert("⚠️ O relatório foi selecionado. Pressione Ctrl + C.");
-    }
-}
-
 </script>
 
 <script>
@@ -8729,12 +8430,47 @@ function mesclarHistorico(oms){
     salvarHistoricoLocal();
 }
 function carregarHistoricoOMs(silencioso){
-    const lista=document.getElementById("listaHistoricoOMs"); if(!lista)return;
+    const lista=document.getElementById("listaHistoricoOMs");
+    if(!lista)return;
+
     if(!historicoOMs.length) carregarHistoricoLocal();
-    fetch("/atribuicoes").then(function(r){if(!r.ok)throw new Error("Erro HTTP "+r.status);return r.json()}).then(function(oms){
-        mesclarHistorico(oms);
+
+    Promise.all([
+        fetch("/atribuicoes").then(function(r){
+            if(!r.ok) throw new Error("Erro HTTP "+r.status);
+            return r.json();
+        }),
+        fetch("/historico-oms").then(function(r){
+            if(!r.ok) throw new Error("Erro HTTP "+r.status);
+            return r.json();
+        })
+    ])
+    .then(function(resultados){
+
+        const omsAtuais = Array.isArray(resultados[0])
+            ? resultados[0]
+            : [];
+
+        const omsHistorico = Array.isArray(resultados[1])
+            ? resultados[1]
+            : [];
+
+        mesclarHistorico(
+            omsAtuais.concat(omsHistorico)
+        );
+
         renderizarHistoricoOMs();
-    }).catch(function(e){ console.error("Histórico:",e); if(!historicoOMs.length&&!silencioso) lista.innerHTML='<div class="muted">❌ Erro ao carregar histórico.</div>'; });
+    })
+    .catch(function(e){
+        console.error("Histórico:",e);
+
+        if(!historicoOMs.length && !silencioso){
+            lista.innerHTML =
+                '<div class="muted">❌ Erro ao carregar histórico.</div>';
+        }else{
+            renderizarHistoricoOMs();
+        }
+    });
 }
 function renderizarHistoricoOMs(){
     const lista=document.getElementById("listaHistoricoOMs"); if(!lista)return;
