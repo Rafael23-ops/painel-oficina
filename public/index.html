@@ -239,6 +239,72 @@ TT70"></textarea><div class="button-row"><button class="btn btn-blue" type="butt
 <div class="compat"><select id="pessoa1Dupla"></select><select id="pessoa2Dupla"></select><div id="mensagemDupla"></div><div id="listaDuplas"></div><div id="botaoCadastrarAtividades"></div></div>
 
 <script>
+// =====================================================
+// SITUAÇÃO DOS EQUIPAMENTOS NA OFICINA
+// Persiste no navegador para não desaparecer ao atualizar.
+// =====================================================
+const CHAVE_SITUACAO_EQUIPAMENTOS = "oficina_situacao_equipamentos_v1";
+
+function normalizarEquipamentoOficina(texto) {
+    return String(texto || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[\s-]+/g, "")
+        .trim()
+        .toUpperCase();
+}
+
+function obterSituacaoEquipamentosSalva() {
+    try {
+        const salvo = localStorage.getItem(CHAVE_SITUACAO_EQUIPAMENTOS);
+        const dados = salvo ? JSON.parse(salvo) : {};
+        return dados && typeof dados === "object" ? dados : {};
+    } catch (erro) {
+        console.error("Erro ao ler situação dos equipamentos:", erro);
+        return {};
+    }
+}
+
+function salvarSituacaoEquipamentos(dados) {
+    try {
+        localStorage.setItem(
+            CHAVE_SITUACAO_EQUIPAMENTOS,
+            JSON.stringify(dados || {})
+        );
+        return true;
+    } catch (erro) {
+        console.error("Erro ao salvar situação dos equipamentos:", erro);
+        alert("Não foi possível salvar a situação dos equipamentos.");
+        return false;
+    }
+}
+
+function extrairEquipamentosDaListaOficina(texto) {
+    const encontrados = new Set();
+
+    String(texto || "").split(/\r?\n/).forEach(function(linha) {
+        const base = String(linha || "").toUpperCase();
+
+        const completos = base.match(/\b[A-Z]{2}\d+KS\d+\b/g) || [];
+        completos.forEach(function(codigo) {
+            const m = codigo.match(/^([A-Z]{2})\d+KS(\d+)$/);
+            if (m) encontrados.add(normalizarEquipamentoOficina(m[1] + m[2]));
+        });
+
+        const simples = base.match(/\b[A-Z]{2}[\s-]?\d{2,3}\b/g) || [];
+        simples.forEach(function(codigo) {
+            const normalizado = normalizarEquipamentoOficina(codigo);
+            if (!/^(MP|GPS|CAN|HO|OM)\d*$/.test(normalizado)) {
+                encontrados.add(normalizado);
+            }
+        });
+    });
+
+    return encontrados;
+}
+
+
+
 function omIcon(tipo, classe="") {
   const c = ("om-icon " + classe).trim();
   const i = {
@@ -773,34 +839,13 @@ function carregarOMs() {
             const pesquisa = pesquisaEl ? pesquisaEl.value.toLowerCase().trim() : "";
             const filtro = filtroEl ? filtroEl.value : "";
 
-            // Lê os equipamentos atualmente informados na ferramenta
-            // "EQUIPAMENTOS NA OFICINA" para mostrar o status de cada OM.
+            // Usa a situação manual salva como fonte principal.
+            // Se ainda não houver decisão manual, mantém a informação da lista do turno.
             const campoOficina = document.getElementById("textoEquipamentosOficina");
             const textoOficina = campoOficina ? campoOficina.value : "";
-            const normalizarOficina = function(texto) {
-                return String(texto || "")
-                    .normalize("NFD")
-                    .replace(/[\u0300-\u036f]/g, "")
-                    .replace(/[\s-]+/g, "")
-                    .trim()
-                    .toUpperCase();
-            };
-            const equipamentosOficinaAtuais = new Set();
-            textoOficina.split(/\r?\n/).forEach(function(linha) {
-                const base = String(linha || "").toUpperCase();
-                const completos = base.match(/\b[A-Z]{2}\d+KS\d+\b/g) || [];
-                completos.forEach(function(codigo) {
-                    const m = codigo.match(/^([A-Z]{2})\d+KS(\d+)$/);
-                    if (m) equipamentosOficinaAtuais.add(normalizarOficina(m[1] + m[2]));
-                });
-                const simples = base.match(/\b[A-Z]{2}[\s-]?\d{2,3}\b/g) || [];
-                simples.forEach(function(codigo) {
-                    const normalizado = normalizarOficina(codigo);
-                    if (!/^(MP|GPS|CAN|HO|OM)\d*$/.test(normalizado)) {
-                        equipamentosOficinaAtuais.add(normalizado);
-                    }
-                });
-            });
+            const situacoesSalvas = obterSituacaoEquipamentosSalva();
+
+            const equipamentosOficinaAtuais = extrairEquipamentosDaListaOficina(textoOficina);
 
             const filtradas = (Array.isArray(oms) ? oms : []).filter(function(om) {
                 const texto = [om.om, om.equipamento, om.descricao, om.responsaveis, om.modelo_relatorio]
@@ -814,12 +859,41 @@ function carregarOMs() {
             }
 
             lista.innerHTML = filtradas.map(function(om) {
-                const equipamentoNormalizado = normalizarOficina(om.equipamento || "");
-                const oficinaHTML = !textoOficina.trim()
-                    ? '<span class="status-pill" style="background:#475569;color:#fff;">— Não informado</span>'
-                    : equipamentosOficinaAtuais.has(equipamentoNormalizado)
-                        ? '<span class="status-pill status-green">🟢 Na oficina</span>'
-                        : '<span class="status-pill" style="background:#64748b;color:#fff;">⚪ Fora da oficina</span>';
+                const equipamentoNormalizado = normalizarEquipamentoOficina(om.equipamento || "");
+                const situacaoManual = situacoesSalvas[equipamentoNormalizado];
+
+                // Regra automática continua intacta:
+                // se estiver na lista, fica "Na oficina"; se a lista existir e não estiver,
+                // fica "Fora da oficina". Uma escolha feita aqui vira uma exceção manual.
+                let situacaoAtual = "NAO_INFORMADO";
+
+                if (situacaoManual === "NA_OFICINA" || situacaoManual === "FORA_OFICINA") {
+                    situacaoAtual = situacaoManual;
+                } else if (equipamentosOficinaAtuais.has(equipamentoNormalizado)) {
+                    situacaoAtual = "NA_OFICINA";
+                } else if (textoOficina.trim()) {
+                    situacaoAtual = "FORA_OFICINA";
+                }
+
+                const oficinaEstilo =
+                    situacaoAtual === "NA_OFICINA"
+                        ? ""
+                        : situacaoAtual === "FORA_OFICINA"
+                            ? "background:#64748b;color:#fff;"
+                            : "background:#475569;color:#fff;";
+
+                const oficinaHTML = `
+                    <select
+                        class="status-pill ${situacaoAtual === "NA_OFICINA" ? "status-green" : ""}"
+                        style="${oficinaEstilo};border:0;cursor:pointer;outline:none;"
+                        title="Clique para informar a situação do equipamento"
+                        onchange="alterarSituacaoOficina('${equipamentoNormalizado}', this.value)"
+                    >
+                        <option value="NAO_INFORMADO" ${situacaoAtual === "NAO_INFORMADO" ? "selected" : ""}>— Não informado</option>
+                        <option value="NA_OFICINA" ${situacaoAtual === "NA_OFICINA" ? "selected" : ""}>Na oficina</option>
+                        <option value="FORA_OFICINA" ${situacaoAtual === "FORA_OFICINA" ? "selected" : ""}>Fora da oficina</option>
+                    </select>
+                `;
 
                 let statusHTML = om.status === "Concluída"
     ? '<span class="status-pill status-green">🟢 Concluída</span>'
@@ -2103,6 +2177,82 @@ if (
 
             </label>
 
+            <!-- DESVIO IAMO -->
+
+            <div
+                style="
+                    padding: 12px;
+                    background: #0d141b; color: #f4f7fb;
+                    border-radius: 8px;
+                    border: 1px solid #34404d;
+                "
+            >
+
+                <strong>🚨 Desvio IAMO</strong>
+
+                <br><br>
+
+                <label>
+                    Houve desvio?
+
+                    <select
+                        id="fleetTemDesvio"
+                        onchange="window.alternarDesvioFleet()"
+                        style="
+                            width: 100%;
+                            padding: 10px;
+                            margin-top: 5px;
+                            box-sizing: border-box;
+                        "
+                    >
+                        <option value="N/A">N/A</option>
+                        <option value="SIM">Sim</option>
+                    </select>
+                </label>
+
+                <div
+                    id="camposDesvioFleet"
+                    style="
+                        display: none;
+                        margin-top: 15px;
+                    "
+                >
+
+                    <label>
+                        ⏰ Horário inicial — Desvio
+
+                        <input
+                            type="time"
+                            id="fleetDesvioInicial"
+                            style="
+                                width: 100%;
+                                padding: 10px;
+                                margin-top: 5px;
+                                box-sizing: border-box;
+                            "
+                        >
+                    </label>
+
+                    <br>
+
+                    <label>
+                        ⏰ Horário final — Desvio
+
+                        <input
+                            type="time"
+                            id="fleetDesvioFinal"
+                            style="
+                                width: 100%;
+                                padding: 10px;
+                                margin-top: 5px;
+                                box-sizing: border-box;
+                            "
+                        >
+                    </label>
+
+                </div>
+            </div>
+
 
             <!-- OM CONCLUÍDA -->
 
@@ -2562,6 +2712,82 @@ if (om.modelo_relatorio === "MP MINESTAR RP & EC") {
                 >
 
             </label>
+
+            <!-- DESVIO IAMO -->
+
+            <div
+                style="
+                    padding: 12px;
+                    background: #0d141b; color: #f4f7fb;
+                    border-radius: 8px;
+                    border: 1px solid #34404d;
+                "
+            >
+
+                <strong>🚨 Desvio IAMO</strong>
+
+                <br><br>
+
+                <label>
+                    Houve desvio?
+
+                    <select
+                        id="rpEcTemDesvio"
+                        onchange="window.alternarDesvioRpEc()"
+                        style="
+                            width: 100%;
+                            padding: 10px;
+                            margin-top: 5px;
+                            box-sizing: border-box;
+                        "
+                    >
+                        <option value="N/A">N/A</option>
+                        <option value="SIM">Sim</option>
+                    </select>
+                </label>
+
+                <div
+                    id="camposDesvioRpEc"
+                    style="
+                        display: none;
+                        margin-top: 15px;
+                    "
+                >
+
+                    <label>
+                        ⏰ Horário inicial — Desvio
+
+                        <input
+                            type="time"
+                            id="rpEcDesvioInicial"
+                            style="
+                                width: 100%;
+                                padding: 10px;
+                                margin-top: 5px;
+                                box-sizing: border-box;
+                            "
+                        >
+                    </label>
+
+                    <br>
+
+                    <label>
+                        ⏰ Horário final — Desvio
+
+                        <input
+                            type="time"
+                            id="rpEcDesvioFinal"
+                            style="
+                                width: 100%;
+                                padding: 10px;
+                                margin-top: 5px;
+                                box-sizing: border-box;
+                            "
+                        >
+                    </label>
+
+                </div>
+            </div>
 
 
             <!-- COMPONENTES SUBSTITUÍDOS -->
@@ -4346,6 +4572,27 @@ function montarRelatorioFleet() {
             "fleetSoftwareFinal"
         ).value;
 
+    // Desvio IAMO
+    const temDesvio =
+        document.getElementById(
+            "fleetTemDesvio"
+        )?.value || "N/A";
+
+    let desvioInicial = "N/A";
+    let desvioFinal = "N/A";
+
+    if (temDesvio === "SIM") {
+        desvioInicial =
+            document.getElementById(
+                "fleetDesvioInicial"
+            )?.value || "N/A";
+
+        desvioFinal =
+            document.getElementById(
+                "fleetDesvioFinal"
+            )?.value || "N/A";
+    }
+
     const omConcluida =
         document.getElementById(
             "fleetOMConcluida"
@@ -4500,6 +4747,10 @@ ${iconeSoftware} Validado comunicação com Servidor.
 ${iconeSoftware} Gerado snapshoot.
 ${iconeSoftware} Validado PLE
 ${iconeSoftware} Realizado 5s.
+
+🚨 *DESVIO IAMO:* ${temDesvio === "SIM" ? "Sim" : "N/A"}
+⏰ *Horário inicial — Desvio:* ${desvioInicial}
+⏰ *Horário final — Desvio:* ${desvioFinal}
 
 📈 *Causa da Parada :* MANUTENÇÃO PREVENTIVA MINESTAR
 
@@ -6059,6 +6310,26 @@ window.copiarRelatorioFleet = function () {
 // RELATÓRIO MP MINESTAR RP & EC
 // ===============================
 
+
+window.alternarDesvioFleet = function () {
+    const tipo = document.getElementById("fleetTemDesvio")?.value || "N/A";
+    const campos = document.getElementById("camposDesvioFleet");
+
+    if (!campos) return;
+
+    if (tipo === "SIM") {
+        campos.style.display = "block";
+    } else {
+        campos.style.display = "none";
+
+        const inicial = document.getElementById("fleetDesvioInicial");
+        const final = document.getElementById("fleetDesvioFinal");
+
+        if (inicial) inicial.value = "";
+        if (final) final.value = "";
+    }
+};
+
 window.alternarDesvioRpEc = function () {
     const tipo = document.getElementById("rpEcTemDesvio").value;
     const campos = document.getElementById("camposDesvioRpEc");
@@ -7120,10 +7391,27 @@ window.carregarDadosTurno = function () {
 
     atividades.value = textoAtividades;
     pendencias.value = textoPendencias;
-    equipamentos.value = textoEquipamentos;
-
-    interpretarAtividades();
+    equipamentos.value = textoEquipamentos;interpretarAtividades();
     cruzarPendencias();
+};
+
+
+window.alterarSituacaoOficina = function(equipamento, situacao) {
+    const chave = normalizarEquipamentoOficina(equipamento);
+    if (!chave) return;
+
+    const salvos = obterSituacaoEquipamentosSalva();
+
+    if (situacao === "NAO_INFORMADO") {
+        // Apaga a escolha manual e volta para a regra automática da lista.
+        delete salvos[chave];
+    } else {
+        salvos[chave] = situacao;
+    }
+
+    if (salvarSituacaoEquipamentos(salvos)) {
+        carregarOMs();
+    }
 };
 
 window.interpretarAtividades = function () {
