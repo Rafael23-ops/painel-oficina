@@ -900,7 +900,7 @@ app.put("/om/:id/status", function(req, res) {
     const statusPermitidos = [
     "Pendente",
     "Em execução",
-    "Quase concluída",
+    "Executada",
     "Concluída"
 ];
     if (!statusPermitidos.includes(novoStatus)) {
@@ -1017,13 +1017,13 @@ app.get("/oms", function(req, res) {
         const statusPermitidos = [
     "Pendente",
     "Em execução",
-    "Quase concluída",
+    "Executada",
     "Concluída"
 ];
         if (!statusPermitidos.includes(status)) {
             return res.status(400).json({
                 erro:
-                    "Status inválido. Use: Pendente, Em execução ou Concluída."
+    "Status inválido. Use: Pendente, Em execução, Executada ou Concluída."
             });
         }
         sql += " WHERE status = ?";
