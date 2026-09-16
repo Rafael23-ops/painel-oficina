@@ -1227,7 +1227,6 @@ function gerarRelatorioTurno() {
             });
 
             if (pendentesHoje.length) {
-                relatorio += "📋 OMs PENDENTES / EXECUTADAS\n\n";
 
                 pendentesHoje.forEach(function(om) {
                     const status = normalizarStatus(om.status);
