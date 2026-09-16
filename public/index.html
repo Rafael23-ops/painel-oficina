@@ -199,15 +199,39 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
 </div>
 
 <section class="section" id="ferramentas"><div class="panel"><div class="panel-head"><div class="panel-title"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m14.7 6.3 3 3M3 21l7.7-7.7M13 5a5 5 0 0 0 6.4 6.4L15 15.8 8.2 9 12.6 4.6A5 5 0 0 0 13 5z"/></svg> FERRAMENTAS OPERACIONAIS</div></div><div class="section-body"><div class="form-grid">
- <div class="field full"><label>IMPORTAR ATIVIDADES DO DIA + PENDÊNCIAS DO TURNO ANTERIOR</label><textarea id="textoAtividadesTurno" placeholder="Cole aqui as duas informações no mesmo campo...
+ <div class="field full">
+<label>ATIVIDADES DO DIA</label>
+<textarea id="textoAtividadesDia" placeholder="Cole aqui as atividades do dia.
 
-ATIVIDADES DO DIA
-...
+Exemplo:
+202603861018 ISOLAR CONECTORES DEUTSCH MINESTAR"></textarea>
+<div class="button-row">
+<button class="btn btn-blue" type="button" onclick="carregarAtividadesDia()">
+Importar atividades
+</button>
+</div>
+</div>
 
-PENDÊNCIAS DO TURNO ANTERIOR
-...
+<div class="field full">
+<label>PENDÊNCIAS DO TURNO ANTERIOR</label>
+<textarea id="textoPendenciasTurno" placeholder="Cole aqui as pendências do turno anterior.
 
-A seção ATIVIDADES DO DIA e a seção PENDÊNCIAS DO TURNO ANTERIOR devem estar identificadas."></textarea><div class="button-row"><button class="btn btn-blue" type="button" onclick="carregarAtividadesEPendencias()"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4M8 8l4-4 4 4"/><path d="M5 14v5h14v-5"/></svg> Importar atividades e pendências</button></div></div>
+Exemplo:
+📁 N° OM: 8989
+🚜 Equipamento: CA103
+Descrição: TARA
+🚨 Motivo: Pendente
+
+📁 N° OM: 321
+🚜 Equipamento: CA101
+Descrição: ADS
+🚨 Motivo: VALIDAR"></textarea>
+<div class="button-row">
+<button class="btn btn-blue" type="button" onclick="carregarPendenciasTurnoAnterior()">
+Importar pendências
+</button>
+</div>
+</div>
  <div class="field full"><label>EQUIPAMENTOS NA OFICINA</label><textarea id="textoEquipamentosOficina" placeholder="Informe somente os equipamentos que estão atualmente na oficina.
 Exemplo:
 EC67
@@ -7460,64 +7484,74 @@ window.alternarDesvioTt = function () {
 // =====================================
 // CARREGAR DADOS COMPLETOS DO TURNO
 // =====================================
-window.carregarAtividadesEPendencias = function () {
-    const campo = document.getElementById("textoAtividadesTurno");
+window.carregarAtividadesDia = function () {
+    const campo = document.getElementById("textoAtividadesDia");
     const atividades = document.getElementById("textoAtividades");
-    const pendencias = document.getElementById("textoPendencias");
 
-    if (!campo || !atividades || !pendencias) {
-        alert("Campos de atividades e pendências não encontrados.");
+    if (!campo || !atividades) {
+        alert("❌ Campo de atividades não encontrado.");
         return;
     }
 
     const texto = campo.value.trim();
+
     if (!texto) {
-        alert("Cole primeiro as atividades do dia e as pendências do turno anterior.");
+        alert("Cole primeiro as atividades do dia.");
         return;
     }
 
-    const linhas = texto.split(/\r?\n/);
-    let secao = "";
-    const partes = { atividades: [], pendencias: [] };
+    // Guarda somente as atividades
+    atividades.value = texto;
 
-    linhas.forEach(function(linha) {
-        const limpa = linha.trim()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .toUpperCase();
-
-        if (/^ATIVIDADES\s+DO\s+DIA\b/.test(limpa) || /^LISTA\s+DE\s+ATIVIDADES\b/.test(limpa)) {
-            secao = "atividades";
-            partes.atividades.push(linha);
-            return;
-        }
-
-        if (/^PENDENCIAS?\s+DO\s+TURNO\s+ANTERIOR\b/.test(limpa) || /^OMS?\s+PENDENTES?\s+DO\s+TURNO\s+ANTERIOR\b/.test(limpa)) {
-            secao = "pendencias";
-            return;
-        }
-
-        if (secao) partes[secao].push(linha);
-    });
-
-    const textoAtividades = partes.atividades.join("\n").trim();
-    const textoPendencias = partes.pendencias.join("\n").trim();
-
-    if (!textoAtividades) {
-        alert("Não encontrei a seção ATIVIDADES DO DIA.");
-        return;
-    }
-
-    if (!textoPendencias) {
-        alert("Não encontrei a seção PENDÊNCIAS DO TURNO ANTERIOR.");
-        return;
-    }
-
-    atividades.value = textoAtividades;
-    pendencias.value = textoPendencias;
-
+    // Interpreta as atividades individualmente
     interpretarAtividades();
-    cruzarPendencias();
+
+    console.log("✅ Atividades do dia importadas.");
+};
+
+
+window.carregarPendenciasTurnoAnterior = function () {
+    const campo = document.getElementById("textoPendenciasTurno");
+    const pendencias = document.getElementById("textoPendencias");
+    const equipamentos = document.getElementById("textoEquipamentosOficina");
+
+    if (!campo || !pendencias) {
+        alert("❌ Campo de pendências não encontrado.");
+        return;
+    }
+
+    const texto = campo.value.trim();
+
+    if (!texto) {
+        alert("Cole primeiro as pendências do turno anterior.");
+        return;
+    }
+
+    // Guarda somente as pendências
+    pendencias.value = texto;
+
+    // Se já houver equipamentos na oficina,
+    // faz também o cruzamento automaticamente.
+    if (equipamentos && equipamentos.value.trim()) {
+        cruzarPendencias();
+    } else {
+        console.log("✅ Pendências importadas. Aguardando lista de equipamentos da oficina.");
+    }
+};
+
+
+// Mantém compatibilidade com código antigo
+window.carregarAtividadesEPendencias = function () {
+    const atividades = document.getElementById("textoAtividadesDia");
+    const pendencias = document.getElementById("textoPendenciasTurno");
+
+    if (atividades && atividades.value.trim()) {
+        carregarAtividadesDia();
+    }
+
+    if (pendencias && pendencias.value.trim()) {
+        carregarPendenciasTurnoAnterior();
+    }
 };
 
 window.carregarEquipamentosOficina = function () {
