@@ -476,7 +476,51 @@ function carregarEquipamentos() {
             select.innerHTML =
                 '<option value="">Selecione o equipamento</option>';
 
-            equipamentos.forEach(function(item) {
+            // Mantém os equipamentos cadastrados no sistema e acrescenta
+            // os PZ cadastrados manualmente logo abaixo do grupo PZ existente.
+            const equipamentosManuais = [
+                "PZ65",
+                "PZ67",
+                "PZ68",
+                "PZ80",
+                "PZ81",
+                "PZ82"
+            ];
+
+            const listaExistente = equipamentos.slice();
+            const nomesExistentes = new Set(
+                listaExistente.map(function(item) {
+                    return String(item.equipamento || "").trim().toUpperCase();
+                })
+            );
+
+            const novosPz = equipamentosManuais
+                .filter(function(nome) {
+                    return !nomesExistentes.has(nome);
+                })
+                .map(function(nome) {
+                    return { equipamento: nome };
+                });
+
+            let ultimoPz = -1;
+
+            listaExistente.forEach(function(item, indice) {
+                const nome = String(item.equipamento || "").trim().toUpperCase();
+                if (nome.indexOf("PZ") === 0) {
+                    ultimoPz = indice;
+                }
+            });
+
+            if (ultimoPz >= 0) {
+                listaExistente.splice.apply(
+                    listaExistente,
+                    [ultimoPz + 1, 0].concat(novosPz)
+                );
+            } else {
+                listaExistente.push.apply(listaExistente, novosPz);
+            }
+
+            listaExistente.forEach(function(item) {
 
                 const option =
                     document.createElement("option");
@@ -491,29 +535,6 @@ function carregarEquipamentos() {
 
             });
 
-const equipamentosManuais = [
-    "PZ65",
-    "PZ67",
-    "PZ68",
-    "PZ80",
-    "PZ81",
-    "PZ82"
-];
-
-equipamentosManuais.forEach(function(nomeEquipamento) {
-
-    const option =
-        document.createElement("option");
-
-    option.value =
-        nomeEquipamento;
-
-    option.textContent =
-        nomeEquipamento;
-
-    select.appendChild(option);
-
-});
            
 
         })
@@ -935,14 +956,14 @@ function carregarOMs() {
 
                 const oficinaEstilo =
                     situacaoAtual === "NA_OFICINA"
-                        ? ""
+                        ? "background:#0ea5e9;color:#fff;"
                         : situacaoAtual === "FORA_OFICINA"
-                            ? "background:#64748b;color:#fff;"
+                            ? "background:#e3131b;color:#fff;"
                             : "background:#475569;color:#fff;";
 
                 const oficinaHTML = `
                     <select
-                        class="status-pill ${situacaoAtual === "NA_OFICINA" ? "status-green" : ""}"
+                        class="status-pill"
                         style="${oficinaEstilo};border:0;cursor:pointer;outline:none;"
                         title="Clique para informar a situação do equipamento"
                         onchange="alterarSituacaoOficina('${equipamentoNormalizado}', this.value)"
@@ -1271,7 +1292,7 @@ function gerarRelatorioTurno() {
             // =====================================
             relatorio += "📢 Acionamentos e Resoluções Remoto. 📢\n\n";
             relatorio += "🚨IAMO🚨\n";
-            relatorio += "Capacidade: 17.6\n";
+            relatorio += "Capacidade: 16.6\n";
             relatorio += "HH utilizado: N/A\n";
             relatorio += "Desvio: N/A\n\n";
             relatorio += "🛺▪️Atividades extra SAP: \n\n";
@@ -7861,8 +7882,6 @@ window.interpretarAtividades = function () {
          * PC1012KS73 -> PC73
          * CA1014KS139 -> CA139
          * TT1012KS70 -> TT70
-         * BM1080KS01 -> BM01
-         * EC1013KS53 -> EC53
          */
         const completo =
             textoCodigo.match(
