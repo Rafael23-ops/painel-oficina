@@ -147,6 +147,9 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
 .action-purple{border-color:#8b5cf6 !important;color:#c4b5fd !important}
 
 /* ===== JANELAS PADRÃO DO PAINEL ===== */
+
+#painelAvisoOverlay .painel-prompt-input{width:100%;box-sizing:border-box;margin-top:14px;padding:10px 12px;border:2px solid #1769e0;border-radius:8px;background:#fff;color:#111;font-size:15px;outline:none;}
+#painelAvisoOverlay .painel-prompt-input:focus{border-color:#1769e0;box-shadow:0 0 0 2px rgba(23,105,224,.18);}
 #painelAvisoOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:999999;align-items:center;justify-content:center;padding:20px}
 #painelAvisoOverlay .painel-aviso-card{width:min(520px,96vw);background:#101820;border:1px solid #34404d;border-radius:10px;box-shadow:0 20px 70px #000;padding:22px;color:#f4f7fb}
 #painelAvisoOverlay .painel-aviso-titulo{font-size:17px;font-weight:800;margin-bottom:12px}
@@ -1381,11 +1384,12 @@ function copiarRelatorioTurno() {
 // ALTERAR MOTIVO DA PENDÊNCIA
 // =====================================
 
-function alterarMotivoPendencia(id, motivoAtual) {
+async function alterarMotivoPendencia(id, motivoAtual) {
 
-    const novoMotivo = prompt(
-        " Informe o motivo da pendência:",
-        motivoAtual || ""
+    const novoMotivo = await painelPrompt(
+        "Informe o motivo da pendência:",
+        motivoAtual || "",
+        "Motivo da pendência"
     );
 
     if (novoMotivo === null) {
@@ -1460,13 +1464,15 @@ function alterarMotivoPendencia(id, motivoAtual) {
 // ALTERAR STATUS
 // =====================================
 
-function alterarStatus(id, status) {
+async function alterarStatus(id, status) {
 
     // Se for "Executada", pedir o motivo antes de alterar
     if (status === "Executada") {
 
-        const motivo = prompt(
-            "🟣 Informe o motivo da pendência / quase conclusão:"
+        const motivo = await painelPrompt(
+            "Informe o motivo da pendência / quase conclusão:",
+            "",
+            "OM EXECUTADA"
         );
 
         if (motivo === null) {
@@ -9248,6 +9254,25 @@ document.addEventListener("DOMContentLoaded",function(){
       overlay.style.display='flex'; overlay.setAttribute('aria-hidden','false');
       acoes.querySelector('.painel-btn-cancelar').onclick=function(){overlay.style.display='none';overlay.setAttribute('aria-hidden','true');resolve(false);};
       acoes.querySelector('.painel-btn-ok').onclick=function(){overlay.style.display='none';overlay.setAttribute('aria-hidden','true');resolve(true);};
+    });
+  };
+  window.painelPrompt=function(mensagem, valorInicial='', tituloTexto='Informar'){
+    return new Promise(function(resolve){
+      if(!overlay){resolve(null);return;}
+      titulo.textContent=tituloTexto;
+      texto.innerHTML=String(mensagem||'')+'<input id="painelPromptInput" class="painel-prompt-input" type="text">';
+      const input=document.getElementById('painelPromptInput');
+      input.value=String(valorInicial||'');
+      acoes.innerHTML='<button class="painel-btn-cancelar" type="button">Cancelar</button><button class="painel-btn-ok" type="button">OK</button>';
+      overlay.style.display='flex'; overlay.setAttribute('aria-hidden','false');
+      setTimeout(function(){input.focus();input.select();},0);
+      function fechar(valor){overlay.style.display='none';overlay.setAttribute('aria-hidden','true');resolve(valor);}
+      acoes.querySelector('.painel-btn-cancelar').onclick=function(){fechar(null);};
+      acoes.querySelector('.painel-btn-ok').onclick=function(){fechar(input.value);};
+      input.onkeydown=function(e){
+        if(e.key==='Enter'){e.preventDefault();fechar(input.value);}
+        if(e.key==='Escape'){e.preventDefault();fechar(null);}
+      };
     });
   };
 })();
