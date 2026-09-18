@@ -145,6 +145,16 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
 .status-pill .om-icon,.actions .om-icon,button .om-icon{margin-right:4px}
 
 .action-purple{border-color:#8b5cf6 !important;color:#c4b5fd !important}
+
+/* ===== JANELAS PADRÃO DO PAINEL ===== */
+#painelAvisoOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:999999;align-items:center;justify-content:center;padding:20px}
+#painelAvisoOverlay .painel-aviso-card{width:min(520px,96vw);background:#101820;border:1px solid #34404d;border-radius:10px;box-shadow:0 20px 70px #000;padding:22px;color:#f4f7fb}
+#painelAvisoOverlay .painel-aviso-titulo{font-size:17px;font-weight:800;margin-bottom:12px}
+#painelAvisoOverlay .painel-aviso-texto{font-size:13px;line-height:1.55;color:#cbd5df;white-space:pre-line}
+#painelAvisoOverlay .painel-aviso-acoes{display:flex;gap:8px;margin-top:20px}
+#painelAvisoOverlay .painel-aviso-acoes button{flex:1;border:0;border-radius:7px;padding:11px;font-weight:700;cursor:pointer}
+#painelAvisoOverlay .painel-btn-ok{background:#2583f7;color:#fff}
+#painelAvisoOverlay .painel-btn-cancelar{background:#202b36;color:#dbe2e9}
 </style>
 
 </head>
@@ -296,7 +306,7 @@ function salvarSituacaoEquipamentos(dados) {
         return true;
     } catch (erro) {
         console.error("Erro ao salvar situação dos equipamentos:", erro);
-        alert("Não foi possível salvar a situação dos equipamentos.");
+        painelAviso("Não foi possível salvar a situação dos equipamentos.");
         return false;
     }
 }
@@ -716,7 +726,7 @@ document
 
                 if (!valorResponsavel) {
 
-                    alert(
+                    painelAviso(
                         " Selecione uma pessoa."
                     );
 
@@ -732,7 +742,7 @@ document
 
                 if (!valorResponsavel) {
 
-                    alert(
+                    painelAviso(
                         " Selecione uma dupla."
                     );
 
@@ -1305,7 +1315,7 @@ function gerarRelatorioTurno() {
         })
         .catch(function(error) {
             console.error("Erro ao gerar relatório:", error);
-            alert("❌ Erro ao gerar o relatório.");
+            painelAviso("❌ Erro ao gerar o relatório.");
         });
 }
 function copiarRelatorioTurno() {
@@ -1317,7 +1327,7 @@ function copiarRelatorioTurno() {
 
     if (!campo) {
 
-        alert(
+        painelAviso(
             "❌ Relatório não encontrado."
         );
 
@@ -1341,13 +1351,13 @@ function copiarRelatorioTurno() {
 
         if (copiou) {
 
-            alert(
+            painelAviso(
                 "✅ Relatório copiado com sucesso!"
             );
 
         } else {
 
-            alert(
+            painelAviso(
                 " Não foi possível copiar automaticamente. Pressione Ctrl + C."
             );
 
@@ -1360,7 +1370,7 @@ function copiarRelatorioTurno() {
             erro
         );
 
-        alert(
+        painelAviso(
             " O relatório foi selecionado. Pressione Ctrl + C."
         );
 
@@ -1385,7 +1395,7 @@ function alterarMotivoPendencia(id, motivoAtual) {
     const motivo = novoMotivo.trim();
 
     if (!motivo) {
-        alert(
+        painelAviso(
             " Informe um motivo para a pendência."
         );
         return;
@@ -1440,7 +1450,7 @@ function alterarMotivoPendencia(id, motivoAtual) {
             error
         );
 
-        alert(
+        painelAviso(
             "❌ " + error.message
         );
 
@@ -1464,7 +1474,7 @@ function alterarStatus(id, status) {
         }
 
         if (!motivo.trim()) {
-            alert(" Informe o motivo da pendência.");
+            painelAviso(" Informe o motivo da pendência.");
             return;
         }
 
@@ -1537,7 +1547,7 @@ function alterarStatus(id, status) {
                 error
             );
 
-            alert(
+            painelAviso(
                 "❌ " + error.message
             );
 
@@ -1589,7 +1599,7 @@ function alterarStatus(id, status) {
             error
         );
 
-        alert(
+        painelAviso(
             "❌ " + error.message
         );
 
@@ -1960,12 +1970,11 @@ function carregarDuplas() {
 // EXCLUIR DUPLA
 // =====================================
 
-function excluirDupla(id) {
+async function excluirDupla(id) {
 
-    const confirmar =
-        confirm(
-            "Tem certeza que deseja excluir esta dupla?"
-        );
+    const confirmar = await painelConfirmar(
+        "Tem certeza que deseja excluir esta dupla?"
+    );
 
     if (!confirmar) {
         return;
@@ -2001,7 +2010,7 @@ function excluirDupla(id) {
 
     .then(function(data) {
 
-        alert(
+        painelAviso(
             "✅ " + data.mensagem
         );
 
@@ -2028,7 +2037,7 @@ function excluirDupla(id) {
 
         console.error(error);
 
-        alert(
+        painelAviso(
             "❌ " + error.message
         );
 
@@ -4998,7 +5007,7 @@ function copiarRelatorioHealth() {
 
     if (!campo) {
 
-        alert(
+        painelAviso(
             "❌ Relatório não encontrado."
         );
 
@@ -5020,7 +5029,7 @@ function copiarRelatorioHealth() {
             "copy"
         );
 
-        alert(
+        painelAviso(
             "✅ Relatório copiado com sucesso!"
         );
 
@@ -5028,7 +5037,7 @@ function copiarRelatorioHealth() {
 
         console.error(erro);
 
-        alert(
+        painelAviso(
             " Não foi possível copiar automaticamente. O relatório está selecionado. Pressione Ctrl + C."
         );
 
@@ -5297,13 +5306,11 @@ ${listaExecutantes}`;
 // EXCLUIR OM
 // =====================================
 
-function excluirOM(id) {
+async function excluirOM(id) {
 
-    const confirmar =
-        confirm(
-            " Tem certeza que deseja excluir esta OM?\n\n" +
-            "Essa ação não poderá ser desfeita."
-        );
+    const confirmar = await painelConfirmar(
+        "Tem certeza que deseja excluir esta OM?\n\nEssa ação não poderá ser desfeita."
+    );
 
     if (!confirmar) {
         return;
@@ -5339,7 +5346,7 @@ function excluirOM(id) {
 
     .then(function(data) {
 
-        alert(
+        painelAviso(
             "✅ " + data.mensagem
         );
 
@@ -5353,7 +5360,7 @@ function excluirOM(id) {
 
         console.error(error);
 
-        alert(
+        painelAviso(
             "❌ " + error.message
         );
 
@@ -5388,7 +5395,7 @@ function editarOM(id) {
         })
         .catch(function(error) {
             console.error(error);
-            alert("❌ " + error.message);
+            painelAviso("❌ " + error.message);
         });
 }
 
@@ -5403,7 +5410,7 @@ function salvarEdicaoOM() {
     const descricao = document.getElementById("editarOMDescricao").value.trim();
 
     if (!om || !equipamento) {
-        alert(" Informe o número da OM e o equipamento.");
+        painelAviso(" Informe o número da OM e o equipamento.");
         return;
     }
 
@@ -5423,7 +5430,7 @@ function salvarEdicaoOM() {
         });
     })
     .then(function(data) {
-        alert("✅ " + data.mensagem);
+        painelAviso("✅ " + data.mensagem);
         fecharEditarOM();
         carregarOMs();
         carregarPainel();
@@ -5431,7 +5438,7 @@ function salvarEdicaoOM() {
     })
     .catch(function(error) {
         console.error(error);
-        alert("❌ " + error.message);
+        painelAviso("❌ " + error.message);
     });
 }
 
@@ -5457,7 +5464,7 @@ function abrirDefinirHorarios(id) {
         })
         .catch(function(error) {
             console.error(error);
-            alert("❌ " + error.message);
+            painelAviso("❌ " + error.message);
         });
 }
 
@@ -5467,7 +5474,7 @@ function salvarHorariosOM() {
     const horarioFinal = document.getElementById("horariosOMFinal").value;
 
     if (horarioInicial && horarioFinal && horarioFinal < horarioInicial) {
-        alert(" O horário final não pode ser menor que o horário inicial.");
+        painelAviso(" O horário final não pode ser menor que o horário inicial.");
         return;
     }
 
@@ -5498,14 +5505,14 @@ function salvarHorariosOM() {
             });
         })
         .then(function(data) {
-            alert("✅ Horários salvos com sucesso!");
+            painelAviso("✅ Horários salvos com sucesso!");
             fecharHorariosOM();
             carregarOMs();
             carregarHistoricoOMs(true);
         })
         .catch(function(error) {
             console.error(error);
-            alert("❌ " + error.message);
+            painelAviso("❌ " + error.message);
         });
 }
 
@@ -5531,22 +5538,12 @@ function fecharEditarOM() {
 // EXCLUIR TODAS AS OMs
 // =====================================
 
-function excluirTodasOMs() {
+async function excluirTodasOMs() {
 
-    const confirmar =
-        confirm(
-
-            " ATENÇÃO!\n\n" +
-
-            "Você está prestes a excluir TODAS as OMs cadastradas.\n\n" +
-
-            "Todas as atribuições também serão removidas.\n\n" +
-
-            "Essa ação NÃO poderá ser desfeita.\n\n" +
-
-            "Deseja realmente continuar?"
-
-        );
+    const confirmar = await painelConfirmar(
+        "ATENÇÃO!\n\nVocê está prestes a excluir TODAS as OMs cadastradas.\n\nTodas as atribuições também serão removidas.\n\nEssa ação NÃO poderá ser desfeita.\n\nDeseja realmente continuar?",
+        "Atenção"
+    );
 
     if (!confirmar) {
         return;
@@ -5582,7 +5579,7 @@ function excluirTodasOMs() {
 
     .then(function(data) {
 
-        alert(
+        painelAviso(
             "✅ " + data.mensagem
         );
 
@@ -5596,7 +5593,7 @@ function excluirTodasOMs() {
 
         console.error(error);
 
-        alert(
+        painelAviso(
             "❌ " + error.message
         );
 
@@ -5778,7 +5775,7 @@ function salvarNovoResponsavel() {
 
     if (!omSelecionadaParaAlterar) {
 
-        alert(
+        painelAviso(
             "❌ Nenhuma OM selecionada."
         );
 
@@ -5801,7 +5798,7 @@ function salvarNovoResponsavel() {
 
         if (!valor) {
 
-            alert(
+            painelAviso(
                 " Selecione uma pessoa."
             );
 
@@ -5817,7 +5814,7 @@ function salvarNovoResponsavel() {
 
         if (!valor) {
 
-            alert(
+            painelAviso(
                 " Selecione uma dupla."
             );
 
@@ -5870,7 +5867,7 @@ function salvarNovoResponsavel() {
 
     .then(function(data) {
 
-        alert(
+        painelAviso(
             "✅ " + data.mensagem
         );
 
@@ -5886,7 +5883,7 @@ function salvarNovoResponsavel() {
 
         console.error(error);
 
-        alert(
+        painelAviso(
             "❌ " + error.message
         );
 
@@ -5958,7 +5955,7 @@ window.copiarRelatorioHealth = function() {
 
     if (!campo) {
 
-        alert(
+        painelAviso(
             "❌ Relatório não encontrado."
         );
 
@@ -5980,13 +5977,13 @@ window.copiarRelatorioHealth = function() {
 
         if (copiou) {
 
-            alert(
+            painelAviso(
                 "✅ Relatório copiado com sucesso!"
             );
 
         } else {
 
-            alert(
+            painelAviso(
                 " Não foi possível copiar automaticamente. O texto está selecionado. Pressione Ctrl + C."
             );
 
@@ -5999,7 +5996,7 @@ window.copiarRelatorioHealth = function() {
             erro
         );
 
-        alert(
+        painelAviso(
             " O texto foi selecionado. Pressione Ctrl + C para copiar."
         );
 
@@ -6436,7 +6433,7 @@ window.copiarRelatorioFleet = function () {
     );
 
     if (!campo) {
-        alert("❌ Relatório não encontrado.");
+        painelAviso("❌ Relatório não encontrado.");
         return;
     }
 
@@ -6449,9 +6446,9 @@ window.copiarRelatorioFleet = function () {
         const copiou = document.execCommand("copy");
 
         if (copiou) {
-            alert("✅ Relatório copiado com sucesso!");
+            painelAviso("✅ Relatório copiado com sucesso!");
         } else {
-            alert(
+            painelAviso(
                 " Não foi possível copiar automaticamente. O texto foi selecionado. Pressione Ctrl + C."
             );
         }
@@ -6460,7 +6457,7 @@ window.copiarRelatorioFleet = function () {
 
         console.error("Erro ao copiar:", erro);
 
-        alert(
+        painelAviso(
             " O texto foi selecionado. Pressione Ctrl + C para copiar."
         );
 
@@ -6737,7 +6734,7 @@ const iconeSoftware = softwareConcluido ? "✅" : "❌";
     const caixa = document.getElementById("conteudoGerarRelatorio");
 
     if (!caixa) {
-        alert("❌ Não foi possível localizar os dados da OM.");
+        painelAviso("❌ Não foi possível localizar os dados da OM.");
         return;
     }
 
@@ -6942,7 +6939,7 @@ window.copiarRelatorioRpEc = function () {
     const campo = document.getElementById("resultadoRelatorioRpEc");
 
     if (!campo) {
-        alert("❌ Relatório não encontrado.");
+        painelAviso("❌ Relatório não encontrado.");
         return;
     }
 
@@ -6955,9 +6952,9 @@ window.copiarRelatorioRpEc = function () {
         const copiou = document.execCommand("copy");
 
         if (copiou) {
-            alert("✅ Relatório copiado com sucesso!");
+            painelAviso("✅ Relatório copiado com sucesso!");
         } else {
-            alert(
+            painelAviso(
                 " Não foi possível copiar automaticamente. " +
                 "O texto foi selecionado. Pressione Ctrl + C."
             );
@@ -6967,7 +6964,7 @@ window.copiarRelatorioRpEc = function () {
 
         console.error("Erro ao copiar:", erro);
 
-        alert(
+        painelAviso(
             " O texto foi selecionado. " +
             "Pressione Ctrl + C para copiar."
         );
@@ -6994,7 +6991,7 @@ const iconeSoftware = softwareConcluido ? "✅" : "❌";
     const caixa = document.getElementById("conteudoGerarRelatorio");
 
     if (!caixa) {
-        alert("❌ Não foi possível localizar os dados da OM.");
+        painelAviso("❌ Não foi possível localizar os dados da OM.");
         return;
     }
 
@@ -7209,7 +7206,7 @@ window.copiarRelatorioPz = function () {
     const campo = document.getElementById("resultadoRelatorioPz");
 
     if (!campo) {
-        alert("❌ Relatório não encontrado.");
+        painelAviso("❌ Relatório não encontrado.");
         return;
     }
 
@@ -7222,9 +7219,9 @@ window.copiarRelatorioPz = function () {
         const copiou = document.execCommand("copy");
 
         if (copiou) {
-            alert("✅ Relatório copiado com sucesso!");
+            painelAviso("✅ Relatório copiado com sucesso!");
         } else {
-            alert(
+            painelAviso(
                 " Não foi possível copiar automaticamente. " +
                 "O texto foi selecionado. Pressione Ctrl + C."
             );
@@ -7234,7 +7231,7 @@ window.copiarRelatorioPz = function () {
 
         console.error("Erro ao copiar:", erro);
 
-        alert(
+        painelAviso(
             " O texto foi selecionado. " +
             "Pressione Ctrl + C para copiar."
         );
@@ -7277,7 +7274,7 @@ window.montarRelatorioTt = async function () {
     const caixa = document.getElementById("resultadoRelatorioTt");
 
     if (!caixa) {
-        alert("Área do relatório TT não encontrada.");
+        painelAviso("Área do relatório TT não encontrada.");
         return;
     }
     const om = document.getElementById("ttNumeroOm")?.innerText || "-";
@@ -7436,11 +7433,11 @@ ${listaExecutantes}`;
 
                 document.execCommand("copy");
 
-                alert("✅ Relatório TT copiado!");
+                painelAviso("✅ Relatório TT copiado!");
 
             } catch (erro) {
 
-                alert("❌ Não foi possível copiar o relatório.");
+                painelAviso("❌ Não foi possível copiar o relatório.");
 
             }
 
@@ -7539,14 +7536,14 @@ window.carregarAtividadesDia = async function () {
     const atividades = document.getElementById("textoAtividades");
 
     if (!campo || !atividades) {
-        alert("❌ Campo de atividades não encontrado.");
+        painelAviso("❌ Campo de atividades não encontrado.");
         return;
     }
 
     const texto = campo.value.trim();
 
     if (!texto) {
-        alert("Cole primeiro as atividades do dia.");
+        painelAviso("Cole primeiro as atividades do dia.");
         return;
     }
 
@@ -7567,14 +7564,14 @@ window.carregarPendenciasTurnoAnterior = function () {
     const equipamentos = document.getElementById("textoEquipamentosOficina");
 
     if (!campo || !pendencias) {
-        alert("❌ Campo de pendências não encontrado.");
+        painelAviso("❌ Campo de pendências não encontrado.");
         return;
     }
 
     const texto = campo.value.trim();
 
     if (!texto) {
-        alert("Cole primeiro as pendências do turno anterior.");
+        painelAviso("Cole primeiro as pendências do turno anterior.");
         return;
     }
 
@@ -7614,13 +7611,13 @@ window.carregarAtividadesEPendencias = function () {
 window.carregarEquipamentosOficina = function () {
     const campo = document.getElementById("textoEquipamentosOficina");
     if (!campo) {
-        alert("Campo de equipamentos não encontrado.");
+        painelAviso("Campo de equipamentos não encontrado.");
         return;
     }
 
     const texto = campo.value.trim();
     if (!texto) {
-        alert("Informe primeiro os equipamentos que estão na oficina.");
+        painelAviso("Informe primeiro os equipamentos que estão na oficina.");
         return;
     }
 
@@ -7719,7 +7716,7 @@ window.interpretarAtividades = function () {
     const resultado =
         document.getElementById("resultadoImportacao");
     if (!campo || !resultado) {
-        alert(
+        painelAviso(
             "❌ Campo do importador não encontrado."
         );
         return;
@@ -7727,7 +7724,7 @@ window.interpretarAtividades = function () {
     const texto =
         campo.value.trim();
     if (!texto) {
-        alert(
+        painelAviso(
             " Cole primeiro a lista de atividades do dia."
         );
         return;
@@ -8531,17 +8528,14 @@ async function cadastrarAtividadesDoDia() {
     if (
         atividades.length === 0
     ) {
-        alert(
+        painelAviso(
             " Não existem OMs para cadastrar."
         );
         return;
     }
-    const confirmar =
-        confirm(
-            "Deseja cadastrar " +
-            atividades.length +
-            " OMs no sistema?"
-        );
+    const confirmar = await painelConfirmar(
+        "Deseja cadastrar " + atividades.length + " OMs no sistema?"
+    );
     if (!confirmar) {
         return;
     }
@@ -8635,7 +8629,7 @@ async function cadastrarAtividadesDoDia() {
         mensagem +=
             " Erros: " +
             erros;
-        alert(mensagem);
+        painelAviso(mensagem);
         if (botao) {
             botao.innerHTML =
                 "✅ OMs processadas";
@@ -8665,7 +8659,7 @@ async function cadastrarAtividadesDoDia() {
             "❌ Erro geral:",
             erro
         );
-        alert(
+        painelAviso(
             "❌ Não foi possível cadastrar as OMs.\n\n" +
             erro.message
         );
@@ -8710,11 +8704,11 @@ async function cadastrarPendenciasEncontradas() {
     });
 
     if (!candidatas.length) {
-        alert(" Não existem OMs para cadastrar.");
+        painelAviso(" Não existem OMs para cadastrar.");
         return;
     }
 
-    if (!confirm("Deseja cadastrar " + candidatas.length + " OMs encontradas na oficina?")) return;
+    if (!(await painelConfirmar("Deseja cadastrar " + candidatas.length + " OMs encontradas na oficina?"))) return;
 
     const botao = document.getElementById("botaoCadastroPendencias");
     if (botao) { botao.disabled = true; botao.textContent = " Cadastrando OMs..."; }
@@ -8736,7 +8730,7 @@ async function cadastrarPendenciasEncontradas() {
         const dados = await resposta.json();
         if (!resposta.ok) throw new Error(dados.erro || "Erro ao importar OMs.");
 
-        alert("✅ Importação concluída!\n\n" +
+        painelAviso("✅ Importação concluída!\n\n" +
             "🟢 Novas OMs cadastradas: " + ((dados.cadastradas || []).length) + "\n" +
             "🔵 OMs que já existiam: " + ((dados.existentes || []).length) + "\n" +
             " Erros: " + ((dados.erros || []).length));
@@ -8746,7 +8740,7 @@ async function cadastrarPendenciasEncontradas() {
         carregarPainel();
     } catch (erro) {
         console.error("Erro na importação:", erro);
-        alert("❌ Não foi possível cadastrar as OMs.\n\n" + erro.message);
+        painelAviso("❌ Não foi possível cadastrar as OMs.\n\n" + erro.message);
         if (botao) { botao.disabled = false; botao.textContent = "✅ Cadastrar " + candidatas.length + " OMs na oficina"; }
     }
 }
@@ -8761,7 +8755,7 @@ window.cruzarPendencias = function () {
     const resultado = document.getElementById("resultadoPendencias");
 
     if (!campoPendencias || !campoEquipamentos || !resultado) {
-        alert("❌ Campos do cruzamento não encontrados.");
+        painelAviso("❌ Campos do cruzamento não encontrados.");
         return;
     }
 
@@ -8769,11 +8763,11 @@ window.cruzarPendencias = function () {
     const textoEquipamentos = campoEquipamentos.value.trim();
 
     if (!textoPendencias) {
-        alert(" Cole primeiro as pendências do turno anterior.");
+        painelAviso(" Cole primeiro as pendências do turno anterior.");
         return;
     }
     if (!textoEquipamentos) {
-        alert(" Informe primeiro os equipamentos que estão na oficina.");
+        painelAviso(" Informe primeiro os equipamentos que estão na oficina.");
         return;
     }
 
@@ -9224,5 +9218,38 @@ document.addEventListener("DOMContentLoaded",function(){
     const filtro=document.getElementById("filtroStatusVisual"); filtro?.addEventListener("change",function(){carregarOMs()});
     setInterval(function(){ carregarOMs(); atualizarUltimasOMs(); carregarHistoricoOMs(true); carregarOMsRelatorio(true); },10000);
 });
+</script>
+
+<div id="painelAvisoOverlay" aria-hidden="true">
+  <div class="painel-aviso-card" role="dialog" aria-modal="true">
+    <div class="painel-aviso-titulo" id="painelAvisoTitulo">Aviso</div>
+    <div class="painel-aviso-texto" id="painelAvisoTexto"></div>
+    <div class="painel-aviso-acoes" id="painelAvisoAcoes"></div>
+  </div>
+</div>
+<script>
+(function(){
+  const overlay=document.getElementById('painelAvisoOverlay');
+  const titulo=document.getElementById('painelAvisoTitulo');
+  const texto=document.getElementById('painelAvisoTexto');
+  const acoes=document.getElementById('painelAvisoAcoes');
+  window.painelAviso=function(mensagem, tituloTexto='Aviso'){
+    if(!overlay){ return; }
+    titulo.textContent=tituloTexto; texto.textContent=String(mensagem||'');
+    acoes.innerHTML='<button class="painel-btn-ok" type="button">OK</button>';
+    overlay.style.display='flex'; overlay.setAttribute('aria-hidden','false');
+    acoes.querySelector('.painel-btn-ok').onclick=function(){overlay.style.display='none';overlay.setAttribute('aria-hidden','true');};
+  };
+  window.painelConfirmar=function(mensagem,tituloTexto='Confirmar ação'){
+    return new Promise(function(resolve){
+      if(!overlay){resolve(false);return;}
+      titulo.textContent=tituloTexto; texto.textContent=String(mensagem||'');
+      acoes.innerHTML='<button class="painel-btn-cancelar" type="button">Cancelar</button><button class="painel-btn-ok" type="button">Confirmar</button>';
+      overlay.style.display='flex'; overlay.setAttribute('aria-hidden','false');
+      acoes.querySelector('.painel-btn-cancelar').onclick=function(){overlay.style.display='none';overlay.setAttribute('aria-hidden','true');resolve(false);};
+      acoes.querySelector('.painel-btn-ok').onclick=function(){overlay.style.display='none';overlay.setAttribute('aria-hidden','true');resolve(true);};
+    });
+  };
+})();
 </script>
 </body></html>
