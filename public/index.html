@@ -580,9 +580,6 @@ function carregarModelosRelatorio() {
             // Esse elemento não existe no HTML atual.
             // Portanto, não tenta acessar innerHTML.
             if (!lista) {
-                console.log(
-                    "ℹ️ listaEquipamentos não existe nesta versão do painel."
-                );
                 return;
             }
 
@@ -7656,13 +7653,10 @@ window.carregarPendenciasTurnoAnterior = function () {
         console.error("Erro ao salvar pendências do turno anterior:", erro);
     }
 
-    // Se já houver equipamentos na oficina,
-    // faz também o cruzamento automaticamente.
-    if (equipamentos && equipamentos.value.trim()) {
-        cruzarPendencias();
-    } else {
-        console.log("✅ Pendências importadas. Aguardando lista de equipamentos da oficina.");
-    }
+    // As pendências são independentes da lista de equipamentos.
+    // Se a lista existir, cruza normalmente; se não existir,
+    // as pendências continuam disponíveis para o relatório.
+    cruzarPendencias();
 };
 
 
@@ -7882,6 +7876,8 @@ window.interpretarAtividades = function () {
          * PC1012KS73 -> PC73
          * CA1014KS139 -> CA139
          * TT1012KS70 -> TT70
+         * BM1080KS01 -> BM01
+         * EC1013KS53 -> EC53
          */
         const completo =
             textoCodigo.match(
@@ -8838,10 +8834,9 @@ window.cruzarPendencias = function () {
         painelAviso(" Cole primeiro as pendências do turno anterior.");
         return;
     }
-    if (!textoEquipamentos) {
-        painelAviso(" Informe primeiro os equipamentos que estão na oficina.");
-        return;
-    }
+    // A lista de equipamentos é opcional.
+    // Sem ela, as pendências são importadas e ficam como REVISAR.
+
 
     function normalizarTextoCruza(texto) {
         return String(texto || "")
@@ -8966,7 +8961,13 @@ window.cruzarPendencias = function () {
 
         const equipamento = equipamentosDaLinha.length ? normalizarCodigoCruza(equipamentosDaLinha[0]) : "";
         let situacao = "REVISAR";
-        if (equipamento) situacao = equipamentosOficina.has(equipamento) ? "CADASTRAR" : "FORA DA OFICINA";
+        if (equipamento) {
+            if (!textoEquipamentos) {
+                situacao = "REVISAR";
+            } else {
+                situacao = equipamentosOficina.has(equipamento) ? "CADASTRAR" : "FORA DA OFICINA";
+            }
+        }
 
         oms.forEach(function(numeroOM){
             pendencias.push({
