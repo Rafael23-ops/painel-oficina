@@ -7801,6 +7801,7 @@ window.interpretarAtividades = function () {
             .map(linha => linha.trim())
             .filter(linha => linha !== "");
     const atividades = [];
+    const formatoBlocoPendencias = /N°\s*OM\s*:/i.test(texto) && /Equipamento\s*:/i.test(texto);
     let dataAtividade = "";
     let localAtual =
         "Não informado";
@@ -8026,6 +8027,43 @@ window.interpretarAtividades = function () {
     // =====================================
     // PROCESSAR LISTA
     // =====================================
+    if (formatoBlocoPendencias) {
+        let blocoAtual = null;
+
+        function finalizarBlocoPendencia() {
+            if (!blocoAtual || !blocoAtual.om) return;
+            const equipamento = normalizarEquipamento(String(blocoAtual.equipamento || "").trim().toUpperCase());
+            const descricao = String(blocoAtual.descricao || "").trim() || "Pendência do turno anterior";
+            atividades.push({
+                data: dataAtividade,
+                om: blocoAtual.om,
+                equipamento: equipamento || "Não identificado",
+                status: "Pendente",
+                prioridade: !!blocoAtual.prioridade,
+                local: localAtual,
+                descricao: descricao,
+                motivo_pendencia: String(blocoAtual.motivo || "Pendente").trim() || "Pendente"
+            });
+        }
+
+        linhas.forEach(function(linha) {
+            const limpa = String(linha || "").trim();
+            const omMatch = limpa.match(/N°\s*OM\s*:\s*(\d{8,12})/i);
+            if (omMatch) {
+                finalizarBlocoPendencia();
+                blocoAtual = {om: omMatch[1], equipamento:"", descricao:"", motivo:"Pendente", prioridade:false};
+                return;
+            }
+            if (!blocoAtual) return;
+            const equipamentoMatch = limpa.match(/(?:🚜\s*)?equipamento\s*:\s*(.+)/i);
+            if (equipamentoMatch) { blocoAtual.equipamento = equipamentoMatch[1].trim(); return; }
+            const descricaoMatch = limpa.match(/(?:📝\s*)?descri(?:ção|cao)\s*:\s*(.+)/i);
+            if (descricaoMatch) { blocoAtual.descricao = descricaoMatch[1].trim(); return; }
+            const motivoMatch = limpa.match(/(?:🚨\s*)?motivo\s*:\s*(.+)/i);
+            if (motivoMatch) { blocoAtual.motivo = motivoMatch[1].trim(); blocoAtual.prioridade = /🔴/.test(limpa); }
+        });
+        finalizarBlocoPendencia();
+    } else {
     for (
         let i = 0;
         i < linhas.length;
@@ -8232,6 +8270,7 @@ window.interpretarAtividades = function () {
             });
         }
     }
+    }
     // =====================================
     // REMOVER DUPLICADAS
     // =====================================
@@ -8379,6 +8418,7 @@ window.interpretarAtividades = function () {
                         <br>
                         ${item.descricao}
                     </div>
+                    ${item.motivo_pendencia ? `<div style="margin-top:6px;">🚨 <strong>Motivo:</strong> ${item.motivo_pendencia}</div>` : ""}
                     ${
                         alertaEquipamento
                         ? `
@@ -8760,7 +8800,7 @@ function mostrarBotaoCadastroPendencias() {
     const botao = document.createElement("button");
     botao.id = "botaoCadastroPendencias";
     botao.type = "button";
-    botao.style.cssText = "margin-top:15px;width:100%;padding:14px;border:none;border-radius:8px;background:#16a34a;color:#fff;font-size:15px;font-weight:800;cursor:pointer";
+    botao.style.cssText = "margin-top:15px;width:100%;padding:14px;border:none;border-radius:8px;background:#2583f7;color:#fff;font-size:15px;font-weight:800;cursor:pointer";
     botao.textContent = "✅ Cadastrar " + candidatas.length + " OMs na oficina";
     botao.onclick = cadastrarPendenciasEncontradas;
     resultado.appendChild(botao);
@@ -8926,7 +8966,12 @@ window.cruzarPendencias = function () {
 
             const equipamentoMatch = prox.match(/(?:🚜\s*)?equipamento\s*:\s*(.+)/i);
             if (equipamentoMatch) {
-                const codigos = extrairEquipamentosCruza(equipamentoMatch[1]);
+                const valorEquipamento = String(equipamentoMatch[1] || "").trim();
+                const codigoExplicito = normalizarCodigoCruza(valorEquipamento);
+                if (codigoExplicito && !/^(MP|GPS|CAN|HO|OM)\d*$/i.test(codigoExplicito)) {
+                    if (!equipamentosDaLinha.includes(codigoExplicito)) equipamentosDaLinha.push(codigoExplicito);
+                }
+                const codigos = extrairEquipamentosCruza(valorEquipamento);
                 codigos.forEach(function(codigo){
                     if (!equipamentosDaLinha.includes(codigo)) equipamentosDaLinha.push(codigo);
                 });
@@ -8963,7 +9008,7 @@ window.cruzarPendencias = function () {
         let situacao = "REVISAR";
         if (equipamento) {
             if (!textoEquipamentos) {
-                situacao = "REVISAR";
+                situacao = "CADASTRAR";
             } else {
                 situacao = equipamentosOficina.has(equipamento) ? "CADASTRAR" : "FORA DA OFICINA";
             }
