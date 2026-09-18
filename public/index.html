@@ -7484,7 +7484,57 @@ window.alternarDesvioTt = function () {
 // =====================================
 // CARREGAR DADOS COMPLETOS DO TURNO
 // =====================================
-window.carregarAtividadesDia = function () {
+async function cadastrarEquipamentosImportadosDasAtividades() {
+    const atividades = Array.isArray(window.atividadesImportadas)
+        ? window.atividadesImportadas
+        : [];
+
+    if (!atividades.length) return;
+
+    const mapa = {};
+
+    atividades.forEach(function(item) {
+        const equipamento = String(item && item.equipamento || "").trim();
+        if (!equipamento) return;
+
+        const chave = normalizarEquipamentoOficina(equipamento);
+        if (!chave || mapa[chave]) return;
+
+        mapa[chave] = {
+            equipamento: equipamento,
+            modelo_relatorio: identificarModeloRelatorio(
+                equipamento,
+                item.descricao || ""
+            ) || null
+        };
+    });
+
+    const lista = Object.values(mapa);
+    if (!lista.length) return;
+
+    try {
+        const resposta = await fetch("/equipamentos/importar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ lista: lista })
+        });
+
+        if (!resposta.ok) {
+            const dados = await resposta.json().catch(function() { return {}; });
+            throw new Error(
+                dados.erro || "Não foi possível cadastrar os equipamentos importados."
+            );
+        }
+
+        console.log("✅ Equipamentos das atividades cadastrados/verificados automaticamente.");
+        if (typeof carregarEquipamentos === "function") carregarEquipamentos();
+    } catch (erro) {
+        // A importação das atividades continua mesmo se o cadastro do equipamento falhar.
+        console.error("⚠️ Não foi possível cadastrar os equipamentos importados:", erro);
+    }
+}
+
+window.carregarAtividadesDia = async function () {
     const campo = document.getElementById("textoAtividadesDia");
     const atividades = document.getElementById("textoAtividades");
 
@@ -7500,15 +7550,16 @@ window.carregarAtividadesDia = function () {
         return;
     }
 
-    // Guarda somente as atividades
+    // IMPORTANTE: atividades do dia são independentes da lista de equipamentos na oficina.
     atividades.value = texto;
-
-    // Interpreta as atividades individualmente
     interpretarAtividades();
 
-    console.log("✅ Atividades do dia importadas.");
-};
+    // Qualquer equipamento identificado nas atividades entra na base de equipamentos,
+    // mesmo que esteja fora da oficina neste momento.
+    await cadastrarEquipamentosImportadosDasAtividades();
 
+    console.log("✅ Atividades do dia importadas sem depender da lista da oficina.");
+};
 
 window.carregarPendenciasTurnoAnterior = function () {
     const campo = document.getElementById("textoPendenciasTurno");
@@ -7527,8 +7578,14 @@ window.carregarPendenciasTurnoAnterior = function () {
         return;
     }
 
-    // Guarda somente as pendências
+    // Guarda as pendências no campo interno e também no navegador,
+    // para que continuem disponíveis após atualizar a página.
     pendencias.value = texto;
+    try {
+        localStorage.setItem("oficina_pendencias_turno_anterior_v1", texto);
+    } catch (erro) {
+        console.error("Erro ao salvar pendências do turno anterior:", erro);
+    }
 
     // Se já houver equipamentos na oficina,
     // faz também o cruzamento automaticamente.
@@ -7579,8 +7636,22 @@ window.carregarEquipamentosOficina = function () {
 
 // Mantém compatibilidade caso algum trecho antigo ainda chame este nome.
 window.carregarDadosTurno = function () {
-    carregarAtividadesEPendencias();
-    carregarEquipamentosOficina();
+    // Cada entrada é independente. Equipamentos da oficina são opcionais para atividades.
+    const campoAtividades = document.getElementById("textoAtividadesDia");
+    const campoPendencias = document.getElementById("textoPendenciasTurno");
+    const campoEquipamentos = document.getElementById("textoEquipamentosOficina");
+
+    if (campoAtividades && campoAtividades.value.trim()) {
+        carregarAtividadesDia();
+    }
+
+    if (campoPendencias && campoPendencias.value.trim()) {
+        carregarPendenciasTurnoAnterior();
+    }
+
+    if (campoEquipamentos && campoEquipamentos.value.trim()) {
+        carregarEquipamentosOficina();
+    }
 };
 
 window.alterarSituacaoOficina = function(equipamento, situacao) {
@@ -7613,9 +7684,33 @@ function carregarListaEquipamentosSalva() {
     }
 }
 
+function carregarPendenciasSalvas() {
+    const campoVisivel = document.getElementById("textoPendenciasTurno");
+    const campoInterno = document.getElementById("textoPendencias");
+    if (!campoVisivel || !campoInterno) return;
+
+    try {
+        const salvo = localStorage.getItem("oficina_pendencias_turno_anterior_v1");
+        if (salvo) {
+            campoVisivel.value = salvo;
+            campoInterno.value = salvo;
+        }
+    } catch (erro) {
+        console.error("Erro ao carregar pendências salvas:", erro);
+    }
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     carregarListaEquipamentosSalva();
+    carregarPendenciasSalvas();
     carregarOMs();
+
+    // Depois de restaurar os dois campos, refaz o cruzamento automaticamente.
+    const pendencias = document.getElementById("textoPendencias");
+    const equipamentos = document.getElementById("textoEquipamentosOficina");
+    if (pendencias && pendencias.value.trim() && equipamentos && equipamentos.value.trim()) {
+        cruzarPendencias();
+    }
 });
 
 window.interpretarAtividades = function () {

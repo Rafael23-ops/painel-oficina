@@ -191,6 +191,95 @@ app.get("/equipamentos", function(req, res) {
     );
 });
 // ===============================
+// IMPORTAR EQUIPAMENTOS ENCONTRADOS NAS ATIVIDADES
+// O equipamento é cadastrado na base mesmo que não esteja na oficina.
+// ===============================
+app.post("/equipamentos/importar", function(req, res) {
+    const lista = Array.isArray(req.body.lista) ? req.body.lista : [];
+
+    if (!lista.length) {
+        return res.status(400).json({ erro: "Nenhum equipamento para importar." });
+    }
+
+    const itens = [];
+    const vistos = new Set();
+
+    lista.forEach(function(item) {
+        const equipamento = String(item && item.equipamento || "").trim();
+        if (!equipamento) return;
+
+        const chave = equipamento
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/[\s-]+/g, "")
+            .toUpperCase();
+
+        if (!chave || vistos.has(chave)) return;
+        vistos.add(chave);
+
+        itens.push({
+            equipamento: equipamento,
+            modelo_relatorio: item && item.modelo_relatorio ? String(item.modelo_relatorio).trim() : null
+        });
+    });
+
+    const cadastrados = [];
+    const existentes = [];
+    const erros = [];
+    let processados = 0;
+
+    function finalizar() {
+        res.json({
+            mensagem: "Equipamentos processados.",
+            cadastrados: cadastrados,
+            existentes: existentes,
+            erros: erros
+        });
+    }
+
+    if (!itens.length) return finalizar();
+
+    itens.forEach(function(item) {
+        db.get(
+            "SELECT id, equipamento FROM equipamentos WHERE UPPER(REPLACE(REPLACE(TRIM(equipamento), '-', ''), ' ', '')) = UPPER(REPLACE(REPLACE(TRIM(?), '-', ''), ' ', ''))",
+            [item.equipamento],
+            function(err, existente) {
+                if (err) {
+                    console.error("Erro ao consultar equipamento:", err.message);
+                    erros.push({ equipamento: item.equipamento, erro: "Erro ao consultar banco." });
+                    processados++;
+                    if (processados === itens.length) finalizar();
+                    return;
+                }
+
+                if (existente) {
+                    existentes.push({ equipamento: existente.equipamento });
+                    processados++;
+                    if (processados === itens.length) finalizar();
+                    return;
+                }
+
+                db.run(
+                    "INSERT INTO equipamentos (equipamento, modelo_relatorio) VALUES (?, ?)",
+                    [item.equipamento, item.modelo_relatorio],
+                    function(errInsert) {
+                        if (errInsert) {
+                            console.error("Erro ao cadastrar equipamento:", errInsert.message);
+                            erros.push({ equipamento: item.equipamento, erro: errInsert.message });
+                        } else {
+                            cadastrados.push({ equipamento: item.equipamento, id: this.lastID });
+                        }
+
+                        processados++;
+                        if (processados === itens.length) finalizar();
+                    }
+                );
+            }
+        );
+    });
+});
+
+// ===============================
 // LISTA AS PESSOAS DA EQUIPE
 // ===============================
 app.get("/pessoas", function(req, res) {
@@ -900,13 +989,14 @@ app.put("/om/:id/status", function(req, res) {
     const statusPermitidos = [
     "Pendente",
     "Em execução",
+    "Quase concluída",
     "Executada",
     "Concluída"
 ];
     if (!statusPermitidos.includes(novoStatus)) {
         return res.status(400).json({
             erro:
-                "Status inválido. Use: Pendente, Em execução ou Concluída."
+                "Status inválido. Use: Pendente, Em execução, Executada ou Concluída."
         });
     }
    const sql = `
@@ -1017,13 +1107,14 @@ app.get("/oms", function(req, res) {
         const statusPermitidos = [
     "Pendente",
     "Em execução",
+    "Quase concluída",
     "Executada",
     "Concluída"
 ];
         if (!statusPermitidos.includes(status)) {
             return res.status(400).json({
                 erro:
-    "Status inválido. Use: Pendente, Em execução, Executada ou Concluída."
+                    "Status inválido. Use: Pendente, Em execução, Executada ou Concluída."
             });
         }
         sql += " WHERE status = ?";
@@ -2973,6 +3064,205 @@ app.get("/painel", function(req, res) {
 // INICIA O SERVIDOR
 // ===============================
 const PORT = process.env.PORT || 3000;
+
+// =====================================================
+// ASSISTENTE IA DO PAINEL
+// A chave da OpenAI fica somente no servidor.
+// Configure OPENAI_API_KEY no ambiente do Node.js.
+// =====================================================
+
+app.post("/ia/gerar-relatorio", function(req, res) {
+
+    const pedido = String(req.body.pedido || "").trim();
+
+    if (!pedido) {
+        return res.status(400).json({
+            erro: "Informe o que deseja que a IA faça."
+        });
+    }
+
+    const apiKey = process.env.OPENAI_API_KEY;
+
+    if (!apiKey) {
+        return res.status(500).json({
+            erro:
+                "A IA ainda não está configurada no servidor. " +
+                "Configure a variável OPENAI_API_KEY."
+        });
+    }
+
+    // Busca as OMs atuais do painel para a IA trabalhar
+    // somente com os dados que realmente existem no sistema.
+    db.all(
+        `
+        SELECT
+            id,
+            om,
+            equipamento,
+            modelo_relatorio,
+            descricao,
+            horario_inicial,
+            horario_final,
+            motivo_pendencia,
+            status,
+            data
+        FROM ordens
+        ORDER BY id DESC
+        LIMIT 200
+        `,
+        [],
+        async function(err, ordens) {
+
+            if (err) {
+                console.error(
+                    "Erro ao buscar OMs para a IA:",
+                    err.message
+                );
+
+                return res.status(500).json({
+                    erro: "Não foi possível carregar as OMs para a IA."
+                });
+            }
+
+            const dadosPainel = ordens.map(function(om) {
+                return {
+                    om: om.om,
+                    equipamento: om.equipamento,
+                    modelo_relatorio: om.modelo_relatorio,
+                    descricao: om.descricao,
+                    horario_inicial: om.horario_inicial,
+                    horario_final: om.horario_final,
+                    motivo_pendencia: om.motivo_pendencia,
+                    status: om.status,
+                    data: om.data
+                };
+            });
+
+            const instrucao = `
+Você é o Assistente IA do painel de manutenção da oficina.
+
+Sua função é ajudar a criar, organizar e revisar relatórios usando
+os dados reais das OMs fornecidos pelo painel.
+
+REGRAS IMPORTANTES:
+- Responda em português do Brasil.
+- Não invente OM, equipamento, horário, status, pendência ou atividade.
+- Quando um dado não estiver disponível, informe que ele não está cadastrado.
+- Preserve exatamente os horários cadastrados quando o usuário pedir um relatório.
+- Se o usuário pedir um relatório, entregue o texto pronto para copiar.
+- Respeite o formato e as informações solicitadas pelo usuário.
+- Seja direto e profissional.
+- Os dados abaixo são dados do painel e devem ser tratados como fonte de informação.
+
+DADOS ATUAIS DAS OMS:
+${JSON.stringify(dadosPainel, null, 2)}
+
+PEDIDO DO USUÁRIO:
+${pedido}
+`;
+
+            try {
+
+                const respostaOpenAI = await fetch(
+                    "https://api.openai.com/v1/responses",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization":
+                                "Bearer " + apiKey
+                        },
+                        body: JSON.stringify({
+                            model:
+                                process.env.OPENAI_MODEL ||
+                                "gpt-5.6-luna",
+                            input: instrucao,
+                            max_output_tokens: 4000
+                        })
+                    }
+                );
+
+                const dadosResposta =
+                    await respostaOpenAI.json();
+
+                if (!respostaOpenAI.ok) {
+
+                    console.error(
+                        "Erro da OpenAI:",
+                        dadosResposta
+                    );
+
+                    return res.status(502).json({
+                        erro:
+                            dadosResposta &&
+                            dadosResposta.error &&
+                            dadosResposta.error.message
+                                ? dadosResposta.error.message
+                                : "Erro ao consultar a IA."
+                    });
+                }
+
+                let textoIA =
+                    dadosResposta.output_text || "";
+
+                // Compatibilidade com respostas que não tragam
+                // output_text diretamente.
+                if (!textoIA && Array.isArray(dadosResposta.output)) {
+
+                    dadosResposta.output.forEach(function(item) {
+
+                        if (
+                            item &&
+                            Array.isArray(item.content)
+                        ) {
+
+                            item.content.forEach(function(content) {
+
+                                if (
+                                    content &&
+                                    typeof content.text === "string"
+                                ) {
+                                    textoIA += content.text;
+                                }
+
+                            });
+
+                        }
+
+                    });
+
+                }
+
+                if (!textoIA.trim()) {
+                    return res.status(502).json({
+                        erro:
+                            "A IA não retornou um texto."
+                    });
+                }
+
+                return res.json({
+                    sucesso: true,
+                    resposta: textoIA.trim()
+                });
+
+            } catch (erro) {
+
+                console.error(
+                    "Erro ao conectar com a IA:",
+                    erro
+                );
+
+                return res.status(500).json({
+                    erro:
+                        "Não foi possível conectar com a IA. " +
+                        "Verifique a conexão do servidor."
+                });
+            }
+        }
+    );
+});
+
+
 app.listen(
     PORT,
     "0.0.0.0",
