@@ -491,6 +491,29 @@ function carregarEquipamentos() {
 
             });
 
+const equipamentosManuais = [
+    "PZ65",
+    "PZ67",
+    "PZ68",
+    "PZ80",
+    "PZ81",
+    "PZ82"
+];
+
+equipamentosManuais.forEach(function(nomeEquipamento) {
+
+    const option =
+        document.createElement("option");
+
+    option.value =
+        nomeEquipamento;
+
+    option.textContent =
+        nomeEquipamento;
+
+    select.appendChild(option);
+
+});
            
 
         })
@@ -7838,6 +7861,8 @@ window.interpretarAtividades = function () {
          * PC1012KS73 -> PC73
          * CA1014KS139 -> CA139
          * TT1012KS70 -> TT70
+         * BM1080KS01 -> BM01
+         * EC1013KS53 -> EC53
          */
         const completo =
             textoCodigo.match(
