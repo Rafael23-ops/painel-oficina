@@ -173,10 +173,26 @@ body.view-dashboard .grid-bottom > section:not(:first-child){display:none!import
 body.view-dashboard .grid-bottom{grid-template-columns:1fr!important;}
 body.view-ordens #dashboard > .hero,body.view-ordens #dashboard > .cards,body.view-ordens #dashboard > .grid-bottom,body.view-ordens #ferramentas,body.view-ordens #relatorios,body.view-ordens #fimTurno,body.view-ordens #historico,body.view-ordens #configuracoes{display:none!important;}
 body.view-ferramentas #dashboard > .hero,body.view-ferramentas #dashboard > .cards,body.view-ferramentas #dashboard > #ordens,body.view-ferramentas #dashboard > .grid-bottom,body.view-ferramentas #relatorios,body.view-ferramentas #fimTurno,body.view-ferramentas #historico,body.view-ferramentas #configuracoes{display:none!important;}
-body.view-relatorios #dashboard > .hero,body.view-relatorios #dashboard > .cards,body.view-relatorios #dashboard > #ordens,body.view-relatorios #dashboard > .grid-bottom,body.view-relatorios #ferramentas,body.view-relatorios #fimTurno,body.view-relatorios #historico,body.view-relatorios #configuracoes{display:none!important;}
-body.view-fimTurno #dashboard > .hero,body.view-fimTurno #dashboard > .cards,body.view-fimTurno #dashboard > #ordens,body.view-fimTurno #dashboard > .grid-bottom,body.view-fimTurno #ferramentas,body.view-fimTurno #relatorios,body.view-fimTurno #historico,body.view-fimTurno #configuracoes{display:none!important;}
+body.view-relatorios #dashboard > .hero,body.view-relatorios #dashboard > .cards,body.view-relatorios #dashboard > #ordens,body.view-relatorios #ferramentas,body.view-relatorios #fimTurno,body.view-relatorios #historico,body.view-relatorios #configuracoes{display:none!important;}
+body.view-relatorios #dashboard > .grid-bottom > section:first-child,body.view-relatorios #dashboard > .grid-bottom > section:nth-child(3){display:none!important;}
+body.view-relatorios #dashboard > .grid-bottom{grid-template-columns:1fr!important;}
+body.view-fimTurno #dashboard > .hero,body.view-fimTurno #dashboard > .cards,body.view-fimTurno #dashboard > #ordens,body.view-fimTurno #ferramentas,body.view-fimTurno #relatorios,body.view-fimTurno #historico,body.view-fimTurno #configuracoes{display:none!important;}
+body.view-fimTurno #dashboard > .grid-bottom > section:first-child,body.view-fimTurno #dashboard > .grid-bottom > section:nth-child(2){display:none!important;}
+body.view-fimTurno #dashboard > .grid-bottom{grid-template-columns:1fr!important;}
 body.view-historico #dashboard > .hero,body.view-historico #dashboard > .cards,body.view-historico #dashboard > #ordens,body.view-historico #dashboard > .grid-bottom,body.view-historico #ferramentas,body.view-historico #relatorios,body.view-historico #fimTurno,body.view-historico #configuracoes{display:none!important;}
 body.view-configuracoes #dashboard > .hero,body.view-configuracoes #dashboard > .cards,body.view-configuracoes #dashboard > #ordens,body.view-configuracoes #dashboard > .grid-bottom,body.view-configuracoes #ferramentas,body.view-configuracoes #relatorios,body.view-configuracoes #fimTurno,body.view-configuracoes #historico{display:none!important;}
+/* CORREÇÃO DAS VIEWS: relatórios e fim de turno ficam dentro de .grid-bottom,
+   portanto o container não pode ser ocultado inteiro. */
+body.view-dashboard #dashboard > .grid-bottom > section:not(:first-child){display:none!important;}
+body.view-dashboard #dashboard > .grid-bottom{display:grid!important;}
+body.view-relatorios #dashboard > .hero,body.view-relatorios #dashboard > .cards,body.view-relatorios #dashboard > #ordens,body.view-relatorios #dashboard > #ferramentas,body.view-relatorios #dashboard > #historico,body.view-relatorios #dashboard > #configuracoes{display:none!important;}
+body.view-relatorios #dashboard > .grid-bottom{display:grid!important;grid-template-columns:1fr!important;}
+body.view-relatorios #dashboard > .grid-bottom > section:not(#relatorios){display:none!important;}
+body.view-relatorios #relatorios{display:block!important;}
+body.view-fimTurno #dashboard > .hero,body.view-fimTurno #dashboard > .cards,body.view-fimTurno #dashboard > #ordens,body.view-fimTurno #dashboard > #ferramentas,body.view-fimTurno #dashboard > #historico,body.view-fimTurno #dashboard > #configuracoes{display:none!important;}
+body.view-fimTurno #dashboard > .grid-bottom{display:grid!important;grid-template-columns:1fr!important;}
+body.view-fimTurno #dashboard > .grid-bottom > section:not(#fimTurno){display:none!important;}
+body.view-fimTurno #fimTurno{display:block!important;}
 @media(max-width:767px){.sidebar .nav{padding-top:18px;padding-bottom:18px}.nav-copy small{font-size:8px}.nav button{min-height:52px}.content{min-height:calc(100vh - 72px);}.report-box{width:100%;}.section-body{padding:12px;}}
 </style>
 
@@ -281,7 +297,7 @@ TT70"></textarea><div class="button-row"><button class="btn btn-blue" type="butt
 </div></main></div>
 
 <!-- MODAL NOVA OM -->
-<div class="modal" id="modalNovaOM"><div class="modal-card"><h2>Nova Ordem de Manutenção</h2><form id="formOM"><div class="form-grid"><div class="field"><label>NÚMERO DA OM</label><input id="numero" required placeholder="Número da OM"></div><div class="field"><label>EQUIPAMENTO</label><select id="equipamento" required><option value="">Selecione o equipamento</option></select></div><div class="field full"><label>MODELO DO RELATÓRIO</label><select id="modeloRelatorio" required><option value="">Selecione o modelo</option><option>MP MINESTAR FLEET</option><option>MP MINESTAR RP & EC</option><option>MP MINESTAR HEALTH</option><option>MP MINESTAR TERRAIN TT</option><option>MP MINESTAR PZ</option><option value="PERSONALIZADO">RELATÓRIO PERSONALIZADO</option></select></div><div class="field full"><label>DESCRIÇÃO</label><textarea id="descricao" required placeholder="Descrição do serviço"></textarea></div><div class="field"><label>TIPO DE RESPONSÁVEL</label><select id="tipoResponsavel"><option value="">Sem responsável</option><option value="pessoa">Pessoa</option></select></div><div class="field"><label>RESPONSÁVEL</label><select id="responsavel"><option value="">Selecione o responsável</option></select></div></div><div class="button-row"><button class="btn btn-primary" type="submit">➕ Cadastrar OM</button><button class="btn btn-gray" type="button" onclick="fecharModal('modalNovaOM')">Cancelar</button></div><div id="mensagemOM"></div></form></div></div>
+<div class="modal" id="modalNovaOM"><div class="modal-card"><h2>Nova Ordem de Manutenção</h2><form id="formOM"><div class="form-grid"><div class="field"><label>NÚMERO DA OM</label><input id="numero" required placeholder="Número da OM"></div><div class="field"><label>EQUIPAMENTO</label><select id="equipamento" required><option value="">Selecione o equipamento</option></select></div><div class="field full"><label>MODELO DO RELATÓRIO</label><select id="modeloRelatorio" required><option value="">Selecione o modelo</option><option>MP MINESTAR FLEET</option><option>MP MINESTAR RP & EC</option><option>MP MINESTAR HEALTH</option><option>MP MINESTAR TERRAIN TT</option><option>MP MINESTAR PZ</option><option value="PERSONALIZADO">RELATÓRIO PERSONALIZADO</option><option value="ISOLAR CONECTORES DEUTSCH">ISOLAR CONECTORES DEUTSCH</option><option value="DIAGNOSTICAR SISTEMA TERRAIN">DIAGNOSTICAR SISTEMA TERRAIN</option></select></div><div class="field full"><label>DESCRIÇÃO</label><textarea id="descricao" required placeholder="Descrição do serviço"></textarea></div><div class="field"><label>TIPO DE RESPONSÁVEL</label><select id="tipoResponsavel"><option value="">Sem responsável</option><option value="pessoa">Pessoa</option></select></div><div class="field"><label>RESPONSÁVEL</label><select id="responsavel"><option value="">Selecione o responsável</option></select></div></div><div class="button-row"><button class="btn btn-primary" type="submit">➕ Cadastrar OM</button><button class="btn btn-gray" type="button" onclick="fecharModal('modalNovaOM')">Cancelar</button></div><div id="mensagemOM"></div></form></div></div>
 
 <!-- MODAIS COMPATÍVEIS COM AS FUNÇÕES EXISTENTES -->
 <div class="modal" id="modalEditarOM"><div class="modal-card"><h2>Editar OM</h2><input type="hidden" id="editarOMId"><label>Número da OM</label><input id="editarOMNumero"><label>Equipamento</label><input id="editarOMEquipamento"><label>Descrição</label><textarea id="editarOMDescricao"></textarea><div class="modal-actions"><button class="btn-primary" onclick="salvarEdicaoOM()">Salvar</button><button class="btn-gray" onclick="fecharEditarOM()">Cancelar</button></div></div></div>
@@ -2277,6 +2293,46 @@ function gerarRelatorio(id) {
 
         .then(function(om) {
 
+// MODELO: ISOLAR CONECTORES DEUTSCH
+// =====================================
+if (String(om.modelo_relatorio || "").trim().toUpperCase() === "ISOLAR CONECTORES DEUTSCH") {
+    window._omIsolarDeutschAtual = om;
+    conteudo.innerHTML = `
+        <div style="display:grid;gap:15px;">
+            <div style="padding:14px;background:#111922;color:#f4f7fb;border-radius:8px;">
+                <strong>📋 OM:</strong> ${om.om || "-"}<br>
+                <strong>🚜 Equipamento:</strong> ${om.equipamento || "-"}<br>
+                <strong>📄 Descrição:</strong> ISOLAR CONECTORES DEUTSCH MINESTAR
+            </div>
+            <div style="padding:14px;background:#111922;color:#f4f7fb;border-radius:8px;">
+                <strong>ISOLAR CONECTORES DEUTSCH</strong>
+                <p style="margin-top:10px;color:#cbd5df;line-height:1.5;">Modelo padronizado para isolamento preventivo dos conectores Deutsch.</p>
+            </div>
+            <button type="button" onclick="abrirFormularioIsolarDeutsch()" style="width:100%;padding:14px;border:none;border-radius:8px;background:#16a34a;color:white;font-weight:bold;font-size:16px;cursor:pointer;">📄 Montar relatório</button>
+        </div>`;
+    return;
+}
+
+// MODELO: DIAGNOSTICAR SISTEMA TERRAIN
+// =====================================
+if (String(om.modelo_relatorio || "").trim().toUpperCase() === "DIAGNOSTICAR SISTEMA TERRAIN") {
+    window._omDiagnosticarTerrainAtual = om;
+    conteudo.innerHTML = `
+        <div style="display:grid;gap:15px;">
+            <div style="padding:14px;background:#111922;color:#f4f7fb;border-radius:8px;">
+                <strong>📋 OM:</strong> ${om.om || "-"}<br>
+                <strong>🚜 Equipamento:</strong> ${om.equipamento || "-"}<br>
+                <strong>📄 Descrição:</strong> DIAGNOSTICAR SISTEMA TERRAIN
+            </div>
+            <div style="padding:14px;background:#111922;color:#f4f7fb;border-radius:8px;">
+                <strong>DIAGNOSTICAR SISTEMA TERRAIN</strong>
+                <p style="margin-top:10px;color:#cbd5df;line-height:1.5;">Modelo padronizado para inspeção e proteção das cordoalhas do sistema Minestar.</p>
+            </div>
+            <button type="button" onclick="abrirFormularioDiagnosticarTerrain()" style="width:100%;padding:14px;border:none;border-radius:8px;background:#16a34a;color:white;font-weight:bold;font-size:16px;cursor:pointer;">📄 Montar relatório</button>
+        </div>`;
+    return;
+}
+
 // RELATÓRIO PERSONALIZADO
 // A descrição cadastrada na OM funciona como a descrição resumida.
 // =====================================
@@ -2290,9 +2346,15 @@ if (String(om.modelo_relatorio || "").trim().toUpperCase() === "PERSONALIZADO") 
             </div>
             <div style="padding:14px;background:#111922;color:#f4f7fb;border-radius:8px;">
                 <strong>RELATÓRIO PERSONALIZADO</strong>
-                <p style="margin-top:10px;color:#cbd5df;line-height:1.5;">A descrição informada no cadastro da OM será utilizada como a descrição resumida no relatório.</p>
+                <p style="margin-top:10px;color:#cbd5df;line-height:1.5;">Escolha o modelo do relatório. Os dois novos modelos abaixo ficam disponíveis somente para OMs cadastradas como relatório personalizado.</p>
+                <label style="display:block;margin-top:14px;font-weight:700;font-size:13px;">TIPO DE RELATÓRIO</label>
+                <select id="tipoRelatorioPersonalizado" style="width:100%;margin-top:7px;padding:12px;border-radius:8px;border:1px solid #334155;background:#0b1117;color:#fff;">
+                    <option value="PADRAO">Relatório personalizado padrão</option>
+                    <option value="ISOLAR_CONECTORES_DEUTSCH">ISOLAR CONECTORES DEUTSCH</option>
+                    <option value="DIAGNOSTICAR_SISTEMA_TERRAIN">DIAGNOSTICAR SISTEMA TERRAIN</option>
+                </select>
             </div>
-            <button type="button" onclick="montarRelatorioPersonalizado()" style="width:100%;padding:14px;border:none;border-radius:8px;background:#16a34a;color:white;font-weight:bold;font-size:16px;cursor:pointer;">📄 Montar relatório personalizado</button>
+            <button type="button" onclick="montarRelatorioPersonalizado()" style="width:100%;padding:14px;border:none;border-radius:8px;background:#16a34a;color:white;font-weight:bold;font-size:16px;cursor:pointer;">📄 Montar relatório</button>
         </div>`;
     window._omPersonalizadaAtual = om;
     return;
@@ -8550,28 +8612,216 @@ window.interpretarAtividades = function () {
         atividadesFinais
     );
 };
+function formatarDataRelatorioAtual(){
+    const agora=new Date();
+    return String(agora.getDate()).padStart(2,"0")+"/"+String(agora.getMonth()+1).padStart(2,"0")+"/"+agora.getFullYear();
+}
+function escaparTextoRelatorio(valor){
+    return String(valor||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function abrirFormularioIsolarDeutsch(){
+    const om=window._omIsolarDeutschAtual||{};
+    const caixa=document.getElementById("conteudoGerarRelatorio"); if(!caixa)return;
+    caixa.innerHTML=`
+    <div style="display:grid;gap:12px;width:100%;">
+      <div style="padding:14px;background:#111922;border-radius:8px;">
+        <strong>ISOLAR CONECTORES DEUTSCH</strong>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;">
+          <div><label>🗓️ Data</label><input id="deutschData" value="${formatarDataRelatorioAtual()}" style="width:100%;"></div>
+          <div><label>🚜 Equipamento</label><input id="deutschEquipamento" value="${escaparTextoRelatorio(om.equipamento)}" style="width:100%;"></div>
+          <div><label>📁 N° OM</label><input id="deutschOM" value="${escaparTextoRelatorio(om.om)}" style="width:100%;"></div>
+          <div><label>⏰ Horário Inicial</label><input id="deutschHoraInicial" type="time" style="width:100%;"></div>
+          <div><label>⏰ Horário Final</label><input id="deutschHoraFinal" type="time" style="width:100%;"></div>
+        </div>
+      </div>
+      <button type="button" onclick="gerarTextoIsolarDeutsch()" style="width:100%;padding:14px;border:none;border-radius:8px;background:#16a34a;color:white;font-weight:bold;font-size:16px;cursor:pointer;">📄 Gerar relatório</button>
+    </div>`;
+}
+window.abrirFormularioIsolarDeutsch=abrirFormularioIsolarDeutsch;
+window.gerarTextoIsolarDeutsch=function(){
+    const v=id=>document.getElementById(id)?.value||"";
+    const relatorio=`🗓️ Data: ${v("deutschData")}
+🚜 Equipamento: ${v("deutschEquipamento")}
+📁 N° OM: ${v("deutschOM")}
+
+📂 Descrição da OM: ISOLAR CONECTORES DEUTSCH MINESTAR
+
+🛑 Desvio IAMO: N/A
+🛑 Período do Desvio: N/A
+⏰Horário Inicial: N/A
+⏰Horário Final: N/A
+
+📈 Atividades executadas:
+
+*HARDWARE*:
+⏰-Horário inicial: ${v("deutschHoraInicial")}
+⏰-Horário final: ${v("deutschHoraFinal")}
+
+✅Realizado serviço de isolamento dos conectores Deutsch com o objetivo de melhorar a proteção das conexões elétricas contra umidade, poeira e possíveis agentes externos.
+
+✅Durante a atividade, os conectores foram inspecionados e, após a verificação das condições das conexões, foi aplicado isolante de fita líquida nas regiões necessárias.
+
+✅A aplicação foi realizada de forma preventiva, buscando preservar a integridade dos conectores e reduzir a possibilidade de futuras falhas elétricas ocasionadas por exposição ao ambiente.
+
+✅Após a aplicação, foi realizada uma inspeção visual para verificar a cobertura e o acabamento do isolamento, deixando os conectores devidamente protegidos.
+
+⁉️ OM foi concluída?
+⁉️ Pode dar baixa?
+🚨 Pendências: NÃO
+
+🛠️ Centro de trabalho: SC103HH
+🛠️ Equipe Turno: C
+
+-👨🏻‍🔧Executantes:
+👨🏻‍🔧 
+👨🏻‍🔧 
+👨🏻‍🔧`;
+    mostrarResultadoModeloFixo(relatorio,"resultadoRelatorioIsolarDeutsch");
+};
+function abrirFormularioDiagnosticarTerrain(){
+    const om=window._omDiagnosticarTerrainAtual||{};
+    const caixa=document.getElementById("conteudoGerarRelatorio"); if(!caixa)return;
+    caixa.innerHTML=`
+    <div style="display:grid;gap:12px;width:100%;">
+      <div style="padding:14px;background:#111922;border-radius:8px;">
+        <strong>DIAGNOSTICAR SISTEMA TERRAIN</strong>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;">
+          <div><label>🗓️ Data</label><input id="terrainDiagData" value="${formatarDataRelatorioAtual()}" style="width:100%;"></div>
+          <div><label>🚜 Equipamento</label><input id="terrainDiagEquipamento" value="${escaparTextoRelatorio(om.equipamento)}" style="width:100%;"></div>
+          <div><label>📁 N° OM</label><input id="terrainDiagOM" value="${escaparTextoRelatorio(om.om)}" style="width:100%;"></div>
+          <div><label>⏰ Horário Inicial</label><input id="terrainDiagHoraInicial" type="time" style="width:100%;"></div>
+          <div><label>⏰ Horário Final</label><input id="terrainDiagHoraFinal" type="time" style="width:100%;"></div>
+        </div>
+      </div>
+      <button type="button" onclick="gerarTextoDiagnosticarTerrain()" style="width:100%;padding:14px;border:none;border-radius:8px;background:#16a34a;color:white;font-weight:bold;font-size:16px;cursor:pointer;">📄 Gerar relatório</button>
+    </div>`;
+}
+window.abrirFormularioDiagnosticarTerrain=abrirFormularioDiagnosticarTerrain;
+window.gerarTextoDiagnosticarTerrain=function(){
+    const v=id=>document.getElementById(id)?.value||"";
+    const relatorio=`🗓️ Data: ${v("terrainDiagData")}
+🚜 Equipamento: ${v("terrainDiagEquipamento")}
+📁 N° OM: ${v("terrainDiagOM")}
+
+📂 Descrição da OM: DIAGNOSTICAR SISTEMA TERRAIN
+
+🛑 Desvio IAMO: N/A
+🛑 Período do Desvio: N/A
+⏰Horário Inicial: N/A
+⏰Horário Final: N/A
+
+📈 Atividades executadas:
+*HARDWARE*:
+⏰-Horário inicial: ${v("terrainDiagHoraInicial")}
+⏰-Horário final: ${v("terrainDiagHoraFinal")}
+
+✅Realizada inspeção detalhada nas cordoalhas do sistema Minestar com o objetivo de verificar as condições de conservação, fixação, roteamento e possíveis pontos de contato com as partes metálicas do equipamento.
+
+✅Durante a inspeção, foram verificadas as regiões onde as cordoalhas permanecem próximas à estrutura metálica, identificando pontos que, devido à movimentação e vibração do equipamento durante a operação, poderiam ocasionar atrito e desgaste progressivo do revestimento das cordoalhas, podendo futuramente resultar em uma manutenção corretiva.
+
+✅Como medida preventiva, foram instaladas espirais de proteção nos pontos identificados, criando uma proteção adicional entre as cordoalhas e a estrutura metálica do equipamento. A intervenção teve como objetivo eliminar o contato direto, reduzir o atrito e preservar a integridade dos cabos, evitando possíveis danos futuros.
+
+✅Após a instalação das proteções, foi realizada nova verificação do posicionamento e roteamento das cordoalhas, constatando que os pontos identificados ficaram devidamente protegidos e sem contato direto com a estrutura metálica.
+
+⁉️ OM foi concluída?
+⁉️ Pode dar baixa?
+🚨 Pendências: NÃO
+
+🛠️ Centro de trabalho: SC103HH
+🛠️ Equipe Turno: C
+
+-👨🏻‍🔧Executantes:
+👨🏻‍🔧 
+👨🏻‍🔧`;
+    mostrarResultadoModeloFixo(relatorio,"resultadoRelatorioDiagnosticarTerrain");
+};
+function mostrarResultadoModeloFixo(relatorio,id){
+    const caixa=document.getElementById("conteudoGerarRelatorio"); if(!caixa)return;
+    caixa.innerHTML=`<div style="width:100%;"><textarea id="${id}" readonly style="width:100%;min-height:560px;padding:15px;box-sizing:border-box;font-size:14px;line-height:1.5;resize:vertical;">${relatorio}</textarea><button type="button" onclick="copiarResultadoModeloFixo('${id}')" style="width:100%;margin-top:12px;padding:14px;border:none;border-radius:8px;background:#16a34a;color:white;font-weight:bold;font-size:16px;cursor:pointer;">📋 Copiar relatório</button></div>`;
+}
+window.copiarResultadoModeloFixo=function(id){
+    const c=document.getElementById(id);if(!c)return;c.focus();c.select();
+    try{document.execCommand("copy");painelAviso("✅ Relatório copiado com sucesso!");}
+    catch(e){painelAviso("O texto foi selecionado. Pressione Ctrl + C.");}
+};
+
 // =====================================
 // RELATÓRIO PERSONALIZADO
 // =====================================
 window.montarRelatorioPersonalizado = function(){
     const om = window._omPersonalizadaAtual || {};
-    const agora = new Date();
-    const data = String(agora.getDate()).padStart(2,"0") + "/" + String(agora.getMonth()+1).padStart(2,"0") + "/" + agora.getFullYear();
-    const relatorio = `Data: ${data}
+    const caixa=document.getElementById("conteudoGerarRelatorio");
+    if(!caixa)return;
+    caixa.innerHTML=`
+        <div style="display:grid;gap:12px;width:100%;">
+            <div style="padding:14px;background:#111922;border-radius:8px;">
+                <strong>RELATÓRIO PERSONALIZADO</strong>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;">
+                    <div><label>🗓️ Data</label><input id="persData" value="${formatarDataRelatorioAtual()}" style="width:100%;"></div>
+                    <div><label>🚜 Equipamento</label><input id="persEquipamento" value="${om.equipamento || ""}" style="width:100%;"></div>
+                    <div><label>📁 N° OM</label><input id="persOM" value="${om.om || ""}" style="width:100%;"></div>
+                    <div><label>🛑 Desvio IAMO</label><input id="persDesvio" value="N/A" style="width:100%;"></div>
+                    <div><label>🛑 Período do Desvio</label><input id="persPeriodoDesvio" value="N/A" style="width:100%;"></div>
+                    <div><label>⏰ Horário Inicial</label><input id="persHoraInicial" type="time" style="width:100%;"></div>
+                    <div><label>⏰ Horário Final</label><input id="persHoraFinal" type="time" style="width:100%;"></div>
+                </div>
+                <label style="display:block;margin-top:10px;">📂 Descrição da OM</label>
+                <textarea id="persDescricao" style="width:100%;min-height:65px;">${om.descricao || ""}</textarea>
+                <label style="display:block;margin-top:10px;">📈 Atividades executadas</label>
+                <textarea id="persAtividades" style="width:100%;min-height:140px;" placeholder="Descreva as atividades executadas..."></textarea>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
+                    <div><label>⏰ Horário inicial</label><input id="persAtividadeInicial" type="time" style="width:100%;"></div>
+                    <div><label>⏰ Horário final</label><input id="persAtividadeFinal" type="time" style="width:100%;"></div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
+                    <div><label>🛠️ Centro de trabalho</label><input id="persCentro" value="SC103HH" style="width:100%;"></div>
+                    <div><label>🛠️ Equipe Turno</label><input id="persEquipe" value="C" style="width:100%;"></div>
+                </div>
+                <label style="display:block;margin-top:10px;">🚨 Pendências</label>
+                <textarea id="persPendencias" style="width:100%;min-height:65px;">${om.motivo_pendencia || ""}</textarea>
+                <label style="display:block;margin-top:10px;">👨🏻‍🔧 Executantes</label>
+                <div style="display:grid;gap:8px;">
+                    <input id="persExec1" placeholder="👨🏻‍🔧">
+                    <input id="persExec2" placeholder="👨🏻‍🔧">
+                    <input id="persExec3" placeholder="👨🏻‍🔧">
+                </div>
+            </div>
+            <button type="button" onclick="gerarTextoRelatorioPersonalizado()" style="width:100%;padding:14px;border:none;border-radius:8px;background:#16a34a;color:white;font-weight:bold;font-size:16px;cursor:pointer;">📄 Gerar relatório</button>
+        </div>`;
+};
+window.gerarTextoRelatorioPersonalizado=function(){
+    const v=id=>document.getElementById(id)?.value||"";
+    const relatorio=`🗓️ Data: ${v("persData")}
+🚜 Equipamento: ${v("persEquipamento")}
+📁 N° OM: ${v("persOM")}
 
-🚜 Equipamento: ${om.equipamento || "-"}
-📁 N° OM: ${om.om || "-"}
+📂 Descrição da OM: ${v("persDescricao")}
 
-Descrição resumida: ${om.descricao || "-"}
+🛑 Desvio IAMO: ${v("persDesvio")||"N/A"}
+🛑 Período do Desvio: ${v("persPeriodoDesvio")||"N/A"}
+⏰Horário Inicial: ${v("persHoraInicial")||"N/A"}
+⏰Horário Final: ${v("persHoraFinal")||"N/A"}
 
 📈 Atividades executadas:
 
-Descrição do serviço: ${om.descricao || "-"}
+⏰-Horário inicial: ${v("persAtividadeInicial")}
+⏰-Horário final: ${v("persAtividadeFinal")}
 
-🚨 Pendências: ${om.motivo_pendencia || "NÃO"}`;
+${v("persAtividades")}
+
+⁉️ OM foi concluída?
+⁉️ Pode dar baixa?
+🚨 Pendências: ${v("persPendencias")||"NÃO"}
+
+🛠️ Centro de trabalho: ${v("persCentro")||"SC103HH"}
+🛠️ Equipe Turno: ${v("persEquipe")||"C"}
+
+-👨🏻‍🔧Executantes:
+👨🏻‍🔧 ${v("persExec1")}
+👨🏻‍🔧 ${v("persExec2")}
+👨🏻‍🔧 ${v("persExec3")}`;
     const caixa=document.getElementById("conteudoGerarRelatorio");
-    if(!caixa)return;
-    caixa.innerHTML=`<div style="width:100%;"><textarea id="resultadoRelatorioPersonalizado" readonly style="width:100%;min-height:420px;padding:15px;box-sizing:border-box;font-size:14px;line-height:1.5;resize:vertical;">${relatorio}</textarea><button type="button" onclick="copiarRelatorioPersonalizado()" style="width:100%;margin-top:12px;padding:14px;border:none;border-radius:8px;background:#16a34a;color:white;font-weight:bold;font-size:16px;cursor:pointer;">📋 Copiar relatório</button></div>`;
+    caixa.innerHTML=`<div style="width:100%;"><textarea id="resultadoRelatorioPersonalizado" readonly style="width:100%;min-height:520px;padding:15px;box-sizing:border-box;font-size:14px;line-height:1.5;resize:vertical;">${relatorio}</textarea><button type="button" onclick="copiarRelatorioPersonalizado()" style="width:100%;margin-top:12px;padding:14px;border:none;border-radius:8px;background:#16a34a;color:white;font-weight:bold;font-size:16px;cursor:pointer;">📋 Copiar relatório</button></div>`;
 };
 window.copiarRelatorioPersonalizado=function(){const c=document.getElementById("resultadoRelatorioPersonalizado");if(!c)return;c.focus();c.select();try{document.execCommand("copy");painelAviso("✅ Relatório copiado com sucesso!");}catch(e){painelAviso("O texto foi selecionado. Pressione Ctrl + C.");}};
 
@@ -8629,7 +8879,18 @@ if (
 }
 
 // =====================================
-// 6 - TERRAIN NORMAL
+// 6 - MODELOS PADRONIZADOS
+// =====================================
+if (desc.includes("ISOLAR CONECTORES DEUTSCH") || (desc.includes("ISOLAR CONECTORES") && desc.includes("DEUTSCH"))) {
+    return "ISOLAR CONECTORES DEUTSCH";
+}
+
+if (desc.includes("DIAGNOSTICAR SISTEMA TERRAIN")) {
+    return "DIAGNOSTICAR SISTEMA TERRAIN";
+}
+
+// =====================================
+// 7 - TERRAIN NORMAL
 // =====================================
 if (desc.includes("TERRAIN")) {
     return "MP MINESTAR TERRAIN";
