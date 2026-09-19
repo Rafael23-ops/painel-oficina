@@ -8780,8 +8780,20 @@ function identificarModeloRelatorio(equipamento, descricao) {
     // =====================================
 // 0 - MODELOS ESPECÍFICOS POR DESCRIÇÃO
 // =====================================
-if (desc.includes("ISOLAR CONECTORES DEUTSCH") || desc.includes("ISOLAR CONECTOR DEUTSCH")) return "ISOLAR CONECTORES DEUTSCH MINESTAR";
-if (desc.includes("DIAGNOSTICAR SISTEMA TERRAIN")) return "DIAGNOSTICAR SISTEMA TERRAIN";
+
+if (
+    desc.includes("ISOLAR CONECTORES DEUTSH") ||
+    desc.includes("ISOLAR CONECTORES DEUTSCH") ||
+    desc.includes("ISOLAR CONECTOR DEUTSCH")
+) {
+    return "ISOLAR CONECTORES DEUTSCH MINESTAR";
+}
+
+if (
+    desc.includes("DIAGNOSTICAR SISTEMA TERRAIN")
+) {
+    return "DIAGNOSTICAR SISTEMA TERRAIN";
+}
 
 // 1 - HEALTH
 // =====================================
