@@ -7697,29 +7697,9 @@ window.carregarPendenciasTurnoAnterior = function () {
     }
 
     // As pendências são independentes da lista de equipamentos.
-    // Só faz o cruzamento quando a lista da oficina realmente foi informada.
-    // Isso evita que todas as OMs apareçam como REVISAR só porque a lista
-    // de equipamentos ainda não foi importada.
-    if (equipamentos && equipamentos.value.trim()) {
-        cruzarPendencias();
-    } else {
-        const resultado = document.getElementById("resultadoPendencias");
-        if (resultado) {
-            resultado.style.display = "block";
-            resultado.innerHTML = `
-                <div style="padding:15px;border-radius:8px;background:#0b1117;border:1px solid #334155;color:#fff;">
-                    <h3 style="margin:0 0 10px;color:#fff;">📋 Pendências importadas</h3>
-                    <div style="color:#cbd5df;line-height:1.5;">
-                        As pendências do turno anterior foram importadas corretamente.
-                        <br><br>
-                        A situação <strong>NA OFICINA / FORA DA OFICINA</strong> será definida quando você importar a lista de <strong>EQUIPAMENTOS NA OFICINA</strong>.
-                        <br><br>
-                        <strong>Importante:</strong> nenhuma OM será marcada como REVISAR apenas por estar sem a lista da oficina.
-                    </div>
-                </div>`;
-        }
-        console.log("✅ Pendências importadas sem cruzamento. Aguardando lista de equipamentos da oficina.");
-    }
+    // Se a lista existir, cruza normalmente; se não existir,
+    // as pendências continuam disponíveis para o relatório.
+    cruzarPendencias();
 };
 
 
@@ -7831,11 +7811,15 @@ document.addEventListener("DOMContentLoaded", function() {
     carregarPendenciasSalvas();
     carregarOMs();
 
-    // Depois de restaurar os dois campos, refaz o cruzamento automaticamente.
+    // Depois de restaurar os dados, refaz cada leitura de forma independente.
     const pendencias = document.getElementById("textoPendencias");
     const equipamentos = document.getElementById("textoEquipamentosOficina");
-    if (pendencias && pendencias.value.trim() && equipamentos && equipamentos.value.trim()) {
+    if (pendencias && pendencias.value.trim()) {
         cruzarPendencias();
+    }
+    const atividades = document.getElementById("textoAtividades");
+    if (atividades && atividades.value.trim()) {
+        interpretarAtividades();
     }
 });
 
@@ -8183,11 +8167,64 @@ window.interpretarAtividades = function () {
         if (!oms) {
             continue;
         }
+
+        // =================================
+        // COMPLEMENTO DA OM EM BLOCO
+        // Aceita formatos em que equipamento, status,
+        // local e descrição aparecem nas linhas seguintes.
+        // Isso evita perder a leitura quando a OM não traz
+        // todas as informações na mesma linha.
+        // =================================
+        let equipamentoDoBloco = equipamentoDaLinha || equipamentoAtual;
+        let statusDoBloco = status;
+        let prioridadeDoBloco = prioridade;
+        let localDoBloco = localAtual;
+        let descricaoDoBloco = "";
+
+        for (let j = i + 1; j < Math.min(i + 8, linhas.length); j++) {
+            const proxLinha = linhas[j];
+            const proxMaiuscula = proxLinha.toUpperCase();
+
+            // Não atravessa o início de outra OM.
+            if (/(?<!\\d)\\d{8,12}(?!\\d)/.test(proxLinha)) {
+                break;
+            }
+
+            const eqBloco = identificarEquipamento(proxLinha);
+            if (eqBloco) {
+                equipamentoDoBloco = normalizarEquipamento(eqBloco);
+            }
+
+            const localBloco = identificarLocal(proxLinha);
+            if (localBloco) {
+                localDoBloco = localBloco;
+            }
+
+            if (proxLinha.includes("🟢")) {
+                statusDoBloco = "Concluída";
+            } else if (proxLinha.includes("🔵")) {
+                statusDoBloco = "Em execução";
+            } else if (proxLinha.includes("🟡") || proxLinha.includes("🔴")) {
+                statusDoBloco = "Pendente";
+            }
+
+            if (proxLinha.includes("🔴")) {
+                prioridadeDoBloco = true;
+            }
+
+            const descMatch = proxLinha.match(
+                /(?:📝\\s*)?descri(?:ção|cao)\\s*:\\s*(.+)/i
+            );
+            if (descMatch) {
+                descricaoDoBloco = descMatch[1].trim();
+            }
+        }
+
         // =================================
         // DESCRIÇÃO
         // =================================
         let descricao =
-            linha;
+            descricaoDoBloco || linha;
         descricao =
             descricao
                 .replace(
@@ -8237,6 +8274,7 @@ window.interpretarAtividades = function () {
         // Remove equipamento normalizado
         const equipamentoFinal =
             normalizarEquipamento(
+                equipamentoDoBloco ||
                 equipamentoDaLinha ||
                 equipamentoAtual
             );
@@ -8294,11 +8332,11 @@ window.interpretarAtividades = function () {
                 equipamento:
                     equipamentoParaRelatorio,
                 status:
-                    status,
+                    statusDoBloco,
                 prioridade:
-                    prioridade,
+                    prioridadeDoBloco,
                 local:
-                    localAtual,
+                    localDoBloco,
                 descricao:
                     descricao,
                 modelo_relatorio:
@@ -8970,7 +9008,7 @@ function mostrarBotaoCadastroPendencias() {
     botao.id = "botaoCadastroPendencias";
     botao.type = "button";
     botao.style.cssText = "margin-top:15px;width:100%;padding:14px;border:none;border-radius:8px;background:#16a34a;color:#fff;font-size:15px;font-weight:800;cursor:pointer";
-    botao.textContent = "✅ Cadastrar " + candidatas.length + " OMs na oficina";
+    botao.textContent = "✅ Cadastrar " + candidatas.length + " OMs importadas";
     botao.onclick = cadastrarPendenciasEncontradas;
     resultado.appendChild(botao);
 }
@@ -8985,7 +9023,7 @@ async function cadastrarPendenciasEncontradas() {
         return;
     }
 
-    if (!(await painelConfirmar("Deseja cadastrar " + candidatas.length + " OMs encontradas na oficina?"))) return;
+    if (!(await painelConfirmar("Deseja cadastrar " + candidatas.length + " OMs importadas?"))) return;
 
     const botao = document.getElementById("botaoCadastroPendencias");
     if (botao) { botao.disabled = true; botao.textContent = " Cadastrando OMs..."; }
@@ -9044,8 +9082,7 @@ window.cruzarPendencias = function () {
         return;
     }
     // A lista de equipamentos é opcional.
-    // Sem ela, não fazemos classificação física das OMs.
-    // A situação será definida assim que a lista da oficina for importada.
+    // Sem ela, as pendências são importadas e ficam como REVISAR.
 
 
     function normalizarTextoCruza(texto) {
@@ -9100,7 +9137,7 @@ window.cruzarPendencias = function () {
 
     function limparDescricao(linhaOriginal, numeroOM, equipamento) {
         let d = String(linhaOriginal || "")
-            .replace(/|🟢|🔵|🟡|🔴|🚫/g, "")
+            .replace(/🟢|🔵|🟡|🔴|🚫/g, "")
             .replace(new RegExp("\\b" + numeroOM + "\\b", "gi"), "")
             .replace(/\bOM\s*:\s*/gi, "")
             .trim();
@@ -9170,9 +9207,15 @@ window.cruzarPendencias = function () {
         }
 
         const equipamento = equipamentosDaLinha.length ? normalizarCodigoCruza(equipamentosDaLinha[0]) : "";
-        let situacao = "SEM LISTA DA OFICINA";
-        if (equipamento && textoEquipamentos) {
-            situacao = equipamentosOficina.has(equipamento) ? "NA OFICINA" : "FORA DA OFICINA";
+        let situacao = "REVISAR";
+        if (equipamento) {
+            if (!textoEquipamentos) {
+                // A ausência da lista da oficina não significa que a OM
+                // esteja com equipamento não identificado.
+                situacao = "NÃO VERIFICADO";
+            } else {
+                situacao = equipamentosOficina.has(equipamento) ? "NA OFICINA" : "FORA DA OFICINA";
+            }
         }
 
         oms.forEach(function(numeroOM){
@@ -9199,7 +9242,7 @@ window.cruzarPendencias = function () {
     const cadastrar = pendenciasFinais.filter(function(item){ return item.situacao === "NA OFICINA"; }).length;
     const foraOficina = pendenciasFinais.filter(function(item){ return item.situacao === "FORA DA OFICINA"; }).length;
     const revisar = pendenciasFinais.filter(function(item){ return item.situacao === "REVISAR"; }).length;
-    const aguardandoLista = pendenciasFinais.filter(function(item){ return item.situacao === "SEM LISTA DA OFICINA"; }).length;
+    const naoVerificado = pendenciasFinais.filter(function(item){ return item.situacao === "NÃO VERIFICADO"; }).length;
 
     let tabela = "";
 
@@ -9221,11 +9264,11 @@ pendenciasFinais.forEach(function(item) {
         icone = "⚪";
         textoSituacao = "EQUIPAMENTO NÃO ESTÁ NA OFICINA";
 
-    } else if (item.situacao === "SEM LISTA DA OFICINA") {
+    } else if (item.situacao === "NÃO VERIFICADO") {
 
-        borda = "#f2bd28";
-        icone = "🟡";
-        textoSituacao = "AGUARDANDO LISTA DE EQUIPAMENTOS DA OFICINA";
+        borda = "#2583f7";
+        icone = "🔵";
+        textoSituacao = "OFICINA NÃO INFORMADA — PENDÊNCIA IMPORTADA";
     }
 
     tabela += `
@@ -9334,14 +9377,20 @@ resultado.innerHTML = `
             </div>
 
             <div style="color:#ffffff;">
-                🟡
+                🔵
                 <strong style="color:#ffffff;">
-                    Aguardando lista da oficina:
+                    Oficina não informada:
                 </strong>
-                ${aguardandoLista}
+                ${naoVerificado}
             </div>
 
-            ${revisar ? `<div style="color:#ffffff;">🟠 <strong style="color:#ffffff;">Precisam revisão:</strong> ${revisar}</div>` : ""}
+            <div style="color:#ffffff;">
+                🟡
+                <strong style="color:#ffffff;">
+                    Precisam revisão:
+                </strong>
+                ${revisar}
+            </div>
 
         </div>
 
