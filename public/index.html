@@ -7697,9 +7697,29 @@ window.carregarPendenciasTurnoAnterior = function () {
     }
 
     // As pendências são independentes da lista de equipamentos.
-    // Se a lista existir, cruza normalmente; se não existir,
-    // as pendências continuam disponíveis para o relatório.
-    cruzarPendencias();
+    // Só faz o cruzamento quando a lista da oficina realmente foi informada.
+    // Isso evita que todas as OMs apareçam como REVISAR só porque a lista
+    // de equipamentos ainda não foi importada.
+    if (equipamentos && equipamentos.value.trim()) {
+        cruzarPendencias();
+    } else {
+        const resultado = document.getElementById("resultadoPendencias");
+        if (resultado) {
+            resultado.style.display = "block";
+            resultado.innerHTML = `
+                <div style="padding:15px;border-radius:8px;background:#0b1117;border:1px solid #334155;color:#fff;">
+                    <h3 style="margin:0 0 10px;color:#fff;">📋 Pendências importadas</h3>
+                    <div style="color:#cbd5df;line-height:1.5;">
+                        As pendências do turno anterior foram importadas corretamente.
+                        <br><br>
+                        A situação <strong>NA OFICINA / FORA DA OFICINA</strong> será definida quando você importar a lista de <strong>EQUIPAMENTOS NA OFICINA</strong>.
+                        <br><br>
+                        <strong>Importante:</strong> nenhuma OM será marcada como REVISAR apenas por estar sem a lista da oficina.
+                    </div>
+                </div>`;
+        }
+        console.log("✅ Pendências importadas sem cruzamento. Aguardando lista de equipamentos da oficina.");
+    }
 };
 
 
@@ -9024,7 +9044,8 @@ window.cruzarPendencias = function () {
         return;
     }
     // A lista de equipamentos é opcional.
-    // Sem ela, as pendências são importadas e ficam como REVISAR.
+    // Sem ela, não fazemos classificação física das OMs.
+    // A situação será definida assim que a lista da oficina for importada.
 
 
     function normalizarTextoCruza(texto) {
@@ -9149,13 +9170,9 @@ window.cruzarPendencias = function () {
         }
 
         const equipamento = equipamentosDaLinha.length ? normalizarCodigoCruza(equipamentosDaLinha[0]) : "";
-        let situacao = "REVISAR";
-        if (equipamento) {
-            if (!textoEquipamentos) {
-                situacao = "REVISAR";
-            } else {
-                situacao = equipamentosOficina.has(equipamento) ? "NA OFICINA" : "FORA DA OFICINA";
-            }
+        let situacao = "SEM LISTA DA OFICINA";
+        if (equipamento && textoEquipamentos) {
+            situacao = equipamentosOficina.has(equipamento) ? "NA OFICINA" : "FORA DA OFICINA";
         }
 
         oms.forEach(function(numeroOM){
@@ -9182,6 +9199,7 @@ window.cruzarPendencias = function () {
     const cadastrar = pendenciasFinais.filter(function(item){ return item.situacao === "NA OFICINA"; }).length;
     const foraOficina = pendenciasFinais.filter(function(item){ return item.situacao === "FORA DA OFICINA"; }).length;
     const revisar = pendenciasFinais.filter(function(item){ return item.situacao === "REVISAR"; }).length;
+    const aguardandoLista = pendenciasFinais.filter(function(item){ return item.situacao === "SEM LISTA DA OFICINA"; }).length;
 
     let tabela = "";
 
@@ -9202,6 +9220,12 @@ pendenciasFinais.forEach(function(item) {
         borda = "#64748b";
         icone = "⚪";
         textoSituacao = "EQUIPAMENTO NÃO ESTÁ NA OFICINA";
+
+    } else if (item.situacao === "SEM LISTA DA OFICINA") {
+
+        borda = "#f2bd28";
+        icone = "🟡";
+        textoSituacao = "AGUARDANDO LISTA DE EQUIPAMENTOS DA OFICINA";
     }
 
     tabela += `
@@ -9312,10 +9336,12 @@ resultado.innerHTML = `
             <div style="color:#ffffff;">
                 🟡
                 <strong style="color:#ffffff;">
-                    Precisam revisão:
+                    Aguardando lista da oficina:
                 </strong>
-                ${revisar}
+                ${aguardandoLista}
             </div>
+
+            ${revisar ? `<div style="color:#ffffff;">🟠 <strong style="color:#ffffff;">Precisam revisão:</strong> ${revisar}</div>` : ""}
 
         </div>
 
