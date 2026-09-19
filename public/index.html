@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={corePlugins:{preflight:false},theme:{extend:{}}}</script>
 <title>Oficina Sotreq - Sistema de OMs</title>
 
 <style>
@@ -158,12 +160,30 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
 #painelAvisoOverlay .painel-aviso-acoes button{flex:1;border:0;border-radius:7px;padding:11px;font-weight:700;cursor:pointer}
 #painelAvisoOverlay .painel-btn-ok{background:#2583f7;color:#fff}
 #painelAvisoOverlay .painel-btn-cancelar{background:#202b36;color:#dbe2e9}
+
+/* ===== VIEWS / JANELAS DO PAINEL ===== */
+.sidebar .nav{flex:1;justify-content:center;}
+.nav button{min-height:54px;}
+.nav-copy{display:flex!important;flex-direction:column;gap:2px;min-width:0;}
+.nav-copy > span{font-size:13px;font-weight:700;line-height:1.15;}
+.nav-copy small{font-size:9px;color:#8793a0;line-height:1.2;}
+.nav button.active .nav-copy small,.nav button:hover .nav-copy small{color:#fff;}
+body.view-dashboard #ordens,body.view-dashboard #ferramentas,body.view-dashboard #relatorios,body.view-dashboard #fimTurno,body.view-dashboard #historico,body.view-dashboard #configuracoes{display:none!important;}
+body.view-dashboard .grid-bottom > section:not(:first-child){display:none!important;}
+body.view-dashboard .grid-bottom{grid-template-columns:1fr!important;}
+body.view-ordens #dashboard > .hero,body.view-ordens #dashboard > .cards,body.view-ordens #dashboard > .grid-bottom,body.view-ordens #ferramentas,body.view-ordens #relatorios,body.view-ordens #fimTurno,body.view-ordens #historico,body.view-ordens #configuracoes{display:none!important;}
+body.view-ferramentas #dashboard > .hero,body.view-ferramentas #dashboard > .cards,body.view-ferramentas #dashboard > #ordens,body.view-ferramentas #dashboard > .grid-bottom,body.view-ferramentas #relatorios,body.view-ferramentas #fimTurno,body.view-ferramentas #historico,body.view-ferramentas #configuracoes{display:none!important;}
+body.view-relatorios #dashboard > .hero,body.view-relatorios #dashboard > .cards,body.view-relatorios #dashboard > #ordens,body.view-relatorios #dashboard > .grid-bottom,body.view-relatorios #ferramentas,body.view-relatorios #fimTurno,body.view-relatorios #historico,body.view-relatorios #configuracoes{display:none!important;}
+body.view-fimTurno #dashboard > .hero,body.view-fimTurno #dashboard > .cards,body.view-fimTurno #dashboard > #ordens,body.view-fimTurno #dashboard > .grid-bottom,body.view-fimTurno #ferramentas,body.view-fimTurno #relatorios,body.view-fimTurno #historico,body.view-fimTurno #configuracoes{display:none!important;}
+body.view-historico #dashboard > .hero,body.view-historico #dashboard > .cards,body.view-historico #dashboard > #ordens,body.view-historico #dashboard > .grid-bottom,body.view-historico #ferramentas,body.view-historico #relatorios,body.view-historico #fimTurno,body.view-historico #configuracoes{display:none!important;}
+body.view-configuracoes #dashboard > .hero,body.view-configuracoes #dashboard > .cards,body.view-configuracoes #dashboard > #ordens,body.view-configuracoes #dashboard > .grid-bottom,body.view-configuracoes #ferramentas,body.view-configuracoes #relatorios,body.view-configuracoes #fimTurno,body.view-configuracoes #historico{display:none!important;}
+@media(max-width:767px){.sidebar .nav{padding-top:18px;padding-bottom:18px}.nav-copy small{font-size:8px}.nav button{min-height:52px}.content{min-height:calc(100vh - 72px);}.report-box{width:100%;}.section-body{padding:12px;}}
 </style>
 
 </head>
-<body>
-<div class="app">
-<aside class="sidebar">
+<body class="bg-[#070b10] text-[#f4f7fb] min-h-screen overflow-x-hidden">
+<div class="app min-h-screen flex relative">
+<aside id="sidebarPainel" class="sidebar transition-transform duration-200 ease-out !w-0 !-translate-x-full md:!w-[215px] md:!translate-x-0">
 <div class="brand">
     <div class="brand-top">
         <span class="brand-sotreq">Sotreq</span>
@@ -174,30 +194,30 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
     <div class="brand-sub">Sistema de Ordens de Manutenção</div>
 </div>
   <nav class="nav">
-    <button class="active" onclick="irPara('dashboard',this)"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h7v7H3z"/><path d="M14 3h7v7h-7z"/><path d="M3 14h7v7H3z"/><path d="M14 14h7v7h-7z"/></svg><span>Dashboard</span></button>
-    <button onclick="irPara('ordens',this)"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2h6v2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg><span>Ordens de Manutenção</span></button>
-    <button onclick="irPara('ferramentas',this)"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m14.7 6.3 3 3M3 21l7.7-7.7M13 5a5 5 0 0 0 6.4 6.4L15 15.8 8.2 9 12.6 4.6A5 5 0 0 0 13 5z"/></svg><span>Equipamentos</span></button>
-    <button onclick="abrirModal('modalNovaOM')"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Cadastrar OM</span></button>
+    <button class="active" onclick="irPara('dashboard',this)"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h7v7H3z"/><path d="M14 3h7v7h-7z"/><path d="M3 14h7v7H3z"/><path d="M14 14h7v7h-7z"/></svg><span class="nav-copy"><span>Dashboard</span><small>Visão geral</small></span></button>
+    <button onclick="irPara('ordens',this)"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2h6v2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg><span class="nav-copy"><span>Ordens de Manutenção</span><small>Acompanhar OMs</small></span></button>
+    <button onclick="irPara('ferramentas',this)"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m14.7 6.3 3 3M3 21l7.7-7.7M13 5a5 5 0 0 0 6.4 6.4L15 15.8 8.2 9 12.6 4.6A5 5 0 0 0 13 5z"/></svg><span class="nav-copy"><span>Dados do Turno</span><small>Importar informações</small></span></button>
+    <button onclick="abrirModal('modalNovaOM')"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="nav-copy"><span>Cadastrar OM</span><small>Nova ordem</small></span></button>
     
-    <button onclick="irPara('relatorios',this)"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v5h5M9 12h6M9 16h6"/></svg><span>Relatórios</span></button>
-    <button onclick="irPara('fimTurno',this)"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v5h5M9 12h6M9 16h6"/></svg><span>Relatório de Fim de Turno</span></button>
-    <button onclick="irPara('configuracoes',this)"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/><circle cx="12" cy="12" r="4"/></svg><span>Configurações</span></button>
+    <button onclick="irPara('relatorios',this)"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v5h5M9 12h6M9 16h6"/></svg><span class="nav-copy"><span>Criar relatório</span><small>Relatórios das OMs</small></span></button>
+    <button onclick="irPara('fimTurno',this)"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v5h5M9 12h6M9 16h6"/></svg><span class="nav-copy"><span>Fim de Turno</span><small>Gerar fechamento</small></span></button>
+    <button onclick="irPara('configuracoes',this)"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/><circle cx="12" cy="12" r="4"/></svg><span class="nav-copy"><span>Configurações</span><small>Manutenção do painel</small></span></button>
   </nav>
   <div class="side-bottom"><div class="side-note"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m14.7 6.3 3 3M3 21l7.7-7.7M13 5a5 5 0 0 0 6.4 6.4L15 15.8 8.2 9 12.6 4.6A5 5 0 0 0 13 5z"/></svg><br><strong>Juntos por uma operação mais eficiente!</strong></div></div>
 </aside>
-<main class="main">
-<header class="topbar"><div class="server">● <b>Servidor Online</b><br><span>Atualização automática</span></div><div><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg></div><div class="user"><span class="avatar"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 21a7 7 0 0 1 14 0"/></svg></span><span><strong>TURNO C</strong><br><small class="muted">Técnicos</small></span></div></header>
-<div class="content" id="dashboard">
+<main class="main min-w-0 w-full !ml-0 md:!ml-[215px] md:!w-[calc(100%-215px)]">
+<header class="topbar sticky top-0 z-50"><button id="btnMenuMobile" type="button" class="hidden max-[767px]:inline-flex items-center justify-center w-10 h-10 rounded-lg border border-slate-700 bg-slate-900 text-white mr-auto" aria-label="Abrir menu">☰</button><div class="server">● <b>Servidor Online</b><br><span>Atualização automática</span></div><div><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg></div><div class="user"><span class="avatar"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 21a7 7 0 0 1 14 0"/></svg></span><span><strong>TURNO C</strong><br><small class="muted">Técnicos</small></span></div></header>
+<div class="content w-full max-w-[1450px] mx-auto px-3 sm:px-4 lg:px-5" id="dashboard">
 <div id="erro"></div>
-<section class="hero"><div><h1>Olá, TURNO "C"!</h1><p>Aqui está o painel de OMs.</p></div><div class="hero-mark">SOTREQ<small>SOLUÇÕES PARA<br>UM MUNDO MELHOR</small></div></section>
-<section class="cards">
+<section class="hero w-full"><div><h1>Olá, TURNO "C"!</h1><p>Aqui está o painel de OMs.</p></div><div class="hero-mark">SOTREQ<small>SOLUÇÕES PARA<br>UM MUNDO MELHOR</small></div></section>
+<section class="cards grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4">
   <div class="metric blue"><div class="metric-top"><div class="metric-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2h6v2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg></div><div><div class="metric-label">Total de OMs</div><div class="metric-number" id="total">0</div></div></div><div class="metric-foot">Atualizado automaticamente</div></div>
   <div class="metric yellow"><div class="metric-top"><div class="metric-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7z"/></svg></div><div><div class="metric-label">Em Execução</div><div class="metric-number" id="execucao">0</div></div></div><div class="metric-foot">Em andamento</div></div>
   <div class="metric green"><div class="metric-top"><div class="metric-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></div><div><div class="metric-label">Concluídas</div><div class="metric-number" id="concluidas">0</div></div></div><div class="metric-foot">Finalizadas</div></div>
   <div class="metric red"><div class="metric-top"><div class="metric-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 22 20H2z"/><path d="M12 9v5M12 17h.01"/></svg></div><div><div class="metric-label">Pendentes</div><div class="metric-number" id="pendentes">0</div></div></div><div class="metric-foot">Aguardando ação</div></div>
 </section>
 
-<section class="panel" id="ordens">
+<section class="panel w-full" id="ordens">
  <div class="panel-head"><div class="panel-title"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2h6v2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg> ORDENS DE MANUTENÇÃO</div><div class="tools"><input id="pesquisaOM" class="search" placeholder="Pesquisar OM, equipamento..." autocomplete="off"><select class="select-dark" id="filtroStatusVisual"><option value="">Todos os Status</option><option>Pendente</option>
 <option>Em execução</option>
 <option>Executada</option>
@@ -206,12 +226,12 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}
 </section>
 
 <div class="grid-bottom">
- <section class="panel mini"><div class="panel-head"><div class="panel-title"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> ÚLTIMAS OMS ATUALIZADAS</div></div><div class="mini-list" id="ultimasOMs"><div class="muted" style="padding:15px">Carregando...</div></div></section>
- <section class="panel mini" id="relatorios"><div class="panel-head"><div class="panel-title"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v5h5M9 12h6M9 16h6"/></svg> GERAR RELATÓRIO</div></div><div class="report-box"><div class="report-select-heading">OMs concluídas e executadas de hoje</div><div class="historico-note" style="margin:0">Atualização automática</div><button type="button" class="btn-select-all" onclick="selecionarTodasOMsRelatorio()">Selecionar todas as OMs</button><div id="listaOMsRelatorio">Carregando OMs concluídas...</div><button class="btn-red" type="button" onclick="gerarRelatorioTurno()">GERAR RELATÓRIO DE FIM DE TURNO</button><div id="resultadoRelatorioTurno"></div></div></section>
- <section class="panel mini" id="fimTurno"><div class="panel-head"><div class="panel-title"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v5h5M9 12h6M9 16h6"/></svg> RELATÓRIO DE FIM DE TURNO</div><button class="btn btn-gray" type="button" onclick="gerarRelatorioTurno()">Ver relatório</button></div><div id="resumoFimTurno" class="mini-list"><div class="pending-item">Carregando resumo...</div></div></section>
+ <section class="panel mini w-full"><div class="panel-head"><div class="panel-title"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> ÚLTIMAS OMS ATUALIZADAS</div></div><div class="mini-list" id="ultimasOMs"><div class="muted" style="padding:15px">Carregando...</div></div></section>
+ <section class="panel mini w-full" id="relatorios"><div class="panel-head"><div class="panel-title"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v5h5M9 12h6M9 16h6"/></svg> GERAR RELATÓRIO</div></div><div class="report-box"><div class="report-select-heading">OMs concluídas e executadas de hoje</div><div class="historico-note" style="margin:0">Atualização automática</div><button type="button" class="btn-select-all" onclick="selecionarTodasOMsRelatorio()">Selecionar todas as OMs</button><div id="listaOMsRelatorio">Carregando OMs concluídas...</div><button class="btn-red" type="button" onclick="gerarRelatorioTurno()">GERAR RELATÓRIO DE FIM DE TURNO</button><div id="resultadoRelatorioTurno"></div></div></section>
+ <section class="panel mini w-full" id="fimTurno"><div class="panel-head"><div class="panel-title"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v5h5M9 12h6M9 16h6"/></svg> RELATÓRIO DE FIM DE TURNO</div><button class="btn btn-gray" type="button" onclick="gerarRelatorioTurno()">Ver relatório</button></div><div id="resumoFimTurno" class="mini-list"><div class="pending-item">Carregando resumo...</div></div></section>
 </div>
 
-<section class="section" id="ferramentas"><div class="panel"><div class="panel-head"><div class="panel-title"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m14.7 6.3 3 3M3 21l7.7-7.7M13 5a5 5 0 0 0 6.4 6.4L15 15.8 8.2 9 12.6 4.6A5 5 0 0 0 13 5z"/></svg> FERRAMENTAS OPERACIONAIS</div></div><div class="section-body"><div class="form-grid">
+<section class="section w-full" id="ferramentas"><div class="panel"><div class="panel-head"><div class="panel-title"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m14.7 6.3 3 3M3 21l7.7-7.7M13 5a5 5 0 0 0 6.4 6.4L15 15.8 8.2 9 12.6 4.6A5 5 0 0 0 13 5z"/></svg> DADOS DO TURNO</div></div><div class="section-body"><div class="form-grid">
  <div class="field full">
 <label>ATIVIDADES DO DIA</label>
 <textarea id="textoAtividadesDia" placeholder="Cole aqui as atividades do dia.
@@ -254,14 +274,14 @@ TT70"></textarea><div class="button-row"><button class="btn btn-blue" type="butt
  <div class="field full"><div id="resultadoImportacao"></div></div>
  <div class="field full"><div id="resultadoPendencias"></div></div>
  </div></div></div></section>
-<section class="section" id="historico"><div class="panel"><div class="panel-head"><div class="panel-title"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> HISTÓRICO DE OMS</div><div class="tools"><input id="pesquisaHistoricoOM" class="search" placeholder="Pesquisar no histórico..." oninput="filtrarHistoricoOMs()"><button class="btn btn-gray" onclick="filtrarHistoricoStatus('todos')">Todos</button><button class="btn btn-yellow" onclick="filtrarHistoricoStatus('pendente')">Pendentes</button><button class="btn btn-blue" onclick="filtrarHistoricoStatus('em execução')">Em execução</button><button class="btn btn-green" onclick="filtrarHistoricoStatus('concluída')">Concluídas</button></div></div><div class="section-body" id="listaHistoricoOMs">Carregando Carregando histórico...</div></div></section>
+<section class="section w-full" id="historico"><div class="panel"><div class="panel-head"><div class="panel-title"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> HISTÓRICO DE OMS</div><div class="tools"><input id="pesquisaHistoricoOM" class="search" placeholder="Pesquisar no histórico..." oninput="filtrarHistoricoOMs()"><button class="btn btn-gray" onclick="filtrarHistoricoStatus('todos')">Todos</button><button class="btn btn-yellow" onclick="filtrarHistoricoStatus('pendente')">Pendentes</button><button class="btn btn-blue" onclick="filtrarHistoricoStatus('em execução')">Em execução</button><button class="btn btn-green" onclick="filtrarHistoricoStatus('concluída')">Concluídas</button></div></div><div class="section-body" id="listaHistoricoOMs">Carregando Carregando histórico...</div></div></section>
 
-<section class="section" id="configuracoes"><div class="panel"><div class="panel-head"><div class="panel-title"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/><circle cx="12" cy="12" r="4"/></svg> Configurações</div></div><div class="section-body"><div class="danger-zone"><span><strong>Zona de segurança</strong><br>Excluir todas as OMs é uma ação permanente.</span><button class="btn btn-primary" type="button" onclick="excluirTodasOMs()">Excluir todas as OMs</button></div></div></div></section>
+<section class="section w-full" id="configuracoes"><div class="panel"><div class="panel-head"><div class="panel-title"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/><circle cx="12" cy="12" r="4"/></svg> Configurações</div></div><div class="section-body"><div class="danger-zone"><span><strong>Zona de segurança</strong><br>Excluir todas as OMs é uma ação permanente.</span><button class="btn btn-primary" type="button" onclick="excluirTodasOMs()">Excluir todas as OMs</button></div></div></div></section>
 <div class="footer">Sistema da Oficina - Sotreq &nbsp; • &nbsp; Disciplina &nbsp; • &nbsp; Organização &nbsp; • &nbsp; Resultado &nbsp; • &nbsp; Versão 2.0</div>
 </div></main></div>
 
 <!-- MODAL NOVA OM -->
-<div class="modal" id="modalNovaOM"><div class="modal-card"><h2>Nova Ordem de Manutenção</h2><form id="formOM"><div class="form-grid"><div class="field"><label>NÚMERO DA OM</label><input id="numero" required placeholder="Número da OM"></div><div class="field"><label>EQUIPAMENTO</label><select id="equipamento" required><option value="">Selecione o equipamento</option></select></div><div class="field full"><label>MODELO DO RELATÓRIO</label><select id="modeloRelatorio" required><option value="">Selecione o modelo</option><option>MP MINESTAR FLEET</option><option>MP MINESTAR RP & EC</option><option>MP MINESTAR HEALTH</option><option>MP MINESTAR TERRAIN TT</option><option>MP MINESTAR PZ</option></select></div><div class="field full"><label>DESCRIÇÃO</label><textarea id="descricao" required placeholder="Descrição do serviço"></textarea></div><div class="field"><label>TIPO DE RESPONSÁVEL</label><select id="tipoResponsavel"><option value="">Sem responsável</option><option value="pessoa">Pessoa</option></select></div><div class="field"><label>RESPONSÁVEL</label><select id="responsavel"><option value="">Selecione o responsável</option></select></div></div><div class="button-row"><button class="btn btn-primary" type="submit">➕ Cadastrar OM</button><button class="btn btn-gray" type="button" onclick="fecharModal('modalNovaOM')">Cancelar</button></div><div id="mensagemOM"></div></form></div></div>
+<div class="modal" id="modalNovaOM"><div class="modal-card"><h2>Nova Ordem de Manutenção</h2><form id="formOM"><div class="form-grid"><div class="field"><label>NÚMERO DA OM</label><input id="numero" required placeholder="Número da OM"></div><div class="field"><label>EQUIPAMENTO</label><select id="equipamento" required><option value="">Selecione o equipamento</option></select></div><div class="field full"><label>MODELO DO RELATÓRIO</label><select id="modeloRelatorio" required><option value="">Selecione o modelo</option><option>MP MINESTAR FLEET</option><option>MP MINESTAR RP & EC</option><option>MP MINESTAR HEALTH</option><option>MP MINESTAR TERRAIN TT</option><option>MP MINESTAR PZ</option><option value="PERSONALIZADO">RELATÓRIO PERSONALIZADO</option></select></div><div class="field full"><label>DESCRIÇÃO</label><textarea id="descricao" required placeholder="Descrição do serviço"></textarea></div><div class="field"><label>TIPO DE RESPONSÁVEL</label><select id="tipoResponsavel"><option value="">Sem responsável</option><option value="pessoa">Pessoa</option></select></div><div class="field"><label>RESPONSÁVEL</label><select id="responsavel"><option value="">Selecione o responsável</option></select></div></div><div class="button-row"><button class="btn btn-primary" type="submit">➕ Cadastrar OM</button><button class="btn btn-gray" type="button" onclick="fecharModal('modalNovaOM')">Cancelar</button></div><div id="mensagemOM"></div></form></div></div>
 
 <!-- MODAIS COMPATÍVEIS COM AS FUNÇÕES EXISTENTES -->
 <div class="modal" id="modalEditarOM"><div class="modal-card"><h2>Editar OM</h2><input type="hidden" id="editarOMId"><label>Número da OM</label><input id="editarOMNumero"><label>Equipamento</label><input id="editarOMEquipamento"><label>Descrição</label><textarea id="editarOMDescricao"></textarea><div class="modal-actions"><button class="btn-primary" onclick="salvarEdicaoOM()">Salvar</button><button class="btn-gray" onclick="fecharEditarOM()">Cancelar</button></div></div></div>
@@ -1301,28 +1321,15 @@ function gerarRelatorioTurno() {
             relatorio += "⚠️ PENDÊNCIAS DO TURNO ⚠️\n\n";
 
             // =====================================
-            // PENDÊNCIAS DO TURNO ANTERIOR
-            // =====================================
-            const campoPendencias = document.getElementById("textoPendencias");
-            const pendenciasTurnoAnterior = campoPendencias
-                ? campoPendencias.value.trim()
-                : "";
-
-            if (pendenciasTurnoAnterior) {
-                relatorio += "📌 PENDÊNCIAS DO TURNO ANTERIOR\n\n";
-                relatorio += pendenciasTurnoAnterior + "\n\n";
-            }
-
-            // =====================================
-            // OMs PENDENTES / EXECUTADAS
-            // NÃO FILTRAR POR DATA
+            // OMs PENDENTES / EXECUTADAS DO DIA
+            // NÃO INCLUI O QUADRO DE PENDÊNCIAS DO TURNO ANTERIOR
             // =====================================
             const pendentesHoje = lista.filter(function(om) {
                 const status = normalizarStatus(om.status);
 
                 return (
-                    status === "pendente" ||
-                    status === "executada"
+                    (status === "pendente" || status === "executada") &&
+                    normalizarDataTexto(om.data) === hoje
                 );
             });
 
@@ -2269,6 +2276,27 @@ function gerarRelatorio(id) {
         })
 
         .then(function(om) {
+
+// RELATÓRIO PERSONALIZADO
+// A descrição cadastrada na OM funciona como a descrição resumida.
+// =====================================
+if (String(om.modelo_relatorio || "").trim().toUpperCase() === "PERSONALIZADO") {
+    conteudo.innerHTML = `
+        <div style="display:grid;gap:15px;">
+            <div style="padding:14px;background:#111922;color:#f4f7fb;border-radius:8px;">
+                <strong>📋 OM:</strong> ${om.om || "-"}<br>
+                <strong>🚜 Equipamento:</strong> ${om.equipamento || "-"}<br>
+                <strong>📄 Descrição resumida:</strong> ${om.descricao || "-"}
+            </div>
+            <div style="padding:14px;background:#111922;color:#f4f7fb;border-radius:8px;">
+                <strong>RELATÓRIO PERSONALIZADO</strong>
+                <p style="margin-top:10px;color:#cbd5df;line-height:1.5;">A descrição informada no cadastro da OM será utilizada como a descrição resumida no relatório.</p>
+            </div>
+            <button type="button" onclick="montarRelatorioPersonalizado()" style="width:100%;padding:14px;border:none;border-radius:8px;background:#16a34a;color:white;font-weight:bold;font-size:16px;cursor:pointer;">📄 Montar relatório personalizado</button>
+        </div>`;
+    window._omPersonalizadaAtual = om;
+    return;
+}
 
 // FORMULÁRIO MP MINESTAR FLEET
 // =====================================
@@ -7801,7 +7829,6 @@ window.interpretarAtividades = function () {
             .map(linha => linha.trim())
             .filter(linha => linha !== "");
     const atividades = [];
-    const formatoBlocoPendencias = /N°\s*OM\s*:/i.test(texto) && /Equipamento\s*:/i.test(texto);
     let dataAtividade = "";
     let localAtual =
         "Não informado";
@@ -8027,43 +8054,6 @@ window.interpretarAtividades = function () {
     // =====================================
     // PROCESSAR LISTA
     // =====================================
-    if (formatoBlocoPendencias) {
-        let blocoAtual = null;
-
-        function finalizarBlocoPendencia() {
-            if (!blocoAtual || !blocoAtual.om) return;
-            const equipamento = normalizarEquipamento(String(blocoAtual.equipamento || "").trim().toUpperCase());
-            const descricao = String(blocoAtual.descricao || "").trim() || "Pendência do turno anterior";
-            atividades.push({
-                data: dataAtividade,
-                om: blocoAtual.om,
-                equipamento: equipamento || "Não identificado",
-                status: "Pendente",
-                prioridade: !!blocoAtual.prioridade,
-                local: localAtual,
-                descricao: descricao,
-                motivo_pendencia: String(blocoAtual.motivo || "Pendente").trim() || "Pendente"
-            });
-        }
-
-        linhas.forEach(function(linha) {
-            const limpa = String(linha || "").trim();
-            const omMatch = limpa.match(/N°\s*OM\s*:\s*(\d{8,12})/i);
-            if (omMatch) {
-                finalizarBlocoPendencia();
-                blocoAtual = {om: omMatch[1], equipamento:"", descricao:"", motivo:"Pendente", prioridade:false};
-                return;
-            }
-            if (!blocoAtual) return;
-            const equipamentoMatch = limpa.match(/(?:🚜\s*)?equipamento\s*:\s*(.+)/i);
-            if (equipamentoMatch) { blocoAtual.equipamento = equipamentoMatch[1].trim(); return; }
-            const descricaoMatch = limpa.match(/(?:📝\s*)?descri(?:ção|cao)\s*:\s*(.+)/i);
-            if (descricaoMatch) { blocoAtual.descricao = descricaoMatch[1].trim(); return; }
-            const motivoMatch = limpa.match(/(?:🚨\s*)?motivo\s*:\s*(.+)/i);
-            if (motivoMatch) { blocoAtual.motivo = motivoMatch[1].trim(); blocoAtual.prioridade = /🔴/.test(limpa); }
-        });
-        finalizarBlocoPendencia();
-    } else {
     for (
         let i = 0;
         i < linhas.length;
@@ -8270,7 +8260,6 @@ window.interpretarAtividades = function () {
             });
         }
     }
-    }
     // =====================================
     // REMOVER DUPLICADAS
     // =====================================
@@ -8418,7 +8407,6 @@ window.interpretarAtividades = function () {
                         <br>
                         ${item.descricao}
                     </div>
-                    ${item.motivo_pendencia ? `<div style="margin-top:6px;">🚨 <strong>Motivo:</strong> ${item.motivo_pendencia}</div>` : ""}
                     ${
                         alertaEquipamento
                         ? `
@@ -8562,6 +8550,31 @@ window.interpretarAtividades = function () {
         atividadesFinais
     );
 };
+// =====================================
+// RELATÓRIO PERSONALIZADO
+// =====================================
+window.montarRelatorioPersonalizado = function(){
+    const om = window._omPersonalizadaAtual || {};
+    const agora = new Date();
+    const data = String(agora.getDate()).padStart(2,"0") + "/" + String(agora.getMonth()+1).padStart(2,"0") + "/" + agora.getFullYear();
+    const relatorio = `Data: ${data}
+
+🚜 Equipamento: ${om.equipamento || "-"}
+📁 N° OM: ${om.om || "-"}
+
+Descrição resumida: ${om.descricao || "-"}
+
+📈 Atividades executadas:
+
+Descrição do serviço: ${om.descricao || "-"}
+
+🚨 Pendências: ${om.motivo_pendencia || "NÃO"}`;
+    const caixa=document.getElementById("conteudoGerarRelatorio");
+    if(!caixa)return;
+    caixa.innerHTML=`<div style="width:100%;"><textarea id="resultadoRelatorioPersonalizado" readonly style="width:100%;min-height:420px;padding:15px;box-sizing:border-box;font-size:14px;line-height:1.5;resize:vertical;">${relatorio}</textarea><button type="button" onclick="copiarRelatorioPersonalizado()" style="width:100%;margin-top:12px;padding:14px;border:none;border-radius:8px;background:#16a34a;color:white;font-weight:bold;font-size:16px;cursor:pointer;">📋 Copiar relatório</button></div>`;
+};
+window.copiarRelatorioPersonalizado=function(){const c=document.getElementById("resultadoRelatorioPersonalizado");if(!c)return;c.focus();c.select();try{document.execCommand("copy");painelAviso("✅ Relatório copiado com sucesso!");}catch(e){painelAviso("O texto foi selecionado. Pressione Ctrl + C.");}};
+
 // =====================================
 // IDENTIFICAR MODELO DO RELATÓRIO
 // =====================================
@@ -8800,7 +8813,7 @@ function mostrarBotaoCadastroPendencias() {
     const botao = document.createElement("button");
     botao.id = "botaoCadastroPendencias";
     botao.type = "button";
-    botao.style.cssText = "margin-top:15px;width:100%;padding:14px;border:none;border-radius:8px;background:#2583f7;color:#fff;font-size:15px;font-weight:800;cursor:pointer";
+    botao.style.cssText = "margin-top:15px;width:100%;padding:14px;border:none;border-radius:8px;background:#16a34a;color:#fff;font-size:15px;font-weight:800;cursor:pointer";
     botao.textContent = "✅ Cadastrar " + candidatas.length + " OMs na oficina";
     botao.onclick = cadastrarPendenciasEncontradas;
     resultado.appendChild(botao);
@@ -8966,12 +8979,7 @@ window.cruzarPendencias = function () {
 
             const equipamentoMatch = prox.match(/(?:🚜\s*)?equipamento\s*:\s*(.+)/i);
             if (equipamentoMatch) {
-                const valorEquipamento = String(equipamentoMatch[1] || "").trim();
-                const codigoExplicito = normalizarCodigoCruza(valorEquipamento);
-                if (codigoExplicito && !/^(MP|GPS|CAN|HO|OM)\d*$/i.test(codigoExplicito)) {
-                    if (!equipamentosDaLinha.includes(codigoExplicito)) equipamentosDaLinha.push(codigoExplicito);
-                }
-                const codigos = extrairEquipamentosCruza(valorEquipamento);
+                const codigos = extrairEquipamentosCruza(equipamentoMatch[1]);
                 codigos.forEach(function(codigo){
                     if (!equipamentosDaLinha.includes(codigo)) equipamentosDaLinha.push(codigo);
                 });
@@ -9008,7 +9016,7 @@ window.cruzarPendencias = function () {
         let situacao = "REVISAR";
         if (equipamento) {
             if (!textoEquipamentos) {
-                situacao = "CADASTRAR";
+                situacao = "REVISAR";
             } else {
                 situacao = equipamentosOficina.has(equipamento) ? "CADASTRAR" : "FORA DA OFICINA";
             }
@@ -9318,7 +9326,14 @@ function renderizarHistoricoOMs(){
 }
 function filtrarHistoricoOMs(){renderizarHistoricoOMs();}
 function filtrarHistoricoStatus(status){filtroHistoricoStatus=status;renderizarHistoricoOMs();}
-function irPara(id,btn){document.getElementById(id)?.scrollIntoView({behavior:"smooth",block:"start"});document.querySelectorAll(".nav button").forEach(function(b){b.classList.remove("active")});btn?.classList.add("active");}
+function irPara(id,btn){
+    const views=["dashboard","ordens","ferramentas","relatorios","fimTurno","historico","configuracoes"];
+    document.body.classList.remove(...views.map(function(v){return "view-"+v;}));
+    document.body.classList.add("view-"+id);
+    document.querySelectorAll(".nav button").forEach(function(b){b.classList.remove("active")});
+    if(btn) btn.classList.add("active");
+    window.scrollTo({top:0,behavior:"smooth"});
+}
 function abrirModal(id){const m=document.getElementById(id);if(m)m.style.display="flex";} function fecharModal(id){const m=document.getElementById(id);if(m)m.style.display="none";}
 document.querySelectorAll(".modal").forEach(function(m){m.addEventListener("click",function(e){if(e.target===m)m.style.display="none"})});
 function atualizarUltimasOMs(){
@@ -9387,6 +9402,29 @@ document.addEventListener("DOMContentLoaded",function(){
       };
     });
   };
+})();
+</script>
+<script>
+(function(){
+  const btn=document.getElementById("btnMenuMobile");
+  const side=document.getElementById("sidebarPainel");
+  if(!btn||!side) return;
+  btn.addEventListener("click",function(){
+    const aberto=side.classList.contains("!translate-x-0");
+    if(aberto){
+      side.classList.remove("!translate-x-0","!w-[215px]");
+      side.classList.add("!-translate-x-full","!w-0");
+    }else{
+      side.classList.remove("!-translate-x-full","!w-0");
+      side.classList.add("!translate-x-0","!w-[215px]");
+    }
+  });
+  side.addEventListener("click",function(e){
+    if(e.target.closest("button") && window.innerWidth < 768){
+      side.classList.remove("!translate-x-0","!w-[215px]");
+      side.classList.add("!-translate-x-full","!w-0");
+    }
+  });
 })();
 </script>
 </body></html>
