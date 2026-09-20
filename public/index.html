@@ -190,6 +190,24 @@ body.view-fimTurno #dashboard > .grid-bottom{display:grid!important;grid-templat
 body.view-fimTurno #dashboard > .grid-bottom > section:not(#fimTurno){display:none!important;}
 body.view-fimTurno #fimTurno{display:block!important;}
 @media(max-width:767px){.sidebar .nav{padding-top:18px;padding-bottom:18px}.nav-copy small{font-size:8px}.nav button{min-height:52px}.content{min-height:calc(100vh - 72px);}.report-box{width:100%;}.section-body{padding:12px;}}
+
+/* ===== FOTOS DA OM — ETAPA 1 ===== */
+.fotos-om-box{margin-top:14px;padding:14px;border:1px solid #34404d;border-radius:10px;background:#0d141b;color:#f4f7fb}
+.fotos-om-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.fotos-om-title{font-weight:800;font-size:14px}
+.fotos-om-count{font-size:10px;color:#9ca8b5}
+.fotos-om-actions{display:flex;gap:8px;flex-wrap:wrap}
+.fotos-om-btn{border:0;border-radius:7px;padding:10px 12px;font-weight:700;font-size:11px;cursor:pointer}
+.fotos-om-btn-add{background:#2583f7;color:#fff}
+.fotos-om-btn-clear{background:#321216;color:#ffb8bc;border:1px solid #8b252b}
+.fotos-om-input{display:none}
+.fotos-om-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:8px;margin-top:12px}
+.fotos-om-item{position:relative;aspect-ratio:1/1;border:1px solid #34404d;border-radius:8px;overflow:hidden;background:#111922}
+.fotos-om-item img{width:100%;height:100%;object-fit:cover;display:block}
+.fotos-om-remove{position:absolute;right:4px;top:4px;width:24px;height:24px;border:0;border-radius:50%;background:rgba(0,0,0,.78);color:#fff;font-weight:900;cursor:pointer;line-height:24px;padding:0}
+.fotos-om-empty{padding:12px;border:1px dashed #34404d;border-radius:8px;color:#7f8b98;font-size:11px;text-align:center}
+@media(max-width:650px){.fotos-om-grid{grid-template-columns:repeat(4,1fr)}.fotos-om-item{border-radius:6px}.fotos-om-remove{width:22px;height:22px;line-height:22px;font-size:12px}}
+
 </style>
 
 </head>
@@ -2266,6 +2284,8 @@ function gerarRelatorio(id) {
     modal.classList.add("report-specific-modal");
     conteudo.classList.add("report-specific-content");
     modal.style.display = "flex";
+
+    montarPainelFotosOM(id);
 
     conteudo.innerHTML =
         "🔄 Carregando dados da OM...";
@@ -9650,5 +9670,209 @@ document.addEventListener("DOMContentLoaded",function(){
     }
   });
 })();
+
+
+// =====================================================
+// FOTOS DA OM — ETAPA 1
+// Armazenamento local via IndexedDB para suportar muitas fotos
+// sem depender do limite pequeno do localStorage.
+// =====================================================
+const FOTOS_OM_DB_NOME = "oficina_fotos_om_v1";
+const FOTOS_OM_DB_VERSAO = 1;
+const FOTOS_OM_STORE = "fotos";
+
+function abrirBancoFotosOM() {
+    return new Promise(function(resolve, reject) {
+        if (!window.indexedDB) {
+            reject(new Error("Este navegador não oferece suporte ao armazenamento de fotos."));
+            return;
+        }
+        const request = indexedDB.open(FOTOS_OM_DB_NOME, FOTOS_OM_DB_VERSAO);
+        request.onupgradeneeded = function(event) {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains(FOTOS_OM_STORE)) {
+                const store = db.createObjectStore(FOTOS_OM_STORE, { keyPath: "id", autoIncrement: true });
+                store.createIndex("omId", "omId", { unique: false });
+            }
+        };
+        request.onsuccess = function() { resolve(request.result); };
+        request.onerror = function() { reject(request.error || new Error("Não foi possível abrir o armazenamento de fotos.")); };
+    });
+}
+
+function listarFotosOM(omId) {
+    return abrirBancoFotosOM().then(function(db) {
+        return new Promise(function(resolve, reject) {
+            const tx = db.transaction(FOTOS_OM_STORE, "readonly");
+            const store = tx.objectStore(FOTOS_OM_STORE);
+            const index = store.index("omId");
+            const request = index.getAll(IDBKeyRange.only(String(omId)));
+            request.onsuccess = function() {
+                const fotos = Array.isArray(request.result) ? request.result : [];
+                fotos.sort(function(a,b){ return (a.createdAt || 0) - (b.createdAt || 0); });
+                resolve(fotos);
+            };
+            request.onerror = function() { reject(request.error); };
+        });
+    });
+}
+
+function adicionarFotosOM(omId, arquivos) {
+    const lista = Array.from(arquivos || []).filter(function(file) {
+        return file && String(file.type || "").toLowerCase().startsWith("image/");
+    });
+    if (!lista.length) return Promise.resolve(0);
+
+    return abrirBancoFotosOM().then(function(db) {
+        return new Promise(function(resolve, reject) {
+            const tx = db.transaction(FOTOS_OM_STORE, "readwrite");
+            const store = tx.objectStore(FOTOS_OM_STORE);
+            let adicionadas = 0;
+            lista.forEach(function(file) {
+                const req = store.add({
+                    omId: String(omId),
+                    nome: file.name || "foto",
+                    tipo: file.type || "image/jpeg",
+                    tamanho: file.size || 0,
+                    createdAt: Date.now() + adicionadas,
+                    blob: file
+                });
+                req.onsuccess = function() { adicionadas++; };
+            });
+            tx.oncomplete = function() { resolve(adicionadas); };
+            tx.onerror = function() { reject(tx.error || new Error("Não foi possível salvar as fotos.")); };
+            tx.onabort = function() { reject(tx.error || new Error("O armazenamento de fotos foi interrompido.")); };
+        });
+    });
+}
+
+function excluirFotoOM(id) {
+    return abrirBancoFotosOM().then(function(db) {
+        return new Promise(function(resolve, reject) {
+            const tx = db.transaction(FOTOS_OM_STORE, "readwrite");
+            tx.objectStore(FOTOS_OM_STORE).delete(id);
+            tx.oncomplete = function() { resolve(true); };
+            tx.onerror = function() { reject(tx.error); };
+        });
+    });
+}
+
+function excluirTodasFotosOM(omId) {
+    return listarFotosOM(omId).then(function(fotos) {
+        if (!fotos.length) return true;
+        return abrirBancoFotosOM().then(function(db) {
+            return new Promise(function(resolve, reject) {
+                const tx = db.transaction(FOTOS_OM_STORE, "readwrite");
+                const store = tx.objectStore(FOTOS_OM_STORE);
+                fotos.forEach(function(foto) { store.delete(foto.id); });
+                tx.oncomplete = function() { resolve(true); };
+                tx.onerror = function() { reject(tx.error); };
+            });
+        });
+    });
+}
+
+function escaparHtmlFotosOM(texto) {
+    return String(texto == null ? "" : texto)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+function montarPainelFotosOM(omId) {
+    const modal = document.getElementById("modalGerarRelatorio");
+    if (!modal) return;
+    const card = modal.querySelector(".modal-card");
+    if (!card) return;
+
+    let box = document.getElementById("fotosOMBox");
+    if (!box) {
+        box = document.createElement("div");
+        box.id = "fotosOMBox";
+        box.className = "fotos-om-box";
+        const conteudo = document.getElementById("conteudoGerarRelatorio");
+        if (conteudo && conteudo.nextSibling) card.insertBefore(box, conteudo.nextSibling);
+        else card.appendChild(box);
+    }
+
+    box.dataset.omId = String(omId);
+    box.innerHTML = `
+        <div class="fotos-om-head">
+            <div class="fotos-om-title">📸 FOTOS DA OM</div>
+            <div class="fotos-om-count" id="fotosOMCount">Carregando...</div>
+        </div>
+        <div class="fotos-om-actions">
+            <button type="button" class="fotos-om-btn fotos-om-btn-add" id="btnAdicionarFotosOM">➕ Adicionar fotos</button>
+            <button type="button" class="fotos-om-btn fotos-om-btn-clear" id="btnLimparFotosOM" style="display:none">🗑️ Remover todas</button>
+            <input id="inputFotosOM" class="fotos-om-input" type="file" accept="image/*" multiple>
+        </div>
+        <div id="fotosOMGrid" class="fotos-om-grid"></div>
+    `;
+
+    document.getElementById("btnAdicionarFotosOM").onclick = function() {
+        document.getElementById("inputFotosOM").click();
+    };
+    document.getElementById("inputFotosOM").onchange = function(event) {
+        const arquivos = event.target.files;
+        if (!arquivos || !arquivos.length) return;
+        adicionarFotosOM(omId, arquivos)
+            .then(function(qtd) {
+                event.target.value = "";
+                renderizarFotosOM(omId);
+                painelAviso("✅ " + qtd + " foto(s) adicionada(s) à OM.");
+            })
+            .catch(function(error) {
+                console.error("Erro ao adicionar fotos da OM:", error);
+                painelAviso("❌ Não foi possível salvar as fotos.");
+            });
+    };
+    document.getElementById("btnLimparFotosOM").onclick = function() {
+        listarFotosOM(omId).then(function(fotos) {
+            if (!fotos.length) return;
+            painelConfirmar("Deseja remover todas as fotos desta OM?").then(function(confirmado) {
+                if (!confirmado) return;
+                excluirTodasFotosOM(omId).then(function() {
+                    renderizarFotosOM(omId);
+                    painelAviso("✅ Fotos removidas da OM.");
+                });
+            });
+        });
+    };
+
+    renderizarFotosOM(omId);
+}
+
+function renderizarFotosOM(omId) {
+    const grid = document.getElementById("fotosOMGrid");
+    const count = document.getElementById("fotosOMCount");
+    const btnLimpar = document.getElementById("btnLimparFotosOM");
+    if (!grid || !count) return;
+
+    listarFotosOM(omId).then(function(fotos) {
+        count.textContent = fotos.length + (fotos.length === 1 ? " foto" : " fotos");
+        if (btnLimpar) btnLimpar.style.display = fotos.length ? "inline-flex" : "none";
+        if (!fotos.length) {
+            grid.innerHTML = '<div class="fotos-om-empty" style="grid-column:1/-1">Nenhuma foto adicionada nesta OM.</div>';
+            return;
+        }
+        grid.innerHTML = fotos.map(function(foto) {
+            const url = URL.createObjectURL(foto.blob);
+            return `<div class="fotos-om-item" title="${escaparHtmlFotosOM(foto.nome)}"><img src="${url}" alt="Foto da OM"><button type="button" class="fotos-om-remove" data-foto-id="${foto.id}" title="Remover foto">×</button></div>`;
+        }).join("");
+        Array.from(grid.querySelectorAll(".fotos-om-remove")).forEach(function(btn) {
+            btn.onclick = function() {
+                const id = Number(btn.dataset.fotoId);
+                excluirFotoOM(id).then(function() { renderizarFotosOM(omId); });
+            };
+        });
+    }).catch(function(error) {
+        console.error("Erro ao carregar fotos da OM:", error);
+        count.textContent = "Erro";
+        grid.innerHTML = '<div class="fotos-om-empty" style="grid-column:1/-1">Não foi possível carregar as fotos.</div>';
+    });
+}
+
 </script>
 </body></html>
