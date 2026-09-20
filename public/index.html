@@ -9921,20 +9921,34 @@ async function prepararWhatsAppOM(omId) {
             auxiliar.remove();
         }
 
-        const url = "https://web.whatsapp.com/send?text=" + encodeURIComponent(relatorio);
-        const janela = window.open(url, "_blank");
+        // Tenta abrir o aplicativo WhatsApp instalado no Windows usando o
+        // protocolo oficial de aplicativo. Isso evita abrir uma nova aba
+        // do WhatsApp Web. O protocolo aceita o texto, mas não permite
+        // anexar arquivos/fotos diretamente a partir de uma página web.
+        const textoWhatsApp = encodeURIComponent(relatorio);
+        const urlApp = "whatsapp://send?text=" + textoWhatsApp;
+        const urlWebFallback = "https://web.whatsapp.com/send?text=" + textoWhatsApp;
 
-        if (!janela) {
-            // Se o navegador bloquear a nova aba, ainda deixa o endereço
-            // pronto para o usuário abrir manualmente.
-            painelAviso("⚠️ O navegador bloqueou a abertura do WhatsApp. Permita pop-ups para este site e tente novamente.");
-            return;
+        let abriuApp = false;
+        try {
+            // A navegação para um URI de aplicativo é feita pelo próprio
+            // Windows, que encaminha whatsapp:// para o WhatsApp instalado.
+            window.location.href = urlApp;
+            abriuApp = true;
+        } catch (appError) {
+            console.warn("Não foi possível iniciar o WhatsApp Desktop:", appError);
         }
 
         if (fotos.length) {
-            painelAviso("✅ Relatório preparado no WhatsApp. As " + fotos.length + " foto(s) continuam no painel para anexar.");
+            painelAviso("✅ WhatsApp Desktop solicitado com o relatório. ⚠️ O navegador não permite anexar automaticamente as " + fotos.length + " foto(s) ao WhatsApp Desktop; elas continuam salvas nesta OM para anexação.");
         } else {
-            painelAviso("✅ Relatório preparado no WhatsApp. Esta OM não possui fotos.");
+            painelAviso("✅ WhatsApp Desktop solicitado com o relatório.");
+        }
+
+        // Mantém um fallback manual somente se o protocolo não for aceito.
+        // Não abre o WhatsApp Web automaticamente, para não criar novas abas.
+        if (!abriuApp) {
+            painelAviso("⚠️ O Windows não abriu o WhatsApp instalado. Verifique se o WhatsApp Desktop está instalado e tente novamente.");
         }
     } catch (error) {
         console.error("Erro ao preparar WhatsApp da OM:", error);
