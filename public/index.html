@@ -9866,38 +9866,53 @@ async function prepararWhatsAppOM(omId) {
 
     try {
         const fotos = await listarFotosOM(omId);
-        const texto = relatorio;
+        let compartilhado = false;
 
-        // Em celulares/navegadores que suportam compartilhamento de arquivos,
-        // tenta enviar o relatório junto com as fotos pelo menu nativo.
+        // Tenta o compartilhamento nativo somente quando o navegador
+        // realmente informar que consegue compartilhar os arquivos.
         if (navigator.share && navigator.canShare && fotos.length) {
-            const arquivos = fotos.map(function(foto, indice) {
-                const extensao = (foto.nome && foto.nome.includes("."))
-                    ? foto.nome.split(".").pop()
-                    : (foto.tipo || "image/jpeg").split("/").pop();
-                const nome = foto.nome || ("OM_" + omId + "_foto_" + (indice + 1) + "." + extensao);
-                return new File([foto.blob], nome, { type: foto.tipo || foto.blob.type || "image/jpeg" });
-            });
-
-            if (navigator.canShare({ files: arquivos })) {
-                await navigator.share({
-                    title: "Relatório da OM " + omId,
-                    text: texto,
-                    files: arquivos
+            try {
+                const arquivos = fotos.map(function(foto, indice) {
+                    const extensao = (foto.nome && foto.nome.includes("."))
+                        ? foto.nome.split(".").pop()
+                        : (foto.tipo || "image/jpeg").split("/").pop();
+                    const nome = foto.nome || ("OM_" + omId + "_foto_" + (indice + 1) + "." + extensao);
+                    return new File([foto.blob], nome, {
+                        type: foto.tipo || foto.blob.type || "image/jpeg"
+                    });
                 });
-                painelAviso("✅ Conteúdo preparado para compartilhamento.");
-                return;
+
+                if (navigator.canShare({ files: arquivos })) {
+                    await navigator.share({
+                        title: "Relatório da OM " + omId,
+                        text: textoParaWhatsAppOM(relatorio),
+                        files: arquivos
+                    });
+                    compartilhado = true;
+                }
+            } catch (shareError) {
+                // Se o navegador não aceitar as fotos, continua para o
+                // método de computador/WhatsApp abaixo, sem mostrar erro.
+                if (shareError && shareError.name === "AbortError") {
+                    return;
+                }
+                console.warn("Compartilhamento nativo não disponível; usando fallback.", shareError);
             }
         }
 
-        // Fallback para computador/navegadores sem compartilhamento de arquivos:
-        // abre o WhatsApp com o relatório pronto para envio. As fotos continuam
-        // disponíveis no painel para serem anexadas manualmente.
+        if (compartilhado) {
+            painelAviso("✅ Conteúdo preparado para compartilhamento.");
+            return;
+        }
+
+        // No computador, o navegador não consegue anexar automaticamente
+        // várias fotos ao WhatsApp. Aqui abrimos o WhatsApp com o relatório
+        // preenchido e mantemos as fotos no painel para anexação.
         try {
-            await navigator.clipboard.writeText(texto);
+            await navigator.clipboard.writeText(relatorio);
         } catch (e) {
             const auxiliar = document.createElement("textarea");
-            auxiliar.value = texto;
+            auxiliar.value = relatorio;
             auxiliar.style.position = "fixed";
             auxiliar.style.left = "-9999px";
             document.body.appendChild(auxiliar);
@@ -9906,24 +9921,34 @@ async function prepararWhatsAppOM(omId) {
             auxiliar.remove();
         }
 
-        const url = "https://wa.me/?text=" + encodeURIComponent(texto);
-        window.open(url, "_blank", "noopener,noreferrer");
+        const url = "https://web.whatsapp.com/send?text=" + encodeURIComponent(relatorio);
+        const janela = window.open(url, "_blank");
+
+        if (!janela) {
+            // Se o navegador bloquear a nova aba, ainda deixa o endereço
+            // pronto para o usuário abrir manualmente.
+            painelAviso("⚠️ O navegador bloqueou a abertura do WhatsApp. Permita pop-ups para este site e tente novamente.");
+            return;
+        }
+
         if (fotos.length) {
             painelAviso("✅ Relatório preparado no WhatsApp. As " + fotos.length + " foto(s) continuam no painel para anexar.");
         } else {
             painelAviso("✅ Relatório preparado no WhatsApp. Esta OM não possui fotos.");
         }
     } catch (error) {
-        // Cancelar o menu nativo de compartilhamento não deve ser tratado como erro.
-        if (error && error.name === "AbortError") return;
         console.error("Erro ao preparar WhatsApp da OM:", error);
-        painelAviso("❌ Não foi possível preparar o envio.");
+        painelAviso("❌ Não foi possível preparar o envio. Tente novamente.");
     } finally {
         if (botao) {
             botao.disabled = false;
             botao.textContent = "📲 Preparar WhatsApp";
         }
     }
+}
+
+function textoParaWhatsAppOM(relatorio) {
+    return String(relatorio || "").trim();
 }
 
 function renderizarFotosOM(omId) {
