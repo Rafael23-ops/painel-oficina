@@ -200,6 +200,7 @@ body.view-fimTurno #fimTurno{display:block!important;}
 .fotos-om-btn{border:0;border-radius:7px;padding:10px 12px;font-weight:700;font-size:11px;cursor:pointer}
 .fotos-om-btn-add{background:#2583f7;color:#fff}
 .fotos-om-btn-clear{background:#321216;color:#ffb8bc;border:1px solid #8b252b}
+.fotos-om-btn-whatsapp{background:#168c4a;color:#fff}
 .fotos-om-input{display:none}
 .fotos-om-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:8px;margin-top:12px}
 .fotos-om-item{position:relative;aspect-ratio:1/1;border:1px solid #34404d;border-radius:8px;overflow:hidden;background:#111922}
@@ -9805,6 +9806,7 @@ function montarPainelFotosOM(omId) {
         </div>
         <div class="fotos-om-actions">
             <button type="button" class="fotos-om-btn fotos-om-btn-add" id="btnAdicionarFotosOM">➕ Adicionar fotos</button>
+            <button type="button" class="fotos-om-btn fotos-om-btn-whatsapp" id="btnPrepararWhatsAppOM">📲 Preparar WhatsApp</button>
             <button type="button" class="fotos-om-btn fotos-om-btn-clear" id="btnLimparFotosOM" style="display:none">🗑️ Remover todas</button>
             <input id="inputFotosOM" class="fotos-om-input" type="file" accept="image/*" multiple>
         </div>
@@ -9813,6 +9815,9 @@ function montarPainelFotosOM(omId) {
 
     document.getElementById("btnAdicionarFotosOM").onclick = function() {
         document.getElementById("inputFotosOM").click();
+    };
+    document.getElementById("btnPrepararWhatsAppOM").onclick = function() {
+        prepararWhatsAppOM(omId);
     };
     document.getElementById("inputFotosOM").onchange = function(event) {
         const arquivos = event.target.files;
@@ -9842,6 +9847,83 @@ function montarPainelFotosOM(omId) {
     };
 
     renderizarFotosOM(omId);
+}
+
+async function prepararWhatsAppOM(omId) {
+    const botao = document.getElementById("btnPrepararWhatsAppOM");
+    const caixa = document.querySelector("#conteudoGerarRelatorio textarea");
+    const relatorio = caixa ? String(caixa.value || "").trim() : "";
+
+    if (!relatorio) {
+        painelAviso("⚠️ Primeiro monte o relatório da OM.");
+        return;
+    }
+
+    if (botao) {
+        botao.disabled = true;
+        botao.textContent = "⏳ Preparando...";
+    }
+
+    try {
+        const fotos = await listarFotosOM(omId);
+        const texto = relatorio;
+
+        // Em celulares/navegadores que suportam compartilhamento de arquivos,
+        // tenta enviar o relatório junto com as fotos pelo menu nativo.
+        if (navigator.share && navigator.canShare && fotos.length) {
+            const arquivos = fotos.map(function(foto, indice) {
+                const extensao = (foto.nome && foto.nome.includes("."))
+                    ? foto.nome.split(".").pop()
+                    : (foto.tipo || "image/jpeg").split("/").pop();
+                const nome = foto.nome || ("OM_" + omId + "_foto_" + (indice + 1) + "." + extensao);
+                return new File([foto.blob], nome, { type: foto.tipo || foto.blob.type || "image/jpeg" });
+            });
+
+            if (navigator.canShare({ files: arquivos })) {
+                await navigator.share({
+                    title: "Relatório da OM " + omId,
+                    text: texto,
+                    files: arquivos
+                });
+                painelAviso("✅ Conteúdo preparado para compartilhamento.");
+                return;
+            }
+        }
+
+        // Fallback para computador/navegadores sem compartilhamento de arquivos:
+        // abre o WhatsApp com o relatório pronto para envio. As fotos continuam
+        // disponíveis no painel para serem anexadas manualmente.
+        try {
+            await navigator.clipboard.writeText(texto);
+        } catch (e) {
+            const auxiliar = document.createElement("textarea");
+            auxiliar.value = texto;
+            auxiliar.style.position = "fixed";
+            auxiliar.style.left = "-9999px";
+            document.body.appendChild(auxiliar);
+            auxiliar.select();
+            try { document.execCommand("copy"); } catch (_) {}
+            auxiliar.remove();
+        }
+
+        const url = "https://wa.me/?text=" + encodeURIComponent(texto);
+        window.open(url, "_blank", "noopener,noreferrer");
+        if (fotos.length) {
+            painelAviso("✅ Relatório preparado no WhatsApp. As " + fotos.length + " foto(s) continuam no painel para anexar.");
+        } else {
+            painelAviso("✅ Relatório preparado no WhatsApp. Esta OM não possui fotos.");
+        }
+    } catch (error) {
+        // Cancelar o menu nativo de compartilhamento não deve ser tratado como erro.
+        if (error && error.name === "AbortError") return;
+        console.error("Erro ao preparar WhatsApp da OM:", error);
+        painelAviso("❌ Não foi possível preparar o envio.");
+    } finally {
+        if (botao) {
+            botao.disabled = false;
+            botao.textContent = "📲 Preparar WhatsApp";
+        }
+    }
 }
 
 function renderizarFotosOM(omId) {
