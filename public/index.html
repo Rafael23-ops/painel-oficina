@@ -9674,104 +9674,9 @@ document.addEventListener("DOMContentLoaded",function(){
 
 
 // =====================================================
-// FOTOS DA OM — ETAPA 1
-// Armazenamento local via IndexedDB para suportar muitas fotos
-// sem depender do limite pequeno do localStorage.
+// FOTOS DA OM — ETAPA 2
+// Armazenamento no servidor para todos os computadores
 // =====================================================
-const FOTOS_OM_DB_NOME = "oficina_fotos_om_v1";
-const FOTOS_OM_DB_VERSAO = 1;
-const FOTOS_OM_STORE = "fotos";
-
-function abrirBancoFotosOM() {
-    return new Promise(function(resolve, reject) {
-        if (!window.indexedDB) {
-            reject(new Error("Este navegador não oferece suporte ao armazenamento de fotos."));
-            return;
-        }
-        const request = indexedDB.open(FOTOS_OM_DB_NOME, FOTOS_OM_DB_VERSAO);
-        request.onupgradeneeded = function(event) {
-            const db = event.target.result;
-            if (!db.objectStoreNames.contains(FOTOS_OM_STORE)) {
-                const store = db.createObjectStore(FOTOS_OM_STORE, { keyPath: "id", autoIncrement: true });
-                store.createIndex("omId", "omId", { unique: false });
-            }
-        };
-        request.onsuccess = function() { resolve(request.result); };
-        request.onerror = function() { reject(request.error || new Error("Não foi possível abrir o armazenamento de fotos.")); };
-    });
-}
-
-function listarFotosOM(omId) {
-    return abrirBancoFotosOM().then(function(db) {
-        return new Promise(function(resolve, reject) {
-            const tx = db.transaction(FOTOS_OM_STORE, "readonly");
-            const store = tx.objectStore(FOTOS_OM_STORE);
-            const index = store.index("omId");
-            const request = index.getAll(IDBKeyRange.only(String(omId)));
-            request.onsuccess = function() {
-                const fotos = Array.isArray(request.result) ? request.result : [];
-                fotos.sort(function(a,b){ return (a.createdAt || 0) - (b.createdAt || 0); });
-                resolve(fotos);
-            };
-            request.onerror = function() { reject(request.error); };
-        });
-    });
-}
-
-function adicionarFotosOM(omId, arquivos) {
-    const lista = Array.from(arquivos || []).filter(function(file) {
-        return file && String(file.type || "").toLowerCase().startsWith("image/");
-    });
-    if (!lista.length) return Promise.resolve(0);
-
-    return abrirBancoFotosOM().then(function(db) {
-        return new Promise(function(resolve, reject) {
-            const tx = db.transaction(FOTOS_OM_STORE, "readwrite");
-            const store = tx.objectStore(FOTOS_OM_STORE);
-            let adicionadas = 0;
-            lista.forEach(function(file) {
-                const req = store.add({
-                    omId: String(omId),
-                    nome: file.name || "foto",
-                    tipo: file.type || "image/jpeg",
-                    tamanho: file.size || 0,
-                    createdAt: Date.now() + adicionadas,
-                    blob: file
-                });
-                req.onsuccess = function() { adicionadas++; };
-            });
-            tx.oncomplete = function() { resolve(adicionadas); };
-            tx.onerror = function() { reject(tx.error || new Error("Não foi possível salvar as fotos.")); };
-            tx.onabort = function() { reject(tx.error || new Error("O armazenamento de fotos foi interrompido.")); };
-        });
-    });
-}
-
-function excluirFotoOM(id) {
-    return abrirBancoFotosOM().then(function(db) {
-        return new Promise(function(resolve, reject) {
-            const tx = db.transaction(FOTOS_OM_STORE, "readwrite");
-            tx.objectStore(FOTOS_OM_STORE).delete(id);
-            tx.oncomplete = function() { resolve(true); };
-            tx.onerror = function() { reject(tx.error); };
-        });
-    });
-}
-
-function excluirTodasFotosOM(omId) {
-    return listarFotosOM(omId).then(function(fotos) {
-        if (!fotos.length) return true;
-        return abrirBancoFotosOM().then(function(db) {
-            return new Promise(function(resolve, reject) {
-                const tx = db.transaction(FOTOS_OM_STORE, "readwrite");
-                const store = tx.objectStore(FOTOS_OM_STORE);
-                fotos.forEach(function(foto) { store.delete(foto.id); });
-                tx.oncomplete = function() { resolve(true); };
-                tx.onerror = function() { reject(tx.error); };
-            });
-        });
-    });
-}
 
 function escaparHtmlFotosOM(texto) {
     return String(texto == null ? "" : texto)
@@ -9780,6 +9685,59 @@ function escaparHtmlFotosOM(texto) {
         .replace(/>/g,"&gt;")
         .replace(/"/g,"&quot;")
         .replace(/'/g,"&#039;");
+}
+
+async function listarFotosOM(omId) {
+    const resposta = await fetch("/om/" + encodeURIComponent(omId) + "/fotos", {
+        credentials: "same-origin"
+    });
+    if (!resposta.ok) throw new Error("Não foi possível consultar as fotos da OM.");
+    const dados = await resposta.json();
+    return Array.isArray(dados) ? dados : [];
+}
+
+async function adicionarFotosOM(omId, arquivos) {
+    const lista = Array.from(arquivos || []).filter(function(file) {
+        return file && String(file.type || "").toLowerCase().startsWith("image/");
+    });
+    if (!lista.length) return 0;
+
+    const form = new FormData();
+    lista.forEach(function(file) {
+        form.append("fotos", file, file.name || "foto.jpg");
+    });
+
+    const resposta = await fetch("/om/" + encodeURIComponent(omId) + "/fotos", {
+        method: "POST",
+        body: form,
+        credentials: "same-origin"
+    });
+
+    const dados = await resposta.json().catch(function(){ return {}; });
+    if (!resposta.ok) {
+        throw new Error(dados.erro || "Não foi possível enviar as fotos para o servidor.");
+    }
+    return Number(dados.adicionadas || 0);
+}
+
+async function excluirFotoOM(id, omId) {
+    const resposta = await fetch(
+        "/om/" + encodeURIComponent(omId) + "/fotos/" + encodeURIComponent(id),
+        { method: "DELETE", credentials: "same-origin" }
+    );
+    const dados = await resposta.json().catch(function(){ return {}; });
+    if (!resposta.ok) throw new Error(dados.erro || "Não foi possível excluir a foto.");
+    return true;
+}
+
+async function excluirTodasFotosOM(omId) {
+    const resposta = await fetch("/om/" + encodeURIComponent(omId) + "/fotos", {
+        method: "DELETE",
+        credentials: "same-origin"
+    });
+    const dados = await resposta.json().catch(function(){ return {}; });
+    if (!resposta.ok) throw new Error(dados.erro || "Não foi possível remover as fotos.");
+    return true;
 }
 
 function montarPainelFotosOM(omId) {
@@ -9819,30 +9777,36 @@ function montarPainelFotosOM(omId) {
     document.getElementById("btnPrepararWhatsAppOM").onclick = function() {
         prepararWhatsAppOM(omId);
     };
-    document.getElementById("inputFotosOM").onchange = function(event) {
+    document.getElementById("inputFotosOM").onchange = async function(event) {
         const arquivos = event.target.files;
         if (!arquivos || !arquivos.length) return;
-        adicionarFotosOM(omId, arquivos)
-            .then(function(qtd) {
-                event.target.value = "";
-                renderizarFotosOM(omId);
-                painelAviso("✅ " + qtd + " foto(s) adicionada(s) à OM.");
-            })
-            .catch(function(error) {
-                console.error("Erro ao adicionar fotos da OM:", error);
-                painelAviso("❌ Não foi possível salvar as fotos.");
-            });
+        try {
+            const qtd = await adicionarFotosOM(omId, arquivos);
+            event.target.value = "";
+            await renderizarFotosOM(omId);
+            painelAviso("✅ " + qtd + " foto(s) salva(s) na OM para todos os usuários.");
+        } catch (error) {
+            console.error("Erro ao adicionar fotos da OM:", error);
+            painelAviso("❌ " + (error.message || "Não foi possível salvar as fotos."));
+        }
     };
     document.getElementById("btnLimparFotosOM").onclick = function() {
         listarFotosOM(omId).then(function(fotos) {
             if (!fotos.length) return;
-            painelConfirmar("Deseja remover todas as fotos desta OM?").then(function(confirmado) {
+            painelConfirmar("Deseja remover todas as fotos desta OM?").then(async function(confirmado) {
                 if (!confirmado) return;
-                excluirTodasFotosOM(omId).then(function() {
-                    renderizarFotosOM(omId);
+                try {
+                    await excluirTodasFotosOM(omId);
+                    await renderizarFotosOM(omId);
                     painelAviso("✅ Fotos removidas da OM.");
-                });
+                } catch (error) {
+                    console.error("Erro ao remover fotos:", error);
+                    painelAviso("❌ " + (error.message || "Não foi possível remover as fotos."));
+                }
             });
+        }).catch(function(error) {
+            console.error(error);
+            painelAviso("❌ Não foi possível consultar as fotos da OM.");
         });
     };
 
@@ -9866,48 +9830,6 @@ async function prepararWhatsAppOM(omId) {
 
     try {
         const fotos = await listarFotosOM(omId);
-        let compartilhado = false;
-
-        // Tenta o compartilhamento nativo somente quando o navegador
-        // realmente informar que consegue compartilhar os arquivos.
-        if (navigator.share && navigator.canShare && fotos.length) {
-            try {
-                const arquivos = fotos.map(function(foto, indice) {
-                    const extensao = (foto.nome && foto.nome.includes("."))
-                        ? foto.nome.split(".").pop()
-                        : (foto.tipo || "image/jpeg").split("/").pop();
-                    const nome = foto.nome || ("OM_" + omId + "_foto_" + (indice + 1) + "." + extensao);
-                    return new File([foto.blob], nome, {
-                        type: foto.tipo || foto.blob.type || "image/jpeg"
-                    });
-                });
-
-                if (navigator.canShare({ files: arquivos })) {
-                    await navigator.share({
-                        title: "Relatório da OM " + omId,
-                        text: textoParaWhatsAppOM(relatorio),
-                        files: arquivos
-                    });
-                    compartilhado = true;
-                }
-            } catch (shareError) {
-                // Se o navegador não aceitar as fotos, continua para o
-                // método de computador/WhatsApp abaixo, sem mostrar erro.
-                if (shareError && shareError.name === "AbortError") {
-                    return;
-                }
-                console.warn("Compartilhamento nativo não disponível; usando fallback.", shareError);
-            }
-        }
-
-        if (compartilhado) {
-            painelAviso("✅ Conteúdo preparado para compartilhamento.");
-            return;
-        }
-
-        // No computador, o navegador não consegue anexar automaticamente
-        // várias fotos ao WhatsApp. Aqui abrimos o WhatsApp com o relatório
-        // preenchido e mantemos as fotos no painel para anexação.
         try {
             await navigator.clipboard.writeText(relatorio);
         } catch (e) {
@@ -9921,34 +9843,13 @@ async function prepararWhatsAppOM(omId) {
             auxiliar.remove();
         }
 
-        // Tenta abrir o aplicativo WhatsApp instalado no Windows usando o
-        // protocolo oficial de aplicativo. Isso evita abrir uma nova aba
-        // do WhatsApp Web. O protocolo aceita o texto, mas não permite
-        // anexar arquivos/fotos diretamente a partir de uma página web.
         const textoWhatsApp = encodeURIComponent(relatorio);
-        const urlApp = "whatsapp://send?text=" + textoWhatsApp;
-        const urlWebFallback = "https://web.whatsapp.com/send?text=" + textoWhatsApp;
-
-        let abriuApp = false;
-        try {
-            // A navegação para um URI de aplicativo é feita pelo próprio
-            // Windows, que encaminha whatsapp:// para o WhatsApp instalado.
-            window.location.href = urlApp;
-            abriuApp = true;
-        } catch (appError) {
-            console.warn("Não foi possível iniciar o WhatsApp Desktop:", appError);
-        }
+        window.location.href = "whatsapp://send?text=" + textoWhatsApp;
 
         if (fotos.length) {
-            painelAviso("✅ WhatsApp Desktop solicitado com o relatório. ⚠️ O navegador não permite anexar automaticamente as " + fotos.length + " foto(s) ao WhatsApp Desktop; elas continuam salvas nesta OM para anexação.");
+            painelAviso("✅ WhatsApp Desktop solicitado com o relatório. " + fotos.length + " foto(s) estão salvas nesta OM e podem ser anexadas no WhatsApp.");
         } else {
             painelAviso("✅ WhatsApp Desktop solicitado com o relatório.");
-        }
-
-        // Mantém um fallback manual somente se o protocolo não for aceito.
-        // Não abre o WhatsApp Web automaticamente, para não criar novas abas.
-        if (!abriuApp) {
-            painelAviso("⚠️ O Windows não abriu o WhatsApp instalado. Verifique se o WhatsApp Desktop está instalado e tente novamente.");
         }
     } catch (error) {
         console.error("Erro ao preparar WhatsApp da OM:", error);
@@ -9961,39 +9862,91 @@ async function prepararWhatsAppOM(omId) {
     }
 }
 
-function textoParaWhatsAppOM(relatorio) {
-    return String(relatorio || "").trim();
+function liberarUrlsFotosOM() {
+    if (Array.isArray(window.__urlsFotosOM)) {
+        window.__urlsFotosOM.forEach(function(url) {
+            try { URL.revokeObjectURL(url); } catch (_) {}
+        });
+    }
+    window.__urlsFotosOM = [];
 }
 
-function renderizarFotosOM(omId) {
+async function carregarImagemOMAutenticada(omId, fotoId) {
+    const url = "/om/" + encodeURIComponent(omId) + "/fotos/" + encodeURIComponent(fotoId) + "/arquivo?cb=" + Date.now();
+    const resposta = await fetch(url, {
+        method: "GET",
+        credentials: "same-origin",
+        cache: "no-store"
+    });
+    if (!resposta.ok) {
+        throw new Error("HTTP " + resposta.status);
+    }
+    const blob = await resposta.blob();
+    const objectUrl = URL.createObjectURL(blob);
+    window.__urlsFotosOM.push(objectUrl);
+    return objectUrl;
+}
+
+async function renderizarFotosOM(omId) {
     const grid = document.getElementById("fotosOMGrid");
     const count = document.getElementById("fotosOMCount");
     const btnLimpar = document.getElementById("btnLimparFotosOM");
     if (!grid || !count) return;
 
-    listarFotosOM(omId).then(function(fotos) {
+    liberarUrlsFotosOM();
+    grid.innerHTML = '<div class="fotos-om-empty" style="grid-column:1/-1">🔄 Carregando fotos...</div>';
+
+    try {
+        const fotos = await listarFotosOM(omId);
         count.textContent = fotos.length + (fotos.length === 1 ? " foto" : " fotos");
         if (btnLimpar) btnLimpar.style.display = fotos.length ? "inline-flex" : "none";
+
         if (!fotos.length) {
             grid.innerHTML = '<div class="fotos-om-empty" style="grid-column:1/-1">Nenhuma foto adicionada nesta OM.</div>';
             return;
         }
-        grid.innerHTML = fotos.map(function(foto) {
-            const url = URL.createObjectURL(foto.blob);
-            return `<div class="fotos-om-item" title="${escaparHtmlFotosOM(foto.nome)}"><img src="${url}" alt="Foto da OM"><button type="button" class="fotos-om-remove" data-foto-id="${foto.id}" title="Remover foto">×</button></div>`;
+
+        const itens = await Promise.all(fotos.map(async function(foto) {
+            let src = "";
+            try {
+                src = await carregarImagemOMAutenticada(omId, foto.id);
+            } catch (erro) {
+                console.error("Erro ao carregar foto", foto.id, erro);
+            }
+            return { foto: foto, src: src };
+        }));
+
+        grid.innerHTML = itens.map(function(item) {
+            const foto = item.foto;
+            const src = item.src;
+            return `
+                <div class="fotos-om-item" title="${escaparHtmlFotosOM(foto.nome || "foto")}">
+                    ${src
+                        ? `<img src="${src}" alt="${escaparHtmlFotosOM(foto.nome || "Foto da OM")}" loading="lazy">`
+                        : '<div class="fotos-om-empty">❌<br>Não carregou</div>'}
+                    <button type="button" class="fotos-om-remove" data-foto-id="${foto.id}" title="Remover foto">×</button>
+                </div>
+            `;
         }).join("");
-        Array.from(grid.querySelectorAll(".fotos-om-remove")).forEach(function(btn) {
-            btn.onclick = function() {
-                const id = Number(btn.dataset.fotoId);
-                excluirFotoOM(id).then(function() { renderizarFotosOM(omId); });
+
+        grid.querySelectorAll(".fotos-om-remove").forEach(function(botao) {
+            botao.onclick = async function() {
+                const id = botao.getAttribute("data-foto-id");
+                try {
+                    await excluirFotoOM(id, omId);
+                    await renderizarFotosOM(omId);
+                    painelAviso("✅ Foto removida.");
+                } catch (error) {
+                    console.error("Erro ao remover foto:", error);
+                    painelAviso("❌ " + (error.message || "Não foi possível remover a foto."));
+                }
             };
         });
-    }).catch(function(error) {
-        console.error("Erro ao carregar fotos da OM:", error);
+    } catch (error) {
+        console.error("Erro ao listar/carregar fotos:", error);
         count.textContent = "Erro";
-        grid.innerHTML = '<div class="fotos-om-empty" style="grid-column:1/-1">Não foi possível carregar as fotos.</div>';
-    });
+        grid.innerHTML = '<div class="fotos-om-empty" style="grid-column:1/-1">❌ Não foi possível carregar as fotos desta OM.<br><small>' + escaparHtmlFotosOM(error.message || "Erro") + '</small></div>';
+    }
 }
-
 </script>
 </body></html>

@@ -2,8 +2,62 @@ const express = require("express");
 const app = express();
 const dados = require("./dados");
 const db = require("./database");
+const fs = require("fs");
+const path = require("path");
+const crypto = require("crypto");
+const multer = require("multer");
 
 app.use(express.json());
+
+// =====================================================
+// FOTOS DAS OMs — ARMAZENAMENTO NO SERVIDOR
+// =====================================================
+const PASTA_FOTOS_OMS = path.join(__dirname, "data", "fotos_om");
+fs.mkdirSync(PASTA_FOTOS_OMS, { recursive: true });
+
+const storageFotosOM = multer.diskStorage({
+    destination: function(req, file, cb) {
+        const omId = String(req.params.id || "").replace(/[^0-9]/g, "");
+        const pastaOM = path.join(PASTA_FOTOS_OMS, omId);
+        fs.mkdirSync(pastaOM, { recursive: true });
+        cb(null, pastaOM);
+    },
+    filename: function(req, file, cb) {
+        const ext = path.extname(file.originalname || "").toLowerCase() || ".jpg";
+        const nomeSeguro = crypto.randomBytes(16).toString("hex") + ext;
+        cb(null, nomeSeguro);
+    }
+});
+
+const uploadFotosOM = multer({
+    storage: storageFotosOM,
+    limits: {
+        files: 100,
+        fileSize: 20 * 1024 * 1024
+    },
+    fileFilter: function(req, file, cb) {
+        if (!String(file.mimetype || "").toLowerCase().startsWith("image/")) {
+            return cb(new Error("Somente arquivos de imagem são permitidos."));
+        }
+        cb(null, true);
+    }
+});
+
+// Metadados das fotos ficam no SQLite; os arquivos ficam em data/fotos_om.
+db.run(`
+    CREATE TABLE IF NOT EXISTS fotos_om (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        om_id INTEGER NOT NULL,
+        nome TEXT NOT NULL,
+        arquivo TEXT NOT NULL,
+        mime_type TEXT NOT NULL,
+        tamanho INTEGER DEFAULT 0,
+        data TEXT
+    )
+`, function(err) {
+    if (err) console.error("Erro ao criar tabela fotos_om:", err.message);
+});
+
 
 
 // ===============================
@@ -1732,6 +1786,194 @@ app.delete("/om/:id", function(req, res) {
         }
     );
 });
+// =====================================================
+// FOTOS DA OM — UPLOAD / LISTAGEM / EXCLUSÃO
+// =====================================================
+app.get("/om/:id/fotos", function(req, res) {
+    const omId = Number(req.params.id);
+    if (!Number.isInteger(omId) || omId <= 0) {
+        return res.status(400).json({ erro: "OM inválida." });
+    }
+
+    db.all(
+        `SELECT id, nome, mime_type, tamanho, data
+         FROM fotos_om
+         WHERE om_id = ?
+         ORDER BY id ASC`,
+        [omId],
+        function(err, rows) {
+            if (err) {
+                console.error("Erro ao listar fotos da OM:", err.message);
+                return res.status(500).json({ erro: "Erro ao consultar fotos da OM." });
+            }
+            res.json(rows || []);
+        }
+    );
+});
+
+app.post("/om/:id/fotos", function(req, res) {
+    const omId = Number(req.params.id);
+    if (!Number.isInteger(omId) || omId <= 0) {
+        return res.status(400).json({ erro: "OM inválida." });
+    }
+
+    // Confirma que a OM existe antes de gravar os arquivos.
+    db.get("SELECT id FROM ordens WHERE id = ?", [omId], function(err, om) {
+        if (err) {
+            console.error("Erro ao verificar OM para fotos:", err.message);
+            return res.status(500).json({ erro: "Erro ao verificar a OM." });
+        }
+        if (!om) return res.status(404).json({ erro: "OM não encontrada." });
+
+        uploadFotosOM.array("fotos", 100)(req, res, function(uploadErr) {
+            if (uploadErr) {
+                console.error("Erro no upload das fotos:", uploadErr.message);
+                return res.status(400).json({
+                    erro: uploadErr.code === "LIMIT_FILE_SIZE"
+                        ? "Cada foto pode ter no máximo 20 MB."
+                        : uploadErr.code === "LIMIT_FILE_COUNT"
+                            ? "O máximo é de 100 fotos por envio."
+                            : uploadErr.message || "Não foi possível enviar as fotos."
+                });
+            }
+
+            const arquivos = Array.isArray(req.files) ? req.files : [];
+            if (!arquivos.length) {
+                return res.status(400).json({ erro: "Nenhuma foto foi enviada." });
+            }
+
+            const dataAtual = new Date().toLocaleString("pt-BR");
+            let processadas = 0;
+            let erros = [];
+
+            function finalizar() {
+                if (erros.length) {
+                    console.error("Erros ao registrar fotos:", erros);
+                    return res.status(500).json({
+                        erro: "Algumas fotos não puderam ser registradas.",
+                        adicionadas: processadas,
+                        erros: erros
+                    });
+                }
+                return res.json({
+                    sucesso: true,
+                    adicionadas: processadas
+                });
+            }
+
+            arquivos.forEach(function(arquivo) {
+                db.run(
+                    `INSERT INTO fotos_om
+                     (om_id, nome, arquivo, mime_type, tamanho, data)
+                     VALUES (?, ?, ?, ?, ?, ?)`,
+                    [
+                        omId,
+                        arquivo.originalname || "foto",
+                        arquivo.filename,
+                        arquivo.mimetype || "image/jpeg",
+                        arquivo.size || 0,
+                        dataAtual
+                    ],
+                    function(dbErr) {
+                        if (dbErr) {
+                            erros.push(dbErr.message);
+                            try { fs.unlinkSync(arquivo.path); } catch (_) {}
+                        } else {
+                            processadas++;
+                        }
+
+                        if (processadas + erros.length === arquivos.length) {
+                            finalizar();
+                        }
+                    }
+                );
+            });
+        });
+    });
+});
+
+app.get("/om/:id/fotos/:fotoId/arquivo", function(req, res) {
+    const omId = Number(req.params.id);
+    const fotoId = Number(req.params.fotoId);
+    if (!Number.isInteger(omId) || !Number.isInteger(fotoId)) {
+        return res.status(400).send("Foto inválida.");
+    }
+
+    db.get(
+        "SELECT arquivo, mime_type FROM fotos_om WHERE id = ? AND om_id = ?",
+        [fotoId, omId],
+        function(err, foto) {
+            if (err) return res.status(500).send("Erro ao consultar foto.");
+            if (!foto) return res.status(404).send("Foto não encontrada.");
+
+            const caminho = path.join(PASTA_FOTOS_OMS, String(omId), foto.arquivo);
+            if (!fs.existsSync(caminho)) return res.status(404).send("Arquivo da foto não encontrado.");
+
+            res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+            res.setHeader("Pragma", "no-cache");
+            res.setHeader("Expires", "0");
+            res.setHeader("Content-Disposition", "inline");
+            res.type(foto.mime_type || "image/jpeg");
+            res.sendFile(caminho);
+        }
+    );
+});
+
+app.delete("/om/:id/fotos/:fotoId", function(req, res) {
+    const omId = Number(req.params.id);
+    const fotoId = Number(req.params.fotoId);
+    if (!Number.isInteger(omId) || !Number.isInteger(fotoId)) {
+        return res.status(400).json({ erro: "Foto inválida." });
+    }
+
+    db.get(
+        "SELECT arquivo FROM fotos_om WHERE id = ? AND om_id = ?",
+        [fotoId, omId],
+        function(err, foto) {
+            if (err) return res.status(500).json({ erro: "Erro ao consultar foto." });
+            if (!foto) return res.status(404).json({ erro: "Foto não encontrada." });
+
+            db.run("DELETE FROM fotos_om WHERE id = ? AND om_id = ?", [fotoId, omId], function(dbErr) {
+                if (dbErr) return res.status(500).json({ erro: "Erro ao excluir foto." });
+                const caminho = path.join(PASTA_FOTOS_OMS, String(omId), foto.arquivo);
+                try { if (fs.existsSync(caminho)) fs.unlinkSync(caminho); } catch (fileErr) {
+                    console.error("Erro ao excluir arquivo da foto:", fileErr.message);
+                }
+                res.json({ sucesso: true });
+            });
+        }
+    );
+});
+
+app.delete("/om/:id/fotos", function(req, res) {
+    const omId = Number(req.params.id);
+    if (!Number.isInteger(omId) || omId <= 0) {
+        return res.status(400).json({ erro: "OM inválida." });
+    }
+
+    db.all("SELECT arquivo FROM fotos_om WHERE om_id = ?", [omId], function(err, fotos) {
+        if (err) return res.status(500).json({ erro: "Erro ao consultar fotos." });
+
+        db.run("DELETE FROM fotos_om WHERE om_id = ?", [omId], function(dbErr) {
+            if (dbErr) return res.status(500).json({ erro: "Erro ao remover fotos." });
+
+            const pastaOM = path.join(PASTA_FOTOS_OMS, String(omId));
+            (fotos || []).forEach(function(foto) {
+                const caminho = path.join(pastaOM, foto.arquivo);
+                try { if (fs.existsSync(caminho)) fs.unlinkSync(caminho); } catch (fileErr) {
+                    console.error("Erro ao excluir arquivo:", fileErr.message);
+                }
+            });
+
+            try {
+                if (fs.existsSync(pastaOM) && fs.readdirSync(pastaOM).length === 0) fs.rmdirSync(pastaOM);
+            } catch (_) {}
+
+            res.json({ sucesso: true, removidas: (fotos || []).length });
+        });
+    });
+});
+
 // ===============================
 // CONSULTA UMA OM ESPECÍFICA
 // ===============================
