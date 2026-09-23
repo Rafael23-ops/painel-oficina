@@ -9829,31 +9829,43 @@ async function prepararWhatsAppOM(omId) {
     }
 
     try {
-        const fotos = await listarFotosOM(omId);
+        // omId é o ID interno usado pelo painel. O Helper precisa do número
+        // visível da OM (campo "om"), então buscamos o registro atual.
+        const respostaOM = await fetch("/om/" + encodeURIComponent(omId), { credentials: "include" });
+        if (!respostaOM.ok) throw new Error("Não foi possível consultar a OM no servidor.");
+        const dadosOM = await respostaOM.json();
+        const numeroOM = String(dadosOM.om || dadosOM.numero_om || dadosOM.numeroOM || "").trim();
+        if (!numeroOM) throw new Error("Número visível da OM não encontrado.");
+
+        // O Helper V4.1 faz o login, encontra o ID interno, baixa as fotos
+        // e inicia a preparação do WhatsApp no Windows.
+        const respostaHelper = await fetch("http://127.0.0.1:8765/prepare", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                om: numeroOM,
+                relatorio: relatorio
+            })
+        });
+
+        if (!respostaHelper.ok) {
+            throw new Error("Helper do WhatsApp não respondeu. Verifique se o OficinaWhatsAppHelper V4.1 está aberto.");
+        }
+
+        const resultado = await respostaHelper.json();
+        if (!resultado.ok) {
+            throw new Error(resultado.erro || "O Helper não conseguiu preparar o WhatsApp.");
+        }
+
         try {
             await navigator.clipboard.writeText(relatorio);
-        } catch (e) {
-            const auxiliar = document.createElement("textarea");
-            auxiliar.value = relatorio;
-            auxiliar.style.position = "fixed";
-            auxiliar.style.left = "-9999px";
-            document.body.appendChild(auxiliar);
-            auxiliar.select();
-            try { document.execCommand("copy"); } catch (_) {}
-            auxiliar.remove();
-        }
+        } catch (_) {}
 
-        const textoWhatsApp = encodeURIComponent(relatorio);
-        window.location.href = "whatsapp://send?text=" + textoWhatsApp;
-
-        if (fotos.length) {
-            painelAviso("✅ WhatsApp Desktop solicitado com o relatório. " + fotos.length + " foto(s) estão salvas nesta OM e podem ser anexadas no WhatsApp.");
-        } else {
-            painelAviso("✅ WhatsApp Desktop solicitado com o relatório.");
-        }
+        const qtd = Number(resultado.fotos_salvas || resultado.fotos_encontradas || 0);
+        painelAviso("✅ WhatsApp preparado para a OM " + numeroOM + ". " + qtd + " foto(s) baixada(s). Agora selecione a conversa no WhatsApp e confira os anexos.");
     } catch (error) {
         console.error("Erro ao preparar WhatsApp da OM:", error);
-        painelAviso("❌ Não foi possível preparar o envio. Tente novamente.");
+        painelAviso("❌ " + (error.message || "Não foi possível preparar o envio."));
     } finally {
         if (botao) {
             botao.disabled = false;
@@ -9862,68 +9874,25 @@ async function prepararWhatsAppOM(omId) {
     }
 }
 
-function liberarUrlsFotosOM() {
-    if (Array.isArray(window.__urlsFotosOM)) {
-        window.__urlsFotosOM.forEach(function(url) {
-            try { URL.revokeObjectURL(url); } catch (_) {}
-        });
-    }
-    window.__urlsFotosOM = [];
-}
-
-async function carregarImagemOMAutenticada(omId, fotoId) {
-    const url = "/om/" + encodeURIComponent(omId) + "/fotos/" + encodeURIComponent(fotoId) + "/arquivo?cb=" + Date.now();
-    const resposta = await fetch(url, {
-        method: "GET",
-        credentials: "same-origin",
-        cache: "no-store"
-    });
-    if (!resposta.ok) {
-        throw new Error("HTTP " + resposta.status);
-    }
-    const blob = await resposta.blob();
-    const objectUrl = URL.createObjectURL(blob);
-    window.__urlsFotosOM.push(objectUrl);
-    return objectUrl;
-}
-
-async function renderizarFotosOM(omId) {
+function renderizarFotosOM(omId) {
     const grid = document.getElementById("fotosOMGrid");
     const count = document.getElementById("fotosOMCount");
     const btnLimpar = document.getElementById("btnLimparFotosOM");
-    if (!grid || !count) return;
+    if (!grid || !count) return Promise.resolve();
 
-    liberarUrlsFotosOM();
-    grid.innerHTML = '<div class="fotos-om-empty" style="grid-column:1/-1">🔄 Carregando fotos...</div>';
-
-    try {
-        const fotos = await listarFotosOM(omId);
+    return listarFotosOM(omId).then(function(fotos) {
         count.textContent = fotos.length + (fotos.length === 1 ? " foto" : " fotos");
         if (btnLimpar) btnLimpar.style.display = fotos.length ? "inline-flex" : "none";
-
         if (!fotos.length) {
             grid.innerHTML = '<div class="fotos-om-empty" style="grid-column:1/-1">Nenhuma foto adicionada nesta OM.</div>';
             return;
         }
 
-        const itens = await Promise.all(fotos.map(async function(foto) {
-            let src = "";
-            try {
-                src = await carregarImagemOMAutenticada(omId, foto.id);
-            } catch (erro) {
-                console.error("Erro ao carregar foto", foto.id, erro);
-            }
-            return { foto: foto, src: src };
-        }));
-
-        grid.innerHTML = itens.map(function(item) {
-            const foto = item.foto;
-            const src = item.src;
+        grid.innerHTML = fotos.map(function(foto) {
+            const url = "/om/" + encodeURIComponent(omId) + "/fotos/" + encodeURIComponent(foto.id) + "/arquivo";
             return `
                 <div class="fotos-om-item" title="${escaparHtmlFotosOM(foto.nome || "foto")}">
-                    ${src
-                        ? `<img src="${src}" alt="${escaparHtmlFotosOM(foto.nome || "Foto da OM")}" loading="lazy">`
-                        : '<div class="fotos-om-empty">❌<br>Não carregou</div>'}
+                    <img src="${url}" alt="${escaparHtmlFotosOM(foto.nome || "Foto da OM")}" loading="lazy">
                     <button type="button" class="fotos-om-remove" data-foto-id="${foto.id}" title="Remover foto">×</button>
                 </div>
             `;
@@ -9942,11 +9911,11 @@ async function renderizarFotosOM(omId) {
                 }
             };
         });
-    } catch (error) {
-        console.error("Erro ao listar/carregar fotos:", error);
+    }).catch(function(error) {
+        console.error("Erro ao listar fotos:", error);
         count.textContent = "Erro";
-        grid.innerHTML = '<div class="fotos-om-empty" style="grid-column:1/-1">❌ Não foi possível carregar as fotos desta OM.<br><small>' + escaparHtmlFotosOM(error.message || "Erro") + '</small></div>';
-    }
+        grid.innerHTML = '<div class="fotos-om-empty" style="grid-column:1/-1">Não foi possível carregar as fotos desta OM.</div>';
+    });
 }
 </script>
 </body></html>
